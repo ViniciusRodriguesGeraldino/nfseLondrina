@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Bancos list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Empresa</th>
+                <th>Banco</th>
+                <th>Numero</th>
+                <th>Nome</th>
+                <th>Agencia</th>
+                <th>Dvagencia</th>
+                <th>Cc</th>
+                <th>Dvcc</th>
+                <th>Carteira</th>
+                <th>Caixabanco</th>
+                <th>Idbanco</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for banco in bancos %}
+            <tr>
+                <td><a href="{{ path('bancos_show', { 'id': banco.idBanco }) }}">{{ banco.empresa }}</a></td>
+                <td>{{ banco.banco }}</td>
+                <td>{{ banco.numero }}</td>
+                <td>{{ banco.nome }}</td>
+                <td>{{ banco.agencia }}</td>
+                <td>{{ banco.dvAgencia }}</td>
+                <td>{{ banco.cc }}</td>
+                <td>{{ banco.dvCc }}</td>
+                <td>{{ banco.carteira }}</td>
+                <td>{{ banco.caixaBanco }}</td>
+                <td>{{ banco.idBanco }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('bancos_show', { 'id': banco.idBanco }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('bancos_edit', { 'id': banco.idBanco }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('bancos_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Servico list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Descricao</th>
+                <th>Percirrf</th>
+                <th>Perccsl</th>
+                <th>Percpis</th>
+                <th>Perccofins</th>
+                <th>Perciss</th>
+                <th>Plano</th>
+                <th>Isssuspenso</th>
+                <th>Isssuspensomotivo</th>
+                <th>Codserpref</th>
+                <th>Valor</th>
+                <th>Ibptnac</th>
+                <th>Ibptmun</th>
+                <th>Id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for servico in servicos %}
+            <tr>
+                <td><a href="{{ path('servico_show', { 'id': servico.id }) }}">{{ servico.descricao }}</a></td>
+                <td>{{ servico.percIrrf }}</td>
+                <td>{{ servico.percCsl }}</td>
+                <td>{{ servico.percPis }}</td>
+                <td>{{ servico.percCofins }}</td>
+                <td>{{ servico.percIss }}</td>
+                <td>{{ servico.plano }}</td>
+                <td>{{ servico.issSuspenso }}</td>
+                <td>{{ servico.issSuspensoMotivo }}</td>
+                <td>{{ servico.codSerPref }}</td>
+                <td>{{ servico.valor }}</td>
+                <td>{{ servico.ibptNac }}</td>
+                <td>{{ servico.ibptMun }}</td>
+                <td>{{ servico.id }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('servico_show', { 'id': servico.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('servico_edit', { 'id': servico.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('servico_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

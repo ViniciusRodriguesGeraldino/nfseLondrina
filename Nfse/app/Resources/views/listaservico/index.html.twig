@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Listaservico list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Descricao</th>
+                <th>Aliquota</th>
+                <th>Codigo</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for listaservico in listaservicos %}
+            <tr>
+                <td><a href="{{ path('listaservico_show', { 'id': listaservico.codigo }) }}">{{ listaservico.descricao }}</a></td>
+                <td>{{ listaservico.aliquota }}</td>
+                <td>{{ listaservico.codigo }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('listaservico_show', { 'id': listaservico.codigo }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('listaservico_edit', { 'id': listaservico.codigo }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('listaservico_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

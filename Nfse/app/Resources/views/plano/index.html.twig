@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Plano list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Descricao</th>
+                <th>Ordem</th>
+                <th>Tip</th>
+                <th>Contasup</th>
+                <th>Nivel</th>
+                <th>Natureza</th>
+                <th>Orientacoes</th>
+                <th>Codigo</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for plano in planos %}
+            <tr>
+                <td><a href="{{ path('plano_show', { 'id': plano.codigo }) }}">{{ plano.tipo }}</a></td>
+                <td>{{ plano.descricao }}</td>
+                <td>{{ plano.ordem }}</td>
+                <td>{{ plano.tip }}</td>
+                <td>{{ plano.contaSup }}</td>
+                <td>{{ plano.nivel }}</td>
+                <td>{{ plano.natureza }}</td>
+                <td>{{ plano.orientacoes }}</td>
+                <td>{{ plano.codigo }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('plano_show', { 'id': plano.codigo }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('plano_edit', { 'id': plano.codigo }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('plano_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

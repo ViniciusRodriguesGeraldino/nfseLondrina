@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Cliente list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Empresa</th>
+                <th>Nome</th>
+                <th>Endereco</th>
+                <th>Numero</th>
+                <th>Bairro</th>
+                <th>Complemento</th>
+                <th>Cidade</th>
+                <th>Codcid</th>
+                <th>Uf</th>
+                <th>Cep</th>
+                <th>Fone</th>
+                <th>Cpfcnpj</th>
+                <th>Rg</th>
+                <th>Email</th>
+                <th>Celular</th>
+                <th>Datanasc</th>
+                <th>Estadocivil</th>
+                <th>Nomeconjuge</th>
+                <th>Profissao</th>
+                <th>Data</th>
+                <th>Sexo</th>
+                <th>Raca</th>
+                <th>Naturalidade</th>
+                <th>Obs</th>
+                <th>Id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for cliente in clientes %}
+            <tr>
+                <td><a href="{{ path('cliente_show', { 'id': cliente.id }) }}">{{ cliente.empresa }}</a></td>
+                <td>{{ cliente.nome }}</td>
+                <td>{{ cliente.endereco }}</td>
+                <td>{{ cliente.numero }}</td>
+                <td>{{ cliente.bairro }}</td>
+                <td>{{ cliente.complemento }}</td>
+                <td>{{ cliente.cidade }}</td>
+                <td>{{ cliente.codCid }}</td>
+                <td>{{ cliente.uf }}</td>
+                <td>{{ cliente.cep }}</td>
+                <td>{{ cliente.fone }}</td>
+                <td>{{ cliente.cpfcnpj }}</td>
+                <td>{{ cliente.rg }}</td>
+                <td>{{ cliente.eMail }}</td>
+                <td>{{ cliente.celular }}</td>
+                <td>{% if cliente.dataNasc %}{{ cliente.dataNasc|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ cliente.estadoCivil }}</td>
+                <td>{{ cliente.nomeConjuge }}</td>
+                <td>{{ cliente.profissao }}</td>
+                <td>{% if cliente.data %}{{ cliente.data|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ cliente.sexo }}</td>
+                <td>{{ cliente.raca }}</td>
+                <td>{{ cliente.naturalidade }}</td>
+                <td>{{ cliente.obs }}</td>
+                <td>{{ cliente.id }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('cliente_show', { 'id': cliente.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('cliente_edit', { 'id': cliente.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('cliente_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

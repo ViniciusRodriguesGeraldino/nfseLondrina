@@ -1,0 +1,96 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Bancos
+ *
+ * @ORM\Table(name="bancos")
+ * @ORM\Entity
+ */
+class Bancos
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="EMPRESA", type="integer", nullable=false)
+     */
+    private $empresa;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="BANCO", type="integer", nullable=true)
+     */
+    private $banco;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="NUMERO", type="string", length=5, nullable=true)
+     */
+    private $numero;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="NOME", type="string", length=30, nullable=true)
+     */
+    private $nome;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="AGENCIA", type="string", length=10, nullable=true)
+     */
+    private $agencia;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="DV_AGENCIA", type="string", length=1, nullable=true)
+     */
+    private $dvAgencia;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CC", type="string", length=10, nullable=true)
+     */
+    private $cc;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="DV_CC", type="string", length=1, nullable=true)
+     */
+    private $dvCc;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CARTEIRA", type="string", length=5, nullable=true)
+     */
+    private $carteira;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CAIXA_BANCO", type="string", length=1, nullable=true)
+     */
+    private $caixaBanco;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="ID_BANCO", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idBanco;
+
+
+}
+

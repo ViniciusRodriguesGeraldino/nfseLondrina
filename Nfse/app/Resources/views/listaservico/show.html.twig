@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Listaservico</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Descricao</th>
+                <td>{{ listaservico.descricao }}</td>
+            </tr>
+            <tr>
+                <th>Aliquota</th>
+                <td>{{ listaservico.aliquota }}</td>
+            </tr>
+            <tr>
+                <th>Codigo</th>
+                <td>{{ listaservico.codigo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('listaservico_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('listaservico_edit', { 'id': listaservico.codigo }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
