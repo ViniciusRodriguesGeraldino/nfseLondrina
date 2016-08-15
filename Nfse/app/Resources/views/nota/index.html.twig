@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <link href="{{ asset('assets/css/nfse_bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('assets/css/nfse.css') }}" rel="stylesheet" type="text/css"/>
+
+    <h1 class="pagination-centered">Notas</h1>
+
+    <div class="row">
+
+    <div class="col-xs-5 col-xs-offset-4">
+        <table class="table-flat deletable">
+            <thead>
+            <tr class="table">
+                <th>Id</th>
+                <th>Número</th>
+                <th>Cliente</th>
+                <th>Data</th>
+                <th>Cancelada</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for notum in notas %}
+                <tr>
+                    <td><a href="{{ path('nota_show', { 'id': notum.id }) }}">{{ notum.empresa }}</a></td>
+                    <td>{{ notum.numeroNota }}</td>
+                    <td>{{ notum.cliente }}</td>
+                    <td>{% if notum.data %}{{ notum.data|date('Y-m-d') }}{% endif %}</td>
+                    <td>{{ notum.cancelada }}</td>
+                    <td>{{ notum.total }}</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('nota_show', { 'id': notum.id }) }}">show</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('nota_edit', { 'id': notum.id }) }}">edit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-xs-5 col-xs-offset-4">
+        <li>
+            <a href="{{ path('nota_new') }}">Cadastrar Nota</a>
+        </li>
+        </div>
+    </div>
+
+{% endblock %}
