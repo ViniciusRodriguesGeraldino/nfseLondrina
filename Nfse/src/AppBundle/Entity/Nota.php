@@ -267,11 +267,11 @@ class Nota
     /**
      * @var integer
      *
-     * @ORM\Column(name="NUMERONF", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $numeronf;
+    private $id;
 
 
 
@@ -1140,12 +1140,12 @@ class Nota
     }
 
     /**
-     * Get numeronf
+     * Get id
      *
      * @return integer
      */
-    public function getNumeronf()
+    public function getId()
     {
-        return $this->numeronf;
+        return $this->id;
     }
 }

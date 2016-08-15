@@ -1,3 +1,281 @@
 {% extends 'base.html.twig' %}
 
+{% block body %}
 
+    <link href="{{ asset('assets/css/nfse_bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('assets/css/nfse.css') }}" rel="stylesheet" type="text/css"/>
+
+
+    <div class="flat-theme flat-container negotiation-container">
+
+        <div class="row vertical-offset5">
+            <div class="col-xs-5 col-xs-offset-1">
+				<span class="sale-number ng-binding">Venda
+                    <small id="negotiationNumberLabel" class="ng-binding ng-scope">
+						1
+					</small>
+				</span>
+            </div>
+            <div class="col-xs-5">
+				<span id="negotiationTotalValueLabel" class="sale-total ng-binding"><small>R$</small>
+					   0,00
+				</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="row-divider dotted col-xs-10 vertical-offset3 col-xs-offset-1"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-3">
+                <div class="float-left no-padding-left col-xs-4">
+                    <label>Cliente</label>
+                </div>
+                <div class="float-right text-right col-xs-8 ng-hide" ng-show="negotiation.data.negotiator.id">
+					<span class="glyphicons blue-icon user customer-overview-icon">
+						<i></i>
+					</span>
+                    <a href="" class="customer-edit-link">
+                        Perfil do cliente
+                    </a>
+                </div>
+                <input type="text" style="display:none" class="ng-pristine ng-untouched ng-valid">
+                <input autocomplete-deprecated="" type="text" required="required" placeholder="Digite o nome do cliente"
+                       class="validate col-xs-3 ng-pristine ng-untouched ng-invalid ng-invalid-required contaazul-components-autocomplete-input flat">
+            </div>
+            <div class="col-xs-1" ng-hide="negotiation.data.status === 'SCHEDULED'">
+                <label>Número</label>
+                <input number="" type="text" required="required" maxlength="9"
+                       class="text-right validate col-xs-1 ng-pristine ng-untouched ng-valid-maxlength ng-valid ng-valid-required">
+            </div>
+            <div class="col-xs-2 fix-padding" ng-hide="isProposalHandler()">
+                <label>Data da venda</label>
+                <div class="input-append">
+                    <input type="text" id="negotiationEmission"
+                           class="validate col-xs-2 ng-isolate-scope ng-pristine ng-untouched ng-valid ng-valid-required"
+                           datepicker="" required="required"
+                           autocomplete="off" placeholder="DD/MM/AAAA">
+                    <span class="add-on iconed glyphicons calendar"><i></i></span>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="ng-scope">
+            <div class="row ng-scope">
+                <div class="col-xs-5 col-xs-offset-1">
+                    <label>Vendedor Responsável</label>
+                    <select styleselect="" class="col-xs-5 ng-pristine ng-untouched ng-valid" style="display: none;">
+                        <option value="" selected="selected" class="">&nbsp;</option>
+                        <option value="0">Vinicius</option>
+                    </select>
+                    <div class="chosen-container chosen-container-single chosen-container-single-nosearch"
+                         style="width: 377px;" title="" id="saleOwner_chosen"><a class="chosen-single"
+                                                                                 tabindex="-1"><span>&nbsp;</span>
+                            <div><b></b></div>
+                        </a>
+                        <div class="chosen-drop">
+                            <div class="chosen-search"><input type="text" autocomplete="off" readonly=""></div>
+                            <ul class="chosen-results"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row sale-form-row ng-scope">
+        <div class="col-xs-10 col-xs-offset-1">
+            <label>Itens</label>
+        </div>
+    </div>
+
+    <!--Tabela de Produtos-->
+    <div class="ng-scope">
+        <div class="row ng-scope">
+            <div class="col-xs-10 col-xs-offset-1">
+                <table class="table-flat deleteable">
+                    <thead>
+                    <tr>
+                        <th>Produto/Serviço</th>
+                        <th>Detalhes do Item</th>
+                        <th>
+                            <div class="text-right">Quantidade</div>
+                        </th>
+                        <th>
+                            <div class="text-right">Valor</div>
+                        </th>
+                        <th>
+                            <div class="text-right">Subtotal</div>
+                        </th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr class="ng-scope">
+                        <td>
+                            <input type="hidden" class="ng-pristine ng-untouched ng-valid">
+                        </td>
+                        <td>
+                            <textarea
+                                    class="col12 elastic-textarea ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                    maxlength="500" style="overflow: hidden;"></textarea>
+                            <div style="position: absolute; display: none; word-wrap: break-word; white-space: pre-wrap; border: 0px none rgb(38, 135, 233); font-weight: normal; width: 234px; font-family: proxima-nova, sans-serif; line-height: 20px; font-size: 14px; padding: 13px 14px;">
+                                &nbsp;</div>
+                        </td>
+                        <td>
+                            <input type="text" id="negotiationItemQuantity0"
+                                   class="col6 text-right ng-pristine ng-untouched ng-valid">
+                        </td>
+                        <td>
+                            <input type="text" id="negotiationItemPrice0"
+                                   class="col5 text-right ng-pristine ng-untouched ng-valid">
+                        </td>
+                        <td>
+                            <input type="text" id="negotiationItemTotal0"
+                                   class="col5 text-right ng-pristine ng-untouched ng-valid">
+                        </td>
+                        <td ng-click="removeNegotiationItem($index)" id="removeNegotiationItem0"
+                            class="sale-delete-row">
+                            ×
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-xs-offset-1 vertical-offset3">
+
+                    <div class="col-xs-3">
+                        <a id="newNegotiationItem" href="" ng-click="newNegotiationItem()" class="flat-btn">
+                            <span class="halflings plus"><i></i></span>
+                            Adicionar mais uma linha
+                        </a>
+                    </div>
+                    <div class="col-xs-7 text-right">
+                        <span></span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ng-scope">
+        <div class="ng-scope">
+            <div class="row sale-form-row ng-scope">
+                <div class="col-xs-1 col-xs-offset-1">
+                    Desconto
+                </div>
+                <div class="col-xs-1">
+                    <select styleselect=""
+                            class="col-xs-1 negotiation-discount-measure-unit ng-pristine ng-untouched ng-valid"
+                            style="display: none;">
+                        <option value="0">%</option>
+                        <option value="1" selected="selected">R$</option>
+                    </select>
+                    <div class="chosen-container chosen-container-single chosen-container-single-nosearch"
+                         style="width: 60px;" title=""><a
+                                class="chosen-single" tabindex="-1"><span>R$</span>
+                            <div><b></b></div>
+                        </a>
+                        <div class="chosen-drop">
+                            <div class="chosen-search"><input type="text" autocomplete="off" readonly=""></div>
+                            <ul class="chosen-results"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-2 text-right fix-padding-more">
+                    <input type="text" class="col-xs-2 text-right ng-pristine ng-untouched ng-valid" currency=""
+                           default-zero="true">
+                </div>
+            </div>
+            <div class="row sale-form-row ng-scope">
+                <div class="col-xs-2 col-xs-offset-1">
+                    Frete a cobrar do cliente (R$)
+                </div>
+                <div class="col-xs-2 text-right fix-padding-more">
+                    <input type="text" class="col-xs-2 text-right ng-pristine ng-untouched ng-valid" currency=""
+                           default-zero="true">
+                </div>
+            </div>
+            <div class="row sale-form-row ng-scope">
+                <div class="col-xs-2 col-xs-offset-1">
+                    Impostos(R$)
+                </div>
+                <div class="col-xs-2 text-right">
+                    <input type="text" id="negotiationTaxes"
+                           class="col-xs-2 text-right ng-pristine ng-untouched ng-valid" currency=""
+                           default-zero="true">
+                </div>
+            </div>
+        </div>
+
+        <div class="row ng-scope">
+            <div class="col-xs-10 sale-liquid-total">
+                <div class="col-xs-5 col-xs-offset-1">
+                    <span>Total líquido</span>
+                </div>
+                <div class="col-xs-2 text-right">
+                    <span class="ng-binding">0,00</span>
+                </div>
+                <div class="col-xs-3">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="ng-scope">
+            <div class="row ng-scope">
+                <div class="col-xs-5 col-xs-offset-1">
+                    <label>Forma de Pagamento</label>
+                    <select styleselect="" class="col-xs-5 ng-pristine ng-untouched ng-valid" style="display: none;">
+                        <option value="" selected="selected" class="">&nbsp;</option>
+                        <option value="0">À Vista</option>
+                        <option value="0">À Prazo</option>
+                        <option value="0">Cheque</option>
+                    </select>
+                    <div class="chosen-container chosen-container-single chosen-container-single-nosearch"
+                         style="width: 377px;" title="" id="saleOwner_chosen"><a class="chosen-single"
+                                                                                 tabindex="1"><span>&nbsp;</span>
+                            <div><b></b></div>
+                        </a>
+                        <div class="chosen-drop">
+                            <div class="chosen-search"><input type="text" autocomplete="off" readonly=""></div>
+                            <ul class="chosen-results"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {#Observações#}
+        <div class="row ng-scope">
+            <div class="col-xs-10">
+                <div class="col-xs-5 col-xs-offset-1">
+                    Observações
+                </div>
+                <div class="col-xs-7 col-xs-offset-1">
+                    <textarea class="form-control" rows="5" id="comment"></textarea>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="ng-scope">
+        <div class="row ng-scope">
+            <div class="row-divider dotted col-xs-10 vertical-offset3 col-xs-offset-1"></div>
+        </div>
+    </div>
+
+    </div>
+
+{% endblock %}

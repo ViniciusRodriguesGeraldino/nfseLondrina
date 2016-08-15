@@ -15,7 +15,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        require_once 'C:\xampp2\htdocs\EmissorNFSE2\Nfse\vendor\autoload.php';
+        //require_once 'C:\xampp2\htdocs\EmissorNFSE2\Nfse\vendor\autoload.php';
         
         $wsdl = 'http://www.thomas-bayer.com/axis2/services/BLZService?wsdl';
         $soapClient = new BeSimple\SoapClient\SoapClient($wsdl);
@@ -34,9 +34,20 @@ class DefaultController extends Controller
      * @Route("/classes", name="classes")
      */
     public function  getFunctions(){ //http://testeiss.londrina.pr.gov.br/ws/v1_03/sigiss_ws.php?wsdl
-        require_once 'C:\xampp2\htdocs\EmissorNFSE2\Nfse\vendor\autoload.php';
+
+        require_once 'C:\xampp\htdocs\NFSE\nfseLondrina\Nfse\vendor\autoload.php';
+//        require_once $this->get('kernel')->getRootDir().'\vendor\autoload.php';
+
         $wsdl = 'http://testeiss.londrina.pr.gov.br/ws/v1_03/sigiss_ws.php?wsdl';
         $soapClient = new \BeSimple\SoapClient\SoapClient($wsdl);
-        var_dump($soapClient->__getFunctions());
+
+//        $soapClient->GerarNota
+
+//        var_dump($soapClient->__getFunctions());
+//        var_dump($soapClient->__getTypes());
+
+        return $this->render('default/index.html.twig', [
+           'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
+         ]);
     }
 }
