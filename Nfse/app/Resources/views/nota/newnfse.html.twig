@@ -3,23 +3,24 @@
 {% block body %}
 
     <link href="{{ asset('assets/css/nfse_bootstrap.min.css') }}" rel="stylesheet" type="text/css"
-          xmlns="http://www.w3.org/1999/html"/>
+          xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"/>
     <link href="{{ asset('assets/css/nfse.css') }}" rel="stylesheet" type="text/css"/>
 
+    <form method="post" action="" id="ajax_form">
 
     <div class="flat-theme flat-container negotiation-container">
 
         <div class="row vertical-offset5">
             <div class="col-xs-5 col-xs-offset-1">
 				<span class="sale-number ng-binding">Venda
-                    <small id="negotiationNumberLabel" class="ng-binding ng-scope">
-						1
+                    <small class="ng-binding ng-scope">
+						<input type="hidden" name="numeroVenda">1</input>
 					</small>
 				</span>
             </div>
             <div class="col-xs-5">
-				<span id="negotiationTotalValueLabel" class="sale-total ng-binding"><small>R$</small>
-					   0,00
+				<span class="sale-total"><small>R$</small>
+					  <input type="hidden" id="tipoDesconto" name="tipoDesconto"> 0,00 </input>
 				</span>
             </div>
         </div>
@@ -41,20 +42,21 @@
                         Perfil do cliente
                     </a>
                 </div>
-                <input type="text" style="display:none" class="ng-pristine ng-untouched ng-valid">
+                <input type="text" style="display:none" class="ng-pristine ng-untouched ng-valid" id="cliente" name="cliente">
                 <input autocomplete-deprecated="" type="text" required="required" placeholder="Digite o nome do cliente" onchange="getClientes()"
+                       id="cliente2" name="cliente2"
                        class="validate col-xs-3 ng-pristine ng-untouched ng-invalid ng-invalid-required contaazul-components-autocomplete-input flat">
             </div>
             <div class="col-xs-1">
                 <label>Número</label>
-                <input type="text" required="required" maxlength="9" value="{{ formValues.numeroNota }}" id="numeroNota"
+                <input type="text" required="required" maxlength="9" value="{{ formValues.numeroNota }}" id="numeroNota" name="numeroNota"
                        class="text-right validate col-xs-1 ng-pristine ng-untouched ng-valid-maxlength ng-valid ng-valid-required">
 
             </div>
             <div class="col-xs-2 fix-padding" ng-hide="isProposalHandler()">
                 <label>Data da venda</label>
                 <div class="input-append">
-                    <input type="text" id="dataNota" value="{{ formValues.data }}"
+                    <input type="text" id="dataNota" name="dataNota" value="{{ formValues.data }}"
                            class="validate col-xs-2 ng-isolate-scope ng-pristine ng-untouched ng-valid ng-valid-required"
                            datepicker="" required="required"
                            autocomplete="off" placeholder="DD/MM/AAAA">
@@ -69,12 +71,12 @@
             <div class="row ng-scope">
                 <div class="col-xs-5 col-xs-offset-1">
                     <label>Vendedor Responsável</label>
-                    <select styleselect="" class="col-xs-5 ng-pristine ng-untouched ng-valid" style="display: none;">
+                    <select styleselect="" class="col-xs-5 ng-pristine ng-untouched ng-valid" style="display: none;" name="vendedor" id="vendedor">
                         <option value="" selected="selected" class="">&nbsp;</option>
                         <option value="0">Vinicius</option>
                     </select>
                     <div class="chosen-container chosen-container-single chosen-container-single-nosearch"
-                         style="width: 377px;" title="" id="saleOwner_chosen"><a class="chosen-single"
+                         style="width: 377px;" title=""><a class="chosen-single"
                                                                                  tabindex="-1"><span>&nbsp;</span>
                             <div><b></b></div>
                         </a>
@@ -130,18 +132,18 @@
                                 &nbsp;</div>
                         </td>
                         <td>
-                            <input type="text" id="negotiationItemQuantity0"
+                            <input type="text" id="ItemQtd" name="ItemQtd"
                                    class="col6 text-right ng-pristine ng-untouched ng-valid">
                         </td>
                         <td>
-                            <input type="text" id="negotiationItemPrice0"
+                            <input type="text" id="ItemPreco" name="ItemPreco"
                                    class="col5 text-right ng-pristine ng-untouched ng-valid">
                         </td>
                         <td>
-                            <input type="text" id="negotiationItemTotal0"
+                            <input type="text" id="ItemTotal" name="ItemTotal"
                                    class="col5 text-right ng-pristine ng-untouched ng-valid">
                         </td>
-                        <td ng-click="removeNegotiationItem($index)" id="removeNegotiationItem0"
+                        <td ng-click="removeNegotiationItem($index)" id=""
                             class="sale-delete-row">
                             ×
                         </td>
@@ -154,7 +156,7 @@
                 <div class="col-xs-12 col-xs-offset-1 vertical-offset3">
 
                     <div class="col-xs-3">
-                        <a id="newNegotiationItem" href="" ng-click="newNegotiationItem()" class="flat-btn">
+                        <a id="" href="" ng-click="newNegotiationItem()" class="flat-btn">
                             <span class="halflings plus"><i></i></span>
                             Adicionar mais uma linha
                         </a>
@@ -175,25 +177,22 @@
                     Desconto
                 </div>
                 <div class="col-xs-1">
-                    <select styleselect=""
-                            class="col-xs-1 negotiation-discount-measure-unit ng-pristine ng-untouched ng-valid"
-                            style="display: none;">
+                    <select class="col-xs-1" >
                         <option value="0">%</option>
                         <option value="1" selected="selected">R$</option>
                     </select>
                     <div class="chosen-container chosen-container-single chosen-container-single-nosearch"
-                         style="width: 60px;" title=""><a
-                                class="chosen-single" tabindex="-1"><span>R$</span>
-                            <div><b></b></div>
-                        </a>
+                         style="width: 60px;" title="">
                         <div class="chosen-drop">
-                            <div class="chosen-search"><input type="text" autocomplete="off" readonly=""></div>
-                            <ul class="chosen-results"></ul>
+                            <div class="chosen-search">
+                                <input type="text" id="tipoDesconto" name="tipoDesconto" autocomplete="off" readonly="">
+                            </div>
+                            {#<ul class="chosen-results"></ul>#}
                         </div>
                     </div>
                 </div>
                 <div class="col-xs-2 text-right fix-padding-more">
-                    <input type="text" class="col-xs-2 text-right ng-pristine ng-untouched ng-valid" currency=""
+                    <input type="text" class="col-xs-2 text-right ng-pristine ng-untouched ng-valid" currency="" id="valorDesconto" name="valorDesconto"
                            default-zero="true">
                 </div>
             </div>
@@ -202,7 +201,7 @@
                     Frete a cobrar do cliente (R$)
                 </div>
                 <div class="col-xs-2 text-right fix-padding-more">
-                    <input type="text" class="col-xs-2 text-right ng-pristine ng-untouched ng-valid" currency=""
+                    <input type="text" class="col-xs-2 text-right ng-pristine ng-untouched ng-valid" currency="" id="valorFrete" name="valorFrete"
                            default-zero="true">
                 </div>
             </div>
@@ -211,8 +210,7 @@
                     Impostos(R$)
                 </div>
                 <div class="col-xs-2 text-right">
-                    <input type="text" id="negotiationTaxes"
-                           class="col-xs-2 text-right ng-pristine ng-untouched ng-valid" currency=""
+                    <input type="text" class="col-xs-2 text-right ng-pristine ng-untouched ng-valid" currency="" id="valorImpostos" name="valorImpostos"
                            default-zero="true">
                 </div>
             </div>
@@ -224,7 +222,9 @@
                     <span>Total líquido</span>
                 </div>
                 <div class="col-xs-2 text-right">
-                    <span class="ng-binding">0,00</span>
+                    <span class="ng-binding" id="valorTotalLiquido">
+                        <input type="hidden" id="valorTotLiq" name="valorTotLiq">
+                    </span>
                 </div>
                 <div class="col-xs-3">
                     <span></span>
@@ -236,14 +236,14 @@
             <div class="row ng-scope">
                 <div class="col-xs-5 col-xs-offset-1">
                     <label>Forma de Pagamento</label>
-                    <select styleselect="" class="col-xs-5 ng-pristine ng-untouched ng-valid" style="display: none;">
+                    <select styleselect="" id="formaPagamento" name="formaPagamento" class="col-xs-5 ng-pristine ng-untouched ng-valid" style="display: none;">
                         <option value="" selected="selected" class="">&nbsp;</option>
                         <option value="0">À Vista</option>
                         <option value="0">À Prazo</option>
                         <option value="0">Cheque</option>
                     </select>
                     <div class="chosen-container chosen-container-single chosen-container-single-nosearch"
-                         style="width: 377px;" title="" id="saleOwner_chosen"><a class="chosen-single"
+                         style="width: 377px;" title=""><a class="chosen-single"
                                                                                  tabindex="1"><span>&nbsp;</span>
                             <div><b></b></div>
                         </a>
@@ -263,13 +263,21 @@
                     Observações
                 </div>
                 <div class="col-xs-7 col-xs-offset-1">
-                    <textarea class="form-control" rows="5" id="comment"></textarea>
+                    <textarea class="form-control" name="txtAreaObs" rows="5" id="comment"></textarea>
                 </div>
 
             </div>
         </div>
 
-    </div>
+
+        {#Botão aqui#}
+        <div class="row">
+            <div class="col-xs-10">
+                <div class="col-xs-7 col-xs-offset-1">
+                    <input type="submit" value="Salvar" id="btnSave" name="Salvar">
+                </div>
+            </div>
+        </div>
 
 
     <div class="ng-scope">
@@ -280,22 +288,30 @@
 
     </div>
 
-{% scripts %}
-    <script type="text/javascript">
-        function getClientes(val)
-        {
-            $.ajax({
-                type: 'post',
-                url: 'NotaController.php',
-                data: {
-                    get_option:val
-                },
-                success: function (response) {
-                    document.getElementById("new_select").innerHTML=response;
-                }
-            });
-        }
-    </script>
+</form>
+
 {% endblock %}
 
+{% block javascripts %}
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function(){
+            jQuery('#ajax_form').submit(function(){
+                var dados = jQuery(this).serializeArray();
+                console.log("dados"+dados);
+                jQuery.ajax({
+                    type: "POST",
+                    url: "SalvarNota",
+                    data: dados,
+                    success: function( data )
+                    {
+                        alert( data );
+                    }
+
+                });
+
+                return false;
+            });
+        });
+    </script>
 {% endblock %}

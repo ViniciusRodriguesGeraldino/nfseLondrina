@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Nota;
 use AppBundle\Form\NotaType;
 
+
 /**
  * Nota controller.
  *
@@ -42,24 +43,6 @@ class NotaController extends Controller
      */
     public function newAction(Request $request)
     {
-//        $notum = new Nota();
-//        $form = $this->createForm('AppBundle\Form\NotaType', $notum);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($notum);
-//            $em->flush();
-//
-//            return $this->redirectToRoute('nota_show', array('id' => $notum->getId()));
-//        }
-//
-//        return $this->render('nota/new.html.twig', array(
-//            'notum' => $notum,
-//            'form' => $form->createView(),
-//        ));
-
-
         $em = $this->getDoctrine()->getManager();
 
         $numeroNota = $this->getNewNF();
@@ -74,6 +57,7 @@ class NotaController extends Controller
             'numeroNota' => $numeroNota,
             'data'       => $data,
             'clientes'   => $clientes
+
         ];
 
         return $this->render('nota/newnfse.html.twig', array(
@@ -94,6 +78,11 @@ class NotaController extends Controller
             ->where('n.empresa = :empresa')->setParameter('empresa', $this->getEmpresa())
             ->getQuery()
             ->getSingleScalarResult();
+
+        if ($highest_id == '')
+            $highest_id = 0;
+
+        $highest_id += 1;
 
         return $highest_id;
     }
@@ -179,5 +168,87 @@ class NotaController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     *
+     * @Route("/SalvarNota", name="SalvarNota")
+     * @Method({"POST"})
+     */
+    public function getContentAsArray(Request $request){
+
+        $nota = new Nota();
+
+        $nota->setNumeroNota($request->request->get('numeroNota', null));
+        $nota->setEmpresa($this->getEmpresa());
+        $nota->setCliente($request->request->get('cliente', null));
+
+        $nota->setTotal($request->request->get('valorTotLiq', null));
+        $nota->setDesconto($request->request->get('valorDesconto', null));
+        $nota->setTotalBruto($nota->getTotal()+$nota->getDesconto());
+
+        $nota->setTaxaExtra(0);
+
+        $timestamp = strtotime($request->request->get('dataNota', null));
+        $nota->setData(date("Y-m-d H:i:s", $timestamp));
+
+        $nota->setTipoNota('NFSE');
+
+        $nota->setAno($this->getYear($nota->getData()));
+        $nota->setMes($this->getMonth($nota->getData()));
+
+        $nota->setAutenticidade('');
+        $nota->setNumeroNotaSubstitutiva('');
+        $nota->setIdFaturamento('');
+
+//        $nota->setPercPis();
+//        $nota->setPis();
+//        $nota->setPisOrig();
+//
+//        $nota->setCsl();
+//        $nota->setCslOrig();
+//
+//        $nota->setCofins();
+//        $nota->setCofinsOrig();
+//
+//        $nota->setInss();
+//        $nota->setInssOrig();
+//
+//        $nota->setIss();
+//        $nota->setIssOrig();
+//        $nota->setIssRetido();
+//        $nota->setIssRetidoOrig();
+//        $nota->setBaseIss();
+//
+//        $nota->setIrrf();
+//        $nota->setIrrfOrig();
+//
+//        $nota->setCancelada();
+//        $nota->setMotivo();
+//        $nota->setAutenticidadeCancelamento();
+//        $nota->setLinkimpressaoCancelamento();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($nota);
+        $em->flush();
+
+        $response['success'] = true;
+        return new JsonResponse( $response );
+
+    }
+
+    public function getYear($pdate) {
+        $date = DateTime::createFromFormat("Y-m-d", $pdate);
+        return $date->format("Y");
+    }
+
+    public function getMonth($pdate) {
+        $date = DateTime::createFromFormat("Y-m-d", $pdate);
+        return $date->format("m");
+    }
+
+    public function getDay($pdate) {
+        $date = DateTime::createFromFormat("Y-m-d", $pdate);
+        return $date->format("d");
     }
 }
