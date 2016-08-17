@@ -8,7 +8,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Nota;
+use AppBundle\Entity\Cliente;
 use AppBundle\Form\NotaType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\Constraints\Count;
+use Symfony\Component\Validator\Constraints\Length;
 
 
 /**
@@ -250,5 +254,33 @@ class NotaController extends Controller
     public function getDay($pdate) {
         $date = DateTime::createFromFormat("Y-m-d", $pdate);
         return $date->format("d");
+    }
+
+    /**
+     *
+     * @Route("/loadClientes", name="loadClientes")
+     * @Method({"POST"})
+     */
+    public function loadClientes(Request $request){
+
+        $valor = $request->request->get('str', null);
+
+        $repo = $this->getDoctrine()
+            ->getRepository('AppBundle:Cliente');
+        $query = $repo->createQueryBuilder('a')
+            ->select('a.id,a.nome,a.cpfcnpj')
+            ->where('a.nome LIKE :val')
+            ->andWhere('a.empresa = :emp')
+            ->setParameter('val', '%'.$valor.'%')
+            ->setParameter('emp', $this->getEmpresa())
+            ->getQuery();
+        $result = $query->getArrayResult();
+
+        foreach ($result as $value) {
+           $ret2[] = $value['id'].' - '.$value['nome'].' - '.$value['cpfcnpj'];
+        }
+
+        return new JsonResponse( $ret2 );
+
     }
 }
