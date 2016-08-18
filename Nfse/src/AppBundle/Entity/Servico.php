@@ -106,6 +106,13 @@ class Servico
     /**
      * @var integer
      *
+     * @ORM\Column(name="EMPRESA", type="integer", nullable=true)
+     */
+    private $idEmpresa;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="ID", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -435,4 +442,31 @@ class Servico
     {
         return $this->id;
     }
+
+
+    /**
+     * Get idEmpresa
+     *
+     * @return integer
+     */
+    public function getIdEmpresa()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set idEmpresa
+     *
+     * @param integer $idEmpresa
+     *
+     * @return Servico
+     */
+    public function setidEmpresa($idEmpresa)
+    {
+        $this->idEmpresa = $idEmpresa;
+
+        return $this;
+    }
+
+
 }

@@ -277,10 +277,58 @@ class NotaController extends Controller
         $result = $query->getArrayResult();
 
         foreach ($result as $value) {
-           $ret2[] = $value['id'].' - '.$value['nome'].' - '.$value['cpfcnpj'];
+            $ret2[] = $value['id'].' - '.$value['nome'].' - '.$value['cpfcnpj'];
         }
 
         return new JsonResponse( $ret2 );
 
     }
+
+    /**
+     *
+     * @Route("/loadItemServico", name="loadItemServico")
+     * @Method({"POST"})
+     */
+    public function loadItemServico(Request $request){
+        $repo = $this->getDoctrine()
+            ->getRepository('AppBundle:Servico');
+        $query = $repo->createQueryBuilder('s')
+            ->select('s.id, s.descricao, s.valor')
+            ->where('s.idEmpresa = :emp')
+            ->setParameter('emp', $this->getEmpresa())
+            ->getQuery();
+        $result = $query->getArrayResult();
+
+        foreach ($result as $value) {
+            $ret2[] = $value['id'].' - '.$value['descricao'].' ('.$value['valor'].')';
+        }
+
+        return new JsonResponse( $ret2 );
+
+    }
+
+
+    /**
+     *
+     * @Route("/getValoresServico", name="getValoresServico")
+     * @Method({"POST"})
+     */
+    public function getValoresServico(Request $request){
+        $idServico = $request->request->get('idServico', null);
+
+        $repo = $this->getDoctrine()->getRepository('AppBundle:Servico');
+
+        $query = $repo->createQueryBuilder('s')
+            ->select('s.id, s.descricao, s.codSerPref, s.valor, s.percIss')
+            ->where('s.idEmpresa = :emp')
+            ->andWhere('s.id = :idserv')
+            ->setParameter('emp', $this->getEmpresa())
+            ->setParameter('idserv', $idServico)
+            ->getQuery();
+
+        $result = $query->getArrayResult();
+
+        return new JsonResponse($result);
+
+    }    
 }

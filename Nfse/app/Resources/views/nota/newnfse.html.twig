@@ -42,7 +42,7 @@
                             Perfil do cliente
                         </a>
                     </div>
-                    <input type="text" style="display:none" id="idCliente" name="idCliente">
+                    {#<input type="text" style="display:none" id="idCliente" name="idCliente">#}
 
                     <input autocomplete-deprecated="" type="text" required="required" placeholder="Digite o nome do cliente"
                            id="NomeCliente" name="NomeCliente" onchange="" class="NomeCliente">
@@ -95,13 +95,16 @@
             <div class="">
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-1">
-                        <table class="table-flat deleteable">
+                        <table class="table-flat deleteable" id="tabelaprodutos">
                             <thead>
                                 <tr>
                                     <th><div class="text-right">Produto/Serviço</div></th>
                                     <th><div class="text-right">Detalhes do Item</div></th>
                                     <th><div class="text-right">Quantidade</div></th>
                                     <th><div class="text-right">Valor</div></th>
+                                    <th><div class="text-right">Desconto</div></th>
+                                    <th><div class="text-right">ISS</div></th>
+                                    <th><div class="text-right">%ISS</div></th>
                                     <th><div class="text-right">Subtotal</div></th>
                                     <th></th>
                                 </tr>
@@ -109,22 +112,25 @@
 
                             <tbody>
                             <tr>
-                                <td><input type="text" id="idServico" name="idServico" class="col6"></td>
-                                <td><input type="text" id="DescricaoItem" name="DescricaoItem" class="col6"></td>
-                                <td><input type="text" id="ItemQtd" name="ItemQtd" class="col6 text-right"></td>
-                                <td><input type="text" id="ItemPreco" name="ItemPreco" class="col5 text-right"></td>
-                                <td><input type="text" id="ItemTotal" name="ItemTotal" class="col5 text-right"></td>
-                                <td onclick="" id="btnRemoveLinha" class="sale-delete-row">×</td>
+                                <td><input type="text" id="idServico0" name="idServico0" class="col6 ServicoItem"></td>
+                                <td><input type="text" id="DescricaoItem0" name="DescricaoItem0" class="col6"></td>
+                                <td><input type="text" id="ItemQtd0" name="ItemQtd0" class="col6 text-right Totals"></td>
+                                <td><input type="text" id="ItemPreco0" name="ItemPreco0" class="col5 text-right Totals"></td>
+                                <td><input type="text" id="ItemDesconto0" name="ItemDescontol0" class="col5 text-right Totals"></td>
+                                <td><input type="text" id="ItemISS0" name="ItemISS0" class="col5 text-right Totals"></td>
+                                <td><input type="text" id="ItemPercIss0" name="ItemPercIss0" class="col5 text-right Totals"></td>
+                                <td><input type="text" id="ItemTotal0" name="ItemTotal0" class="col5 text-right"></td>
+                                <td href="#" id="btnRemoveLinha" class="sale-delete-row">×</td>
                             </tr>
-
                             </tbody>
+
                         </table>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-xs-offset-1 vertical-offset3">
 
                             <div class="col-xs-3">
-                                <a id="" href="" onclick="" class="flat-btn">
+                                <a id="" href="#" onclick="inserirLinhaTabela()" class="flat-btn">
                                     <span class="halflings plus"><i></i></span>
                                     Adicionar mais uma linha
                                 </a>
@@ -269,53 +275,8 @@
 {% block javascripts %}
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(function () {
-            jQuery('#ajax_form').submit(function () {
-                var dados = jQuery(this).serializeArray();
-                console.log("dados" + dados);
-                jQuery.ajax({
-                    type: "POST",
-                    url: "SalvarNota",
-                    data: dados,
-                    success: function (data) {
-                        alert(data);
-                    }
-
-                });
-
-                return false;
-            });
-        });
-    </script>
-
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-
-    <script type="text/javascript">
-        $(document).on('input', '.NomeCliente', function () {
-            var str = $(this).val(); // this.value
-            $.ajax({
-                url: 'loadClientes',
-                data: {str: str},
-                type: 'post',
-                success: function (data) {
-                    //console.log(data);
-                    $("#NomeCliente").autocomplete({
-                        source:data
-                    });
-                }
-            });
-        })
-    </script>
-
-    <script type="text/javascript">
-        $(function() {
-            $('#datetimepicker4').datetimepicker({
-                pickTime: false
-            });
-        });
-    </script>
-
+    <script src="{{ asset('assets/js/sibrax.js') }}"></script>
 
 {% endblock %}
