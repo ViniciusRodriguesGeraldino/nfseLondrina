@@ -13,6 +13,7 @@ use AppBundle\Form\NotaType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\Length;
+use BeSimple\SoapCommon\Type\KeyValue\DateTime;
 
 
 /**
@@ -179,13 +180,16 @@ class NotaController extends Controller
      * @Route("/SalvarNota", name="SalvarNota")
      * @Method({"POST"})
      */
-    public function getContentAsArray(Request $request){
+    public function SalvarNota(Request $request){
 
         $nota = new Nota();
 
         $nota->setNumeroNota($request->request->get('numeroNota', null));
         $nota->setEmpresa($this->getEmpresa());
-        $nota->setCliente($request->request->get('cliente', null));
+
+        $idCliente = $request->request->get('NomeCliente', null);
+        $idCliente = explode('-', $idCliente).trim();
+        $nota->setCliente($idCliente);
 
         $nota->setTotal($request->request->get('valorTotLiq', null));
         $nota->setDesconto($request->request->get('valorDesconto', null));
@@ -202,8 +206,10 @@ class NotaController extends Controller
         $nota->setMes($this->getMonth($nota->getData()));
 
         $nota->setAutenticidade('');
-        $nota->setNumeroNotaSubstitutiva('');
-        $nota->setIdFaturamento('');
+        $nota->setNumeroNotaSubstitutiva('0');
+        $nota->setIdFaturamento('0');
+        $nota->setObservacao($request->request->get('txtAreaObs', null));
+        $nota->setFormapagamento($request->request->get('formaPagamento', null));
 
 //        $nota->setPercPis();
 //        $nota->setPis();

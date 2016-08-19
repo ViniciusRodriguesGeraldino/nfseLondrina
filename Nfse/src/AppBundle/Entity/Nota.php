@@ -34,13 +34,6 @@ class Nota
     private $cliente;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="TAXA_EXTRA", type="string", length=1, nullable=true)
-     */
-    private $taxaExtra;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="VENCIMENTO", type="date", nullable=true)
@@ -265,6 +258,20 @@ class Nota
     private $linkimpressaoCancelamento;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="OBSERVACAO", type="string", length=255, nullable=true)
+     */
+    private $observacao;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="FORMAPAGAMENTO", type="string", length=20, nullable=true)
+     */
+    private $formapagamento;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -345,54 +352,6 @@ class Nota
     public function getCliente()
     {
         return $this->cliente;
-    }
-
-    /**
-     * Set taxaExtra
-     *
-     * @param string $taxaExtra
-     *
-     * @return Nota
-     */
-    public function setTaxaExtra($taxaExtra)
-    {
-        $this->taxaExtra = $taxaExtra;
-
-        return $this;
-    }
-
-    /**
-     * Get taxaExtra
-     *
-     * @return string
-     */
-    public function getTaxaExtra()
-    {
-        return $this->taxaExtra;
-    }
-
-    /**
-     * Set vencimento
-     *
-     * @param \DateTime $vencimento
-     *
-     * @return Nota
-     */
-    public function setVencimento($vencimento)
-    {
-        $this->vencimento = $vencimento;
-
-        return $this;
-    }
-
-    /**
-     * Get vencimento
-     *
-     * @return \DateTime
-     */
-    public function getVencimento()
-    {
-        return $this->vencimento;
     }
 
     /**
@@ -1082,6 +1041,34 @@ class Nota
     }
 
     /**
+     * Set observacao
+     *
+     * @param string $observacao
+     *
+     * @return Nota
+     */
+    public function setObservacao($observacao)
+    {
+        $this->observacao = $observacao;
+
+        return $this;
+    }
+
+    /**
+     * Set formapagamento
+     *
+     * @param string $formapagamento
+     *
+     * @return Nota
+     */
+    public function setFormapagamento($formapagamento)
+    {
+        $this->formapagamento = $formapagamento;
+
+        return $this;
+    }
+
+    /**
      * Get linkimpressao
      *
      * @return string
@@ -1137,6 +1124,27 @@ class Nota
     public function getLinkimpressaoCancelamento()
     {
         return $this->linkimpressaoCancelamento;
+    }
+
+
+    /**
+     * Get observacao
+     *
+     * @return string
+     */
+    public function getObservacao()
+    {
+        return $this->observacao;
+    }
+
+    /**
+     * Get formapagamento
+     *
+     * @return string
+     */
+    public function getFormapagamento()
+    {
+        return $this->formapagamento;
     }
 
     /**

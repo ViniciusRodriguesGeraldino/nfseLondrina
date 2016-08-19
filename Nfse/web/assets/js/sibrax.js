@@ -2,7 +2,7 @@
 jQuery(document).ready(function () {
     jQuery('#ajax_form').submit(function () {
         var dados = jQuery(this).serializeArray();
-        console.log("dados" + dados);
+        console.log(dados);
         jQuery.ajax({
             type: "POST",
             url: "SalvarNota",
@@ -10,7 +10,6 @@ jQuery(document).ready(function () {
             success: function (data) {
                 alert(data);
             }
-
         });
 
         return false;
@@ -32,7 +31,6 @@ $(document).on('input', '.NomeCliente', function () {
         }
     });
 })
-
 
 // {#DatePicker#}
 $(function () {
@@ -73,7 +71,7 @@ function inserirLinhaTabela() {
     newCell.innerHTML = '<input type="text" id="ItemPercIss' + rowNumber + '" name="ItemPercIss' + rowNumber + '" class="col5 text-right Totals">';
 
     newCell = newRow.insertCell(7);
-    newCell.innerHTML = '<input type="text" id="ItemTotal' + rowNumber + '" name="ItemTotal' + rowNumber + '" class="col5 text-right">';
+    newCell.innerHTML = '<input type="text" id="ItemTotal' + rowNumber + '" name="ItemTotal' + rowNumber + '" class="col5 text-right SubTotals">';
 
     newCell = newRow.insertCell(8);
     newCell.innerHTML = '×';
@@ -109,8 +107,6 @@ $(document).on('input', '.ServicoItem', function () {
             });
 
             var tr = jQuery(obj).closest('tr');
-
-            console.log(tr);
 
             if (tr[0].rowIndex = 1) {
                 var servtd = jQuery(tr[0].children[0]);
@@ -158,14 +154,12 @@ $(document).on('input', '.ServicoItem', function () {
                 data: {idServico: servicoItem[0].value},
                 type: 'post',
                 success: function (data) {
-                    console.log(data[0]);
-
                     servicoItem[0].value = data[0].id;
                     descricaoItem[0].value = data[0].descricao;
                     quantidadeItem[0].value = '1';
-                    valorItem[0].value = data[0].valor;
-                    descontoItem[0].value = '0';
-                    percIssItem[0].value = data[0].percIss;
+                    valorItem[0].value = data[0].valor.toFixed(2);
+                    descontoItem[0].value = '0.00';
+                    percIssItem[0].value = data[0].percIss.toFixed(2);
 
                     $porcentagemISS = parseFloat(data[0].percIss);
                     $valorItem = parseFloat(valorItem[0].value);
@@ -175,28 +169,47 @@ $(document).on('input', '.ServicoItem', function () {
 
                     if ($porcentagemISS > 0 && $descontoCondicionado == 'N') {
                         issItem[0].value = (valorItem[0].value / 100) * $porcentagemISS;
-                        subTotalItem[0].value = $valorItem - issItem[0].value - $desc;
+                        subTotalItem[0].value = $valorItem + parseFloat(issItem[0].value) - $desc;
                     } else if ($porcentagemISS > 0 && $descontoCondicionado == 'S') {
                         issItem[0].value = ((valorItem[0].value - $desc) / 100) * $porcentagemISS;
-                        subTotalItem[0].value = $valorItem - issItem[0].value - $desc;
+                        subTotalItem[0].value = $valorItem + parseFloat(issItem[0].value) - $desc;
                     } else {
                         subTotalItem[0].value = $valorItem - $desc;
                     }
 
+                    subTotalItem[0].value = parseFloat(subTotalItem[0].value).toFixed(2);
                 }
             });
-
         }
     });
 })
 
-//Totaliza Campos
-$(document).on('change', '.Totals', function () {
+//Totaliza/Subtotaliza Campos
+$(document).on('blur', '.Totals', function () {
     var obj = this;
-    totaliza(obj);
+    subtotaliza(obj);
+    totaliza();
 })
 
-function totaliza(obj) {
+//Totaliza
+function totaliza(){
+    var inputs = document.getElementsByClassName('SubTotals');
+    var result = document.getElementsByName('valorTotLiq');
+    var sum = 0;
+
+    for(var i=0; i<inputs.length; i++) {
+        var ip = inputs[i];
+
+        if (ip.name && ip.name.indexOf("total") < 0) {
+            sum += parseInt(ip.value) || 0;
+        }
+
+    }
+    result[0].value = sum.toFixed(2);
+}
+
+//Subtotaliza
+function subtotaliza(obj) {
     var tr = jQuery(obj).closest('tr');
 
     if (tr[0].rowIndex = 1) {
@@ -241,5 +254,5 @@ function totaliza(obj) {
         subTotalItem[0].value = parseFloat($totalParcial) - parseFloat(descontoItem[0].value) + parseFloat(issItem[0].value);
     }
 
-    //Continuar amanhã
+    subTotalItem[0].value = parseFloat(subTotalItem[0].value).toFixed(2)
 }

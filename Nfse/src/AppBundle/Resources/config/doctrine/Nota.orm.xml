@@ -19,12 +19,6 @@
         <option name="unsigned"/>
       </options>
     </field>
-    <field name="taxaExtra" type="string" column="TAXA_EXTRA" length="1" nullable="true">
-      <options>
-        <option name="fixed"/>
-      </options>
-    </field>
-    <field name="vencimento" type="date" column="VENCIMENTO" nullable="true"/>
     <field name="data" type="date" column="DATA" nullable="true"/>
     <field name="mes" type="integer" column="MES" nullable="true">
       <options>
@@ -96,6 +90,16 @@
       </options>
     </field>
     <field name="linkimpressaoCancelamento" type="string" column="LINKIMPRESSAO_CANCELAMENTO" length="250" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="observacao" type="string" column="OBSERVACAO" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="formapagamento" type="string" column="FORMAPAGAMENTO" length="20" nullable="true">
       <options>
         <option name="fixed"/>
       </options>

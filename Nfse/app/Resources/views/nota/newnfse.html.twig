@@ -19,9 +19,9 @@
 				</span>
                 </div>
                 <div class="col-xs-3">
-				<span class="sale-total"><small>R$</small>
-					  <input type="hidden" id="tipoDesconto" name="tipoDesconto"> 0,00 </input>
-				</span>
+				{#<span class="sale-total"><small>R$</small>#}
+					  {#<input type="hidden" id="tipoDesconto" name="tipoDesconto"> 0,00 </input>#}
+				{#</span>#}
                 </div>
             </div>
 
@@ -30,21 +30,19 @@
             </div>
 
             <div class="row">
+
                 <div class="col-xs-offset-1 col-xs-3">
                     <div class="float-left no-padding-left col-xs-4">
                         <label>Cliente</label>
                     </div>
                     <div class="float-right text-right col-xs-8">
-					<span class="glyphicons blue-icon user customer-overview-icon">
-						<i></i>
-					</span>
                         <a href="" class="customer-edit-link">
                             Perfil do cliente
                         </a>
                     </div>
                     {#<input type="text" style="display:none" id="idCliente" name="idCliente">#}
 
-                    <input autocomplete-deprecated="" type="text" required="required" placeholder="Digite o nome do cliente"
+                    <input type="text" required="required" placeholder="Digite o nome do cliente"
                            id="NomeCliente" name="NomeCliente" onchange="" class="NomeCliente">
                 </div>
 
@@ -119,7 +117,7 @@
                                 <td><input type="text" id="ItemDesconto0" name="ItemDescontol0" class="col5 text-right Totals"></td>
                                 <td><input type="text" id="ItemISS0" name="ItemISS0" class="col5 text-right Totals"></td>
                                 <td><input type="text" id="ItemPercIss0" name="ItemPercIss0" class="col5 text-right Totals"></td>
-                                <td><input type="text" id="ItemTotal0" name="ItemTotal0" class="col5 text-right"></td>
+                                <td><input type="text" id="ItemTotal0" name="ItemTotal0" class="col5 text-right SubTotals"></td>
                                 <td href="#" id="btnRemoveLinha" class="sale-delete-row">×</td>
                             </tr>
                             </tbody>
@@ -135,7 +133,27 @@
                                     Adicionar mais uma linha
                                 </a>
                             </div>
-                            <div class="col-xs-7 text-right">
+
+                            <div class="col-xs-2 text-right">
+                                <span></span>
+                            </div>
+
+                            {#<div class="col-xs-1">#}
+                                {#Desconto#}
+                            {#</div>#}
+                            {#<div class="col-xs-1">#}
+                                {#<select class="col-xs-1" style="width: 60px;">#}
+                                    {#<option value="0">%</option>#}
+                                    {#<option value="1" selected="selected">R$</option>#}
+                                {#</select>#}
+                            {#</div>#}
+                            {#<div class="col-xs-1 text-right fix-padding-more">#}
+                                {#<input type="text" class="text-right" id="valorDesconto" currency="" name="valorDesconto"#}
+                                       {#default-zero="true" value="0.00">#}
+                            {#</div>#}
+
+
+                            <div class="col-xs-2 text-right">
                                 <span></span>
                             </div>
 
@@ -149,43 +167,15 @@
                 {#Desconto#}
                 <div class="col-xs-offset-1 col-xs-10">
                     <div class="row vertical-offset3">
-                        <div class="col-xs-1">
-                            Desconto
-                        </div>
-                        <div class="col-xs-1">
-                            <select class="col-xs-1" style="width: 60px;">
-                                <option value="0">%</option>
-                                <option value="1" selected="selected">R$</option>
-                            </select>
-                        </div>
-                        <div class="col-xs-1 text-right fix-padding-more">
-                            <input type="text" class="text-right" id="valorDesconto" currency="" name="valorDesconto"
-                                   default-zero="true">
-                        </div>
                         <div class="col-xs-1" style="text-decoration: underline">Retenções:</div>
                         <div class="col-xs-1">ISS:</div>
-                        <div class="col-xs-1"><input type="text" id="iss" name="iss"></div>
+                        <div class="col-xs-1"><input type="text" id="iss" name="iss" value="0.00"></div>
                         <div class="col-xs-1">CSL:</div>
-                        <div class="col-xs-1"><input type="text" id="csl" name="csl"></div>
+                        <div class="col-xs-1"><input type="text" id="csl" name="csl" value="0.00"></div>
                         <div class="col-xs-1">PIS:</div>
-                        <div class="col-xs-1"><input type="text" id="pis" name="pis"></div>
-                    </div>
-                </div>
-
-
-                <div class="col-xs-offset-1 col-xs-10">
-                    <div class="row vertical-offset3">
-                        <div class="col-xs-1"></div>
-                        <div class="col-xs-1"></div>
-                        <div class="col-xs-1"></div>
-                        <div class="col-xs-1"></div>
-
+                        <div class="col-xs-1"><input type="text" id="pis" name="pis" value="0.00"></div>
                         <div class="col-xs-1">IRRF:</div>
-                        <div class="col-xs-1"><input type="text" id="irrf" name="irrf"></div>
-                        <div class="col-xs-1">COFINS:</div>
-                        <div class="col-xs-1"><input type="text" id="cofins" name="cofins"></div>
-                        <div class="col-xs-1">INSS:</div>
-                        <div class="col-xs-1"><input type="text" id="inss" name="inss"></div>
+                        <div class="col-xs-1"><input type="text" id="irrf" name="irrf" value="0.00"></div>
                     </div>
                 </div>
 
@@ -193,13 +183,14 @@
                 <div class="col-xs-offset-1 col-xs-10">
                     <div class="row vertical-offset3">
                         <div class="col-xs-1"></div>
-                        <div class="col-xs-1"></div>
-                        <div class="col-xs-1"></div>
-                        <div class="col-xs-1"></div>
+                        <div class="col-xs-1">COFINS:</div>
+                        <div class="col-xs-1"><input type="text" id="cofins" name="cofins" value="0.00"></div>
+                        <div class="col-xs-1">INSS:</div>
+                        <div class="col-xs-1"><input type="text" id="inss" name="inss" value="0.00"></div>
                         <div class="col-xs-1">Base Calc.:</div>
-                        <div class="col-xs-1"><input type="text" id="base_calculo" name="base_calculo"></div>
+                        <div class="col-xs-1"><input type="text" id="base_calculo" name="base_calculo" value="0.00"></div>
                         <div class="col-xs-1">Valor Dedução:</div>
-                        <div class="col-xs-1"><input type="text" id="valor_deducao" name="valor_deducao"></div>
+                        <div class="col-xs-1"><input type="text" id="valor_deducao" name="valor_deducao" value="0.00"></div>
                     </div>
                 </div>
 
@@ -209,10 +200,9 @@
                         <div class="col-xs-2 liquid-total">
                             <span>Total líquido</span>
                         </div>
-                        <div class="col-xs-1 text-right">
+                        <div class="col-xs-2 text-right">
                                 <span class="liquid-total" id="valorTotalLiquido">
-                                    <input class="liquid-total" type="text" id="valorTotLiq" name="valorTotLiq"
-                                           value="0">
+                                    <input class="liquid-total text-right" type="text" id="valorTotLiq" name="valorTotLiq" value="">
                                 </span>
                         </div>
                     </div>
