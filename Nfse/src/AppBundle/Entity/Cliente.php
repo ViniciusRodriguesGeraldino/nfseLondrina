@@ -181,6 +181,13 @@ class Cliente
     private $obs;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="TIPOCLIENTE", type="string", length=1, nullable=true)
+     */
+    private $tipoCliente;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="ID", type="integer")
@@ -188,6 +195,13 @@ class Cliente
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="IE", type="string", length=15, nullable=true)
+     */
+    private $ie;
 
 
 
@@ -230,6 +244,20 @@ class Cliente
     }
 
     /**
+     * Set ie
+     *
+     * @param string $ie
+     *
+     * @return Cliente
+     */
+    public function setIe($ie)
+    {
+        $this->ie = $ie;
+
+        return $this;
+    }
+
+    /**
      * Get nome
      *
      * @return string
@@ -237,6 +265,16 @@ class Cliente
     public function getNome()
     {
         return $this->nome;
+    }
+
+    /**
+     * Get ie
+     *
+     * @return string
+     */
+    public function getIe()
+    {
+        return $this->ie;
     }
 
     /**
@@ -758,6 +796,20 @@ class Cliente
     }
 
     /**
+     * Set tipoCliente
+     *
+     * @param string $tipoCliente
+     *
+     * @return Cliente
+     */
+    public function setTipoCliente($tipoCliente)
+    {
+        $this->tipoCliente = $tipoCliente;
+
+        return $this;
+    }
+
+    /**
      * Get obs
      *
      * @return string
@@ -765,6 +817,16 @@ class Cliente
     public function getObs()
     {
         return $this->obs;
+    }
+
+    /**
+     * Get tipoCliente
+     *
+     * @return string
+     */
+    public function getTipoCliente()
+    {
+        return $this->tipoCliente;
     }
 
     /**

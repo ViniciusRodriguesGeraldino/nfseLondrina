@@ -1,14 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Nota</h1>
+    <link href="{{ asset('assets/css/nfse_bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('assets/css/nfse.css') }}" rel="stylesheet" type="text/css"/>
 
-    <table>
+    <h1 style="text-align: center">Visualização NFSe</h1>
+
+<div class="flat-theme">
+    <div class="row">
+        <div class="col-xs-5 col-xs-offset-5">
+
+    <table class="table-flat">
         <tbody>
-            <tr>
-                <th>Empresa</th>
-                <td>{{ notum.empresa }}</td>
-            </tr>
+        <tr></tr>
             <tr>
                 <th>Numeronota</th>
                 <td>{{ notum.numeroNota }}</td>
@@ -18,24 +22,8 @@
                 <td>{{ notum.cliente }}</td>
             </tr>
             <tr>
-                <th>Taxaextra</th>
-                <td>{{ notum.taxaExtra }}</td>
-            </tr>
-            <tr>
-                <th>Vencimento</th>
-                <td>{% if notum.vencimento %}{{ notum.vencimento|date('Y-m-d') }}{% endif %}</td>
-            </tr>
-            <tr>
                 <th>Data</th>
                 <td>{% if notum.data %}{{ notum.data|date('Y-m-d') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Mes</th>
-                <td>{{ notum.mes }}</td>
-            </tr>
-            <tr>
-                <th>Ano</th>
-                <td>{{ notum.ano }}</td>
             </tr>
             <tr>
                 <th>Cancelada</th>
@@ -44,10 +32,6 @@
             <tr>
                 <th>Motivo</th>
                 <td>{{ notum.motivo }}</td>
-            </tr>
-            <tr>
-                <th>Percpis</th>
-                <td>{{ notum.percPis }}</td>
             </tr>
             <tr>
                 <th>Pis</th>
@@ -70,12 +54,12 @@
                 <td>{{ notum.iss }}</td>
             </tr>
             <tr>
-                <th>Issretido</th>
-                <td>{{ notum.issRetido }}</td>
+                <th>Irrf</th>
+                <td>{{ notum.irrf }}</td>
             </tr>
             <tr>
-                <th>Baseiss</th>
-                <td>{{ notum.baseIss }}</td>
+                <th>Issretido</th>
+                <td>{{ notum.issRetido }}</td>
             </tr>
             <tr>
                 <th>Desconto</th>
@@ -86,77 +70,24 @@
                 <td>{{ notum.total }}</td>
             </tr>
             <tr>
-                <th>Irrf</th>
-                <td>{{ notum.irrf }}</td>
-            </tr>
-            <tr>
-                <th>Idfaturamento</th>
-                <td>{{ notum.idFaturamento }}</td>
-            </tr>
-            <tr>
-                <th>Totalbruto</th>
-                <td>{{ notum.totalBruto }}</td>
-            </tr>
-            <tr>
-                <th>Tiponota</th>
-                <td>{{ notum.tipoNota }}</td>
-            </tr>
-            <tr>
-                <th>Irrforig</th>
-                <td>{{ notum.irrfOrig }}</td>
-            </tr>
-            <tr>
-                <th>Pisorig</th>
-                <td>{{ notum.pisOrig }}</td>
-            </tr>
-            <tr>
-                <th>Cslorig</th>
-                <td>{{ notum.cslOrig }}</td>
-            </tr>
-            <tr>
-                <th>Cofinsorig</th>
-                <td>{{ notum.cofinsOrig }}</td>
-            </tr>
-            <tr>
-                <th>Inssorig</th>
-                <td>{{ notum.inssOrig }}</td>
-            </tr>
-            <tr>
-                <th>Issorig</th>
-                <td>{{ notum.issOrig }}</td>
-            </tr>
-            <tr>
-                <th>Issretidoorig</th>
-                <td>{{ notum.issRetidoOrig }}</td>
-            </tr>
-            <tr>
-                <th>Numeronotasubstitutiva</th>
-                <td>{{ notum.numeroNotaSubstitutiva }}</td>
-            </tr>
-            <tr>
                 <th>Autenticidade</th>
                 <td>{{ notum.autenticidade }}</td>
             </tr>
-            <tr>
-                <th>Linkimpressao</th>
-                <td>{{ notum.linkimpressao }}</td>
-            </tr>
-            <tr>
-                <th>Autenticidadecancelamento</th>
-                <td>{{ notum.autenticidadeCancelamento }}</td>
-            </tr>
-            <tr>
-                <th>Linkimpressaocancelamento</th>
-                <td>{{ notum.linkimpressaoCancelamento }}</td>
-            </tr>
+
+
             <tr>
                 <th>Id</th>
                 <td>{{ notum.id }}</td>
             </tr>
         </tbody>
+
     </table>
 
-    <ul>
+        </div>
+    </div>
+</div>
+
+            <ul>
         <li>
             <a href="{{ path('nota_index') }}">Back to the list</a>
         </li>

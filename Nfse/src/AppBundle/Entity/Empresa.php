@@ -154,6 +154,13 @@ class Empresa
      */
     private $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="COD_CID", type="string", length=15, nullable=true)
+     */
+    private $codCid;
+
 
 
     /**
@@ -274,6 +281,30 @@ class Empresa
     public function getEndereco()
     {
         return $this->endereco;
+    }
+
+    /**
+     * Set codCid
+     *
+     * @param string $codCid
+     *
+     * @return Cliente
+     */
+    public function setCodCid($codCid)
+    {
+        $this->codCid = $codCid;
+
+        return $this;
+    }
+
+    /**
+     * Get codCid
+     *
+     * @return string
+     */
+    public function getCodCid()
+    {
+        return $this->codCid;
     }
 
     /**

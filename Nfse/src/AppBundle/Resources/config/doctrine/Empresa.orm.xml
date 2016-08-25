@@ -95,5 +95,10 @@
       </options>
     </field>
     <field name="inicioAtividade" type="date" column="INICIO_ATIVIDADE" nullable="true"/>
+    <field name="codCid" type="string" column="COD_CID" length="15" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
   </entity>
 </doctrine-mapping>

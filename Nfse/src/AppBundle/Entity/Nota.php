@@ -267,6 +267,13 @@ class Nota
     /**
      * @var string
      *
+     * @ORM\Column(name="STATUS", type="string", length=20, nullable=true)
+     */
+    private $status;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="FORMAPAGAMENTO", type="string", length=20, nullable=true)
      */
     private $formapagamento;
@@ -1055,6 +1062,20 @@ class Nota
     }
 
     /**
+     * Set status
+     *
+     * @param string $status
+     *
+     * @return Nota
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
      * Set formapagamento
      *
      * @param string $formapagamento
@@ -1135,6 +1156,16 @@ class Nota
     public function getObservacao()
     {
         return $this->observacao;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**

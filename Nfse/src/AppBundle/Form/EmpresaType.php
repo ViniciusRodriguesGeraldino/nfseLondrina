@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class EmpresaType extends AbstractType
 {
@@ -33,7 +34,7 @@ class EmpresaType extends AbstractType
             ->add('senhaPrefeitura')
             ->add('producao')
             ->add('simples')
-            ->add('inicioAtividade', 'date')
+            ->add('inicioAtividade', DateType::class)
         ;
     }
     

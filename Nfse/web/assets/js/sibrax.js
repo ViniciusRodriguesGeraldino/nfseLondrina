@@ -8,7 +8,7 @@ jQuery(document).ready(function () {
             url: "SalvarNota",
             data: dados,
             success: function (data) {
-                alert(data);
+                alert(data.msg);
             }
         });
 
@@ -111,42 +111,41 @@ $(document).on('input', '.ServicoItem', function () {
             if (tr[0].rowIndex = 1) {
                 var servtd = jQuery(tr[0].children[0]);
                 var desctd = jQuery(tr[0].children[1]);
-                var qtdtd = jQuery(tr[0].children[2]);
-                var valtd = jQuery(tr[0].children[3]);
-                var destd = jQuery(tr[0].children[4]);
-                var isstd = jQuery(tr[0].children[5]);
-                var pistd = jQuery(tr[0].children[6]);
-                var subtd = jQuery(tr[0].children[7]);
+                var qtdtd  = jQuery(tr[0].children[2]);
+                var valtd  = jQuery(tr[0].children[3]);
+                var destd  = jQuery(tr[0].children[4]);
+                var isstd  = jQuery(tr[0].children[5]);
+                var pistd  = jQuery(tr[0].children[6]);
+                var subtd  = jQuery(tr[0].children[7]);
 
-                var servicoItem = jQuery(servtd[0].firstElementChild);
-                var descricaoItem = jQuery(desctd[0].firstElementChild);
+                var servicoItem    = jQuery(servtd[0].firstElementChild);
+                var descricaoItem  = jQuery(desctd[0].firstElementChild);
                 var quantidadeItem = jQuery(qtdtd[0].firstElementChild);
-                var valorItem = jQuery(valtd[0].firstElementChild);
-                var descontoItem = jQuery(destd[0].firstElementChild);
-                var issItem = jQuery(isstd[0].firstElementChild);
-                var percIssItem = jQuery(pistd[0].firstElementChild);
-                var subTotalItem = jQuery(subtd[0].firstElementChild);
+                var valorItem      = jQuery(valtd[0].firstElementChild);
+                var descontoItem   = jQuery(destd[0].firstElementChild);
+                var issItem        = jQuery(isstd[0].firstElementChild);
+                var percIssItem    = jQuery(pistd[0].firstElementChild);
+                var subTotalItem   = jQuery(subtd[0].firstElementChild);
             }
 
             else {
                 var servtd = jQuery(tr[0].childNodes[0]);
                 var desctd = jQuery(tr[0].childNodes[1]);
-                var qtdtd = jQuery(tr[0].childNodes[2]);
-                var valtd = jQuery(tr[0].childNodes[3]);
-                var destd = jQuery(tr[0].childNodes[4]);
-                var isstd = jQuery(tr[0].childNodes[5]);
-                var pistd = jQuery(tr[0].childNodes[6]);
-                var subtd = jQuery(tr[0].childNodes[7]);
+                var qtdtd  = jQuery(tr[0].childNodes[2]);
+                var valtd  = jQuery(tr[0].childNodes[3]);
+                var destd  = jQuery(tr[0].childNodes[4]);
+                var isstd  = jQuery(tr[0].childNodes[5]);
+                var pistd  = jQuery(tr[0].childNodes[6]);
+                var subtd  = jQuery(tr[0].childNodes[7]);
 
-                var servicoItem = jQuery(servtd[0].childNodes[0]);
-                var descricaoItem = jQuery(desctd[0].childNodes[0]);
+                var servicoItem    = jQuery(servtd[0].childNodes[0]);
+                var descricaoItem  = jQuery(desctd[0].childNodes[0]);
                 var quantidadeItem = jQuery(qtdtd[0].childNodes[0]);
-                var valorItem = jQuery(valtd[0].childNodes[0]);
-                var descontoItem = jQuery(destd[0].childNodes[0]);
-                var issItem = jQuery(isstd[0].childNodes[0]);
-                var percIssItem = jQuery(pistd[0].childNodes[0]);
-                var subTotalItem = jQuery(subtd[0].childNodes[0]);
-
+                var valorItem      = jQuery(valtd[0].childNodes[0]);
+                var descontoItem   = jQuery(destd[0].childNodes[0]);
+                var issItem        = jQuery(isstd[0].childNodes[0]);
+                var percIssItem    = jQuery(pistd[0].childNodes[0]);
+                var subTotalItem   = jQuery(subtd[0].childNodes[0]);
             }
 
             $.ajax({
@@ -154,16 +153,16 @@ $(document).on('input', '.ServicoItem', function () {
                 data: {idServico: servicoItem[0].value},
                 type: 'post',
                 success: function (data) {
-                    servicoItem[0].value = data[0].id;
-                    descricaoItem[0].value = data[0].descricao;
+                    servicoItem[0].value    = data[0].id;
+                    descricaoItem[0].value  = data[0].descricao;
                     quantidadeItem[0].value = '1';
-                    valorItem[0].value = data[0].valor.toFixed(2);
-                    descontoItem[0].value = '0.00';
-                    percIssItem[0].value = data[0].percIss.toFixed(2);
+                    valorItem[0].value      = data[0].valor.toFixed(2);
+                    descontoItem[0].value   = '0.00';
+                    percIssItem[0].value    = data[0].percIss.toFixed(2);
 
                     $porcentagemISS = parseFloat(data[0].percIss);
-                    $valorItem = parseFloat(valorItem[0].value);
-                    $desc = parseFloat(descontoItem[0].value);
+                    $valorItem      = parseFloat(valorItem[0].value);
+                    $desc           = parseFloat(descontoItem[0].value);
 
                     $descontoCondicionado = 'N';
 
@@ -178,6 +177,24 @@ $(document).on('input', '.ServicoItem', function () {
                     }
 
                     subTotalItem[0].value = parseFloat(subTotalItem[0].value).toFixed(2);
+
+                    $percIrrf   = parseFloat(data[0].percIrrf);
+                    $percCsl    = parseFloat(data[0].percCsl);
+                    $percPis    = parseFloat(data[0].percPis);
+                    $percCofins = parseFloat(data[0].percCofins);
+                    
+                    // var valorins    = document.getElementsByName('inss');
+                    var valorcof    = document.getElementsByName('cofins');
+                    // var valoriss    = document.getElementsByName('iss');
+                    var valorcsl    = document.getElementsByName('csl');
+                    var valorpis    = document.getElementsByName('pis');
+                    var valorirr    = document.getElementsByName('irrf');
+
+                    valorcof[0].value += (parseFloat(subTotalItem[0].value) / 100) *  $percCofins;
+                    valorcsl[0].value += (parseFloat(subTotalItem[0].value) / 100) *  $percCsl;
+                    valorpis[0].value += (parseFloat(subTotalItem[0].value) / 100) *  $percPis;
+                    valorirr[0].value += (parseFloat(subTotalItem[0].value) / 100) *  $percIrrf;
+
                 }
             });
         }
@@ -193,19 +210,36 @@ $(document).on('blur', '.Totals', function () {
 
 //Totaliza
 function totaliza(){
-    var inputs = document.getElementsByClassName('SubTotals');
-    var result = document.getElementsByName('valorTotLiq');
+    var inputs      = document.getElementsByClassName('SubTotals');
+    var result      = document.getElementsByName('valorTotLiq');
     var sum = 0;
+
+    var basecalc    = document.getElementsByName('base_calculo');
+
+    var valorded    = document.getElementsByName('valor_deducao');
+    var valorins    = document.getElementsByName('inss');
+    var valorcof    = document.getElementsByName('cofins');
+    var valoriss    = document.getElementsByName('iss');
+    var valorcsl    = document.getElementsByName('csl');
+    var valorpis    = document.getElementsByName('pis');
+    var valorirr    = document.getElementsByName('irrf');
+
 
     for(var i=0; i<inputs.length; i++) {
         var ip = inputs[i];
 
         if (ip.name && ip.name.indexOf("total") < 0) {
-            sum += parseInt(ip.value) || 0;
+            sum += parseFloat(ip.value) || 0;
         }
 
     }
+
+    basecalc[0].value = sum.toFixed(2);
+
+    sum -= valorins[0].value - valorcof[0].value + valoriss[0].value - valorcsl[0].value - valorpis[0].value - valorirr[0].value - valorded[0].value;
+
     result[0].value = sum.toFixed(2);
+
 }
 
 //Subtotaliza

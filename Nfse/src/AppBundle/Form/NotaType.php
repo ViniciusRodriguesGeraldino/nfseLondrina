@@ -19,8 +19,6 @@ class NotaType extends AbstractType
             ->add('empresa')
             ->add('numeroNota')
             ->add('cliente')
-            ->add('taxaExtra')
-            ->add('vencimento', DateType::class)
             ->add('data', DateType::class)
             ->add('mes')
             ->add('ano')

@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class ClienteType extends AbstractType
 {
@@ -30,11 +31,11 @@ class ClienteType extends AbstractType
             ->add('rg')
             ->add('eMail')
             ->add('celular')
-            ->add('dataNasc', 'date')
+            ->add('dataNasc', DateType::class)
             ->add('estadoCivil')
             ->add('nomeConjuge')
             ->add('profissao')
-            ->add('data', 'date')
+            ->add('data', DateType::class)
             ->add('sexo')
             ->add('raca')
             ->add('naturalidade')

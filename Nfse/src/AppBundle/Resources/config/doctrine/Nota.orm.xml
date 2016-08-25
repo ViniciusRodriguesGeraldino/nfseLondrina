@@ -104,5 +104,10 @@
         <option name="fixed"/>
       </options>
     </field>
+    <field name="status" type="string" column="STATUS" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
   </entity>
 </doctrine-mapping>
