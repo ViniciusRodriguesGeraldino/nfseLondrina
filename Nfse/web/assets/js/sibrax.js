@@ -2,13 +2,24 @@
 jQuery(document).ready(function () {
     jQuery('#ajax_form').submit(function () {
         var dados = jQuery(this).serializeArray();
-        console.log(dados);
+        //console.log(dados);
         jQuery.ajax({
             type: "POST",
             url: "SalvarNota",
             data: dados,
             success: function (data) {
-                alert(data.msg);
+                console.log();
+
+                if (data.success == true){
+                    var numeroNota = document.getElementById("numeroNota");
+                    numeroNota.value = data.retorno.RetornoNota.Nota;
+                    alert('Nota N° ' + data.retorno.RetornoNota.Nota + ' emitida com sucesso! Protocolo de autenticidade: ' + data.retorno.RetornoNota.autenticidade);
+                }
+                else if (data.success == false) {
+                    alert('Nota não enviada. Erros: ' + data.mensagens);
+                }
+
+
             }
         });
 
@@ -289,4 +300,50 @@ function subtotaliza(obj) {
     }
 
     subTotalItem[0].value = parseFloat(subTotalItem[0].value).toFixed(2)
+}
+
+//tenta retransmitir nota
+function reenviarNf(obj) {
+    console.log(obj);
+    var dados = obj;
+    jQuery.ajax({
+        type: "POST",
+        url: "reenviarNota",
+        data: {id: dados},
+        success: function (data) {
+            console.log();
+
+            if (data.success == true){
+                alert('Nota N° ' + data.retorno.RetornoNota.Nota + ' emitida com sucesso! Protocolo de autenticidade: ' + data.retorno.RetornoNota.autenticidade);
+                location.reload();
+            }
+            else if (data.success == false) {
+                alert('Nota não enviada. Erros: ' + data.mensagens);
+            }
+
+
+        }
+    });
+}
+
+//Imprime NFSE
+function ImprimirNf(obj) {
+    console.log(obj);
+    var dados = obj;
+    jQuery.ajax({
+        type: "POST",
+        url: "ImprimirNf",
+        data: {id: dados},
+        success: function (data) {
+
+            if (data.success == true){
+                var win = window.open(data.url, '_blank');
+                win.focus();
+            }
+            else if (data.success == false) {
+                alert('Nota não encontrada. Contate o administrador.');
+            }
+
+        }
+    });
 }

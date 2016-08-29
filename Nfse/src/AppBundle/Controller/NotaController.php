@@ -40,7 +40,8 @@ class NotaController extends Controller
             ->from('AppBundle:Nota', 'n')
             ->leftJoin('AppBundle:Cliente', 'c', \Doctrine\ORM\Query\Expr\Join::WITH, 'n.cliente = c.id')
             ->where('n.empresa = :emp')
-            ->setParameter('emp', $idEmp);
+            ->setParameter('emp', $idEmp)
+            ->orderBy('n.numeroNota', 'DESC');
 
         $notas = $qb->getQuery()->getResult();
 
@@ -59,7 +60,7 @@ class NotaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $numeroNota = $this->getNewNF();
+        $id         = $this->getNewId();
         $data       = date("d/m/Y");
         $clientes   = $em->createQueryBuilder()
             ->select('c.nome, c.cpfcnpj')
@@ -68,7 +69,7 @@ class NotaController extends Controller
             ->getQuery();
 
         $formValues = [
-            'numeroNota' => $numeroNota,
+            'idNota'     => $id,
             'data'       => $data,
             'clientes'   => $clientes
 
@@ -79,15 +80,11 @@ class NotaController extends Controller
         ));
     }
 
-    public function getClientes($txt){
-    //select * from cliente where nome like '%%' and empresa=1
-    }
-
-    public function getNewNF(){
+    public function getNewId(){
         $em = $this->getDoctrine()->getManager();
 
         $highest_id = $em->createQueryBuilder()
-            ->select('MAX(n.numeroNota)')
+            ->select('MAX(n.id)')
             ->from('AppBundle:Nota', 'n')
             ->where('n.empresa = :empresa')->setParameter('empresa', $this->getEmpresa())
             ->getQuery()
@@ -185,7 +182,6 @@ class NotaController extends Controller
     }
 
     /**
-     *
      * @Route("/SalvarNota", name="SalvarNota")
      * @Method({"POST"})
      */
@@ -195,13 +191,12 @@ class NotaController extends Controller
 
         $numeroNota = $request->request->get('numeroNota', null);
 
-        if (!$this->validaNumeroNota($numeroNota)){
-            $response['success'] = false;
-            $response['msg'] = 'O Número '.$numeroNota.' para esta nota já esta em uso.';
-            return new JsonResponse( $response );
-        }
+//        if (!$this->validaNumeroNota($numeroNota)){
+//            $response['success'] = false;
+//            $response['msg'] = 'O Número '.$numeroNota.' para esta nota já esta em uso.';
+//            return new JsonResponse( $response );
+//        }
 
-        $nota->setNumeroNota($numeroNota);
         $nota->setEmpresa($this->getEmpresa());
 
         $idAux = $request->request->get('NomeCliente', null);
@@ -253,20 +248,42 @@ class NotaController extends Controller
 //        $nota->setAutenticidadeCancelamento();
 //        $nota->setLinkimpressaoCancelamento();
 
-        $nota->setStatus('Não Enviada');
-
         $em = $this->getDoctrine()->getManager();
         $em->persist($nota);
         $em->flush();
 
-        $retorno = $this->enviarNotaLondrina($nota);
+        $retorno = $this->enviarNotaLondrina($nota->getId());
+        $resultado     = $retorno['RetornoNota']->Resultado;
 
-        if($retorno[0]){
+        if($resultado == 1){
+            $nota->setNumeroNota($retorno['RetornoNota']->Nota);
+            $nota->setAutenticidade($retorno['RetornoNota']->autenticidade);
+            $nota->setLinkimpressao($retorno['RetornoNota']->LinkImpressao);
+            $nota->setStatus('Enviada');
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($nota);
+            $em->flush();
+
+            $array = json_decode(json_encode($retorno), True);
+
             $response['success'] = true;
+            $response['retorno'] = $array;
             return new JsonResponse( $response );
         }else
         {
-            $response['success'] = false;
+            $nota->setStatus('Não Enviada');
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($nota);
+            $em->flush();
+
+            $itemsMsg = $retorno['Mensagens']->item;
+            $msg = '';
+            foreach ($itemsMsg as $items){
+                $msg = $msg.' | '.$items->DescricaoErro;
+            }
+            $response['success']   = false;
+            $response['mensagens'] = $msg;
             return new JsonResponse( $response );
         }
 
@@ -293,15 +310,71 @@ class NotaController extends Controller
         }
     }
 
-    public function enviarNotaLondrina(Nota $nota){
+    /**
+     *
+     * @Route("/reenviarNota", name="reenviarNota")
+     * @Method({"POST"})
+     */
+    public function reenviarNota(Request $request){
+
+        $id = $request->request->get('id', null);
+
+        $retorno = $this->enviarNotaLondrina($id);
+        $resultado     = $retorno['RetornoNota']->Resultado;
+
+        $nota = new Nota();
+        $em = $this->getDoctrine()->getManager();
+        $nota = $em->getRepository('AppBundle:Nota')->find($id);
+
+        if($resultado == 1){
+            $nota->setNumeroNota($retorno['RetornoNota']->Nota);
+            $nota->setAutenticidade($retorno['RetornoNota']->autenticidade);
+            $nota->setLinkimpressao($retorno['RetornoNota']->LinkImpressao);
+            $nota->setStatus('Enviada');
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($nota);
+            $em->flush();
+
+            $array = json_decode(json_encode($retorno), True);
+
+            $response['success'] = true;
+            $response['retorno'] = $array;
+
+            return new JsonResponse( $response );
+
+        }else
+        {
+            $nota->setStatus('Não Enviada');
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($nota);
+            $em->flush();
+
+            $itemsMsg = $retorno['Mensagens']->item;
+            $msg = '';
+            foreach ($itemsMsg as $items){
+                $msg = $msg.' | '.$items->DescricaoErro;
+            }
+            $response['success']   = false;
+            $response['mensagens'] = $msg;
+            return new JsonResponse( $response );
+        }
+    }
+
+    public function enviarNotaLondrina($id){
+
+        $nota = new Nota();
+        $em = $this->getDoctrine()->getManager();
+        $nota = $em->getRepository('AppBundle:Nota')->find($id);
 
 //        require_once '../../vendor/autoload.php';
-
         require_once 'C:\xampp\htdocs\NFSE\nfseLondrina\Nfse\vendor\autoload.php';
 
         $cliente = $this->getCliente($nota->getCliente());
         $empresa = $this->getEmpresaValues();
         $servico = $this->getServicoValues(1); //Arrumar aqui
+
+        //return var_dump($empresa);
 
         if($empresa[0]['producao'] == 'N') {
             $wsdl = 'http://testeiss.londrina.pr.gov.br/ws/v1_03/sigiss_ws.php?wsdl';
@@ -309,7 +382,8 @@ class NotaController extends Controller
             $wsdl = 'https://iss.londrina.pr.gov.br/ws/v1_03/sigiss_ws.php?wsdl';
         }
 
-        $soapClient = new \BeSimple\SoapClient\SoapClient($wsdl);
+        $soapClient = new \BeSimple\SoapClient\SoapClient($wsdl, array('trace' => 1));
+//        $soapClient = new \Soapclient($wsdl, array('trace' => 1));
 
         $gera = new \stdClass();
 
@@ -361,9 +435,11 @@ class NotaController extends Controller
         $gera->nfse_substituida                = ''; //const nfse_substituida: Integer;
         $gera->rps_substituido                 = ''; //const rps_substituido: Integer;
 
-        return var_dump($soapClient->GerarNota($gera));
+        $result = $soapClient->GerarNota($gera);
+        //Ver o xml enviado.
+        //return var_dump(htmlentities($SOAP->__getLastRequest()));
 
-//        return var_dump($soapClient->__getFunctions());
+        return $result;
     }
 
     public function getEmpresaValues(){
@@ -508,5 +584,31 @@ class NotaController extends Controller
 
         return new JsonResponse($result);
 
-    }    
+    }
+
+    /**
+     *
+     * @Route("/ImprimirNf", name="ImprimirNf")
+     * @Method({"POST"})
+     */
+    public function ImprimirNf(Request $request){
+
+        $id = $request->request->get('id', null);
+
+        $nota = new Nota();
+        $em = $this->getDoctrine()->getManager();
+        $nota = $em->getRepository('AppBundle:Nota')->find($id);
+
+        $url = $nota->getLinkimpressao();
+
+        if($url != '') {
+            $response['success'] = true;
+            $response['url'] = $url;
+        }else{
+            $response['success'] = false;
+            $response['url'] = '';
+        }
+
+        return new JsonResponse($response);
+    }
 }

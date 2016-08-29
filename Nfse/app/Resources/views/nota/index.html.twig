@@ -8,27 +8,28 @@
     <h1 class="pagination-centered">Notas</h1>
 
     <div class="flat-theme">
-        <div class="row">
-            <div class="col-xs-5 col-xs-offset-4">
+        <div class="row row-centered">
+            <div class="col-xs-1 col-xs-offset-1">
 
                 {#<input type="button" value="Cadastrar Nota" href="{{ path('nota_new') }}">#}
                 <a href="{{ path('nota_new') }}"> Nova nota</a>
 
             </div>
         </div>
-        <div class="row">
+        <div class="row row-centered">
 
-        <div class="col-xs-5 col-xs-offset-4">
-            <table class="table-flat deletable" style="text-align: center">
+        <div class="col-xs-10 col-xs-offset-1">
+            <table class="table pagination-centered" style="text-align: center">
                 <thead>
                 <tr class="table tabelaNota">
                     <th>Id</th>
-                    <th>Número</th>
+                    <th>Número NFSe</th>
                     <th>Cliente</th>
                     <th>Data</th>
                     <th>Status</th>
                     <th>Total</th>
-                    <th></th>
+                    <th></th>{#Visualizar#}
+                    <th></th>{#Imprimir#}
                 </tr>
                 </thead>
                 <tbody>
@@ -39,18 +40,27 @@
                         <td>{{ notum.numeroNota }}</td>
                         <td>{{ notum.nome }}</td>
                         <td>{% if notum.data %}{{ notum.data|date('Y-m-d') }}{% endif %}</td>
-                        <td>{{ notum.status }}</td>
+
+                        {% if notum.status == 'Enviada' %}
+                            <td class="tdNotaEnviada" style="color: #0ccf4d">{{ notum.status }}</td>
+                        {% elseif notum.status == 'Não Enviada' %}
+                            <td class="tdNotaNEnviada" style="color: #942a25">{{ notum.status }}</td>
+                        {% else %}
+                            <td class="tdNotaSemStatus" style="color: #cfcd30">Sem Status</td>
+                        {% endif %}
+
                         <td>{{ notum.total|number_format(2, ',', '') }}</td>
                         <td>
-                            <ul>
-                                <li>
-                                    <a href="{{ path('nota_show', { 'id': notum.id }) }}">Ver Nota <span class="" aria-hidden="true"></span></a>
-                                </li>
-                                <li style="display: none">
-                                    <a href="{{ path('nota_edit', { 'id': notum.id }) }}">Editar <span class="glyphicon glyphicon-pencil"></span></a>
-                                </li>
-                            </ul>
+                            {% if notum.status == 'Enviada' %}
+                                <a href="{{ path('nota_show', { 'id': notum.id }) }}"><span>Visualizar</span></a>
+                            {% else %}
+                                <a id="reenviarNota" onclick="reenviarNf({{ notum.id }})" href="#"><span>Reenviar Nota</span></a>
+                            {% endif %}
                         </td>
+                        <td>
+                            <a id="reenviarNota" onclick="ImprimirNf({{ notum.id }})" href="#"><span>Imprimir</span></a>
+                        </td>
+
                     </tr>
                 {% endfor %}
 
@@ -62,4 +72,11 @@
 
 
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('assets/js/sibrax.js') }}"></script>
+
 {% endblock %}
