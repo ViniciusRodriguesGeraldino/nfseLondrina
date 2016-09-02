@@ -13,6 +13,31 @@ use Doctrine\ORM\Mapping as ORM;
 class NotaItens
 {
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="ID", type="integer")
+     * @ORM\id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="ID_NOTA", type="integer")
+     *
+     */
+    private $idNota;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="COD_SERVICO", type="integer")
+     *
+     */
+    private $codServico;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="DESCRICAO", type="string", length=40, nullable=true)
@@ -22,28 +47,37 @@ class NotaItens
     /**
      * @var string
      *
+     * @ORM\Column(name="QUANTIDADE", type="decimal", precision=15, scale=2, nullable=true)
+     */
+    private $quantidade;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="VALOR", type="decimal", precision=15, scale=2, nullable=true)
      */
     private $valor;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="ITEM", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(name="DESCONTO", type="decimal", precision=15, scale=2, nullable=true)
      */
-    private $item;
+    private $desconto;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="NUMERONF", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(name="VALORISS", type="decimal", precision=15, scale=2, nullable=true)
      */
-    private $numeronf;
+    private $valorIss;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="PERCISS", type="decimal", precision=15, scale=2, nullable=true)
+     */
+    private $percIss;
 
 
     /**
@@ -95,50 +129,146 @@ class NotaItens
     }
 
     /**
-     * Set item
+     * Set idNota
      *
-     * @param integer $item
+     * @param integer $idNota
      *
      * @return NotaItens
      */
-    public function setItem($item)
+    public function setIdNota($idNota)
     {
-        $this->item = $item;
+        $this->idNota = $idNota;
 
         return $this;
     }
 
     /**
-     * Get item
+     * Get idNota
      *
      * @return integer
      */
-    public function getItem()
+    public function getIdNota()
     {
-        return $this->item;
+        return $this->idNota;
     }
 
     /**
-     * Set numeronf
+     * Set codServico
      *
-     * @param integer $numeronf
+     * @param integer $codServico
      *
      * @return NotaItens
      */
-    public function setNumeronf($numeronf)
+    public function setCodServico($codServico)
     {
-        $this->numeronf = $numeronf;
+        $this->codServico = $codServico;
 
         return $this;
     }
 
     /**
-     * Get numeronf
+     * Get codServico
      *
      * @return integer
      */
-    public function getNumeronf()
+    public function getCodServico()
     {
-        return $this->numeronf;
+        return $this->codServico;
+    }
+
+    /**
+     * Set quantidade
+     *
+     * @param string $quantidade
+     *
+     * @return NotaItens
+     */
+    public function setQuantidade($quantidade)
+    {
+        $this->quantidade = $quantidade;
+
+        return $this;
+    }
+
+    /**
+     * Get quantidade
+     *
+     * @return string
+     */
+    public function getQuantidade()
+    {
+        return $this->quantidade;
+    }
+
+    /**
+     * Set desconto
+     *
+     * @param string $desconto
+     *
+     * @return NotaItens
+     */
+    public function setDesconto($desconto)
+    {
+        $this->desconto = $desconto;
+
+        return $this;
+    }
+
+    /**
+     * Get desconto
+     *
+     * @return string
+     */
+    public function getDesconto()
+    {
+        return $this->desconto;
+    }
+
+    /**
+     * Set valorIss
+     *
+     * @param string $valorIss
+     *
+     * @return NotaItens
+     */
+    public function setValorIss($valorIss)
+    {
+        $this->valorIss = $valorIss;
+
+        return $this;
+    }
+
+    /**
+     * Get valorIss
+     *
+     * @return string
+     */
+    public function getValorIss()
+    {
+        return $this->valorIss;
+    }
+
+    /**
+     * Set percIss
+     *
+     * @param string $percIss
+     *
+     * @return NotaItens
+     */
+    public function setPercIss($percIss)
+    {
+        $this->percIss = $percIss;
+
+        return $this;
+    }
+
+    /**
+     * Get percIss
+     *
+     * @return string
+     */
+    public function getPercIss()
+    {
+        return $this->percIss;
     }
 }

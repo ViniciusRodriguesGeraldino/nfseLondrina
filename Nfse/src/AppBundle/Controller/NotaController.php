@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\NotaItens;
 use BeSimple\SoapCommon\Type\KeyValue\String;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -112,8 +113,13 @@ class NotaController extends Controller
     {
         $deleteForm = $this->createDeleteForm($notum);
 
+        $cliente = $this->getCliente($notum->getCliente());
+
+        $varCliente['nome'] = $cliente[0]['nome'].' ('.$this->formataCpfCnpj($cliente[0]['cpfcnpj']).')';
+
         return $this->render('nota/show.html.twig', array(
             'notum' => $notum,
+            'cliente' => $varCliente,
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -189,26 +195,32 @@ class NotaController extends Controller
 
         $nota = new Nota();
 
-        $numeroNota = $request->request->get('numeroNota', null);
+        $dados = $request->request->get('dados', null);
+        $prods = $request->request->get('produtos', null);
 
-//        if (!$this->validaNumeroNota($numeroNota)){
-//            $response['success'] = false;
-//            $response['msg'] = 'O Número '.$numeroNota.' para esta nota já esta em uso.';
-//            return new JsonResponse( $response );
-//        }
+        $totalISS = 0;
+
+        foreach ($prods as $prod){
+            $totalISS += $prod[5];
+        }
 
         $nota->setEmpresa($this->getEmpresa());
 
-        $idAux = $request->request->get('NomeCliente', null);
-        $idAux2 = explode('-', $idAux);
+        $idAux = $dados[1]['value'];
+
+        $pos = strpos($idAux, ')');
+        $pos -= 1;
+        $idAux2 = substr($idAux, 1, $pos );
+
         $idCliente = trim($idAux2[0]);
         $nota->setCliente($idCliente);
 
-        $nota->setTotal($request->request->get('valorTotLiq', null));
-        $nota->setDesconto($request->request->get('valorDesconto', null));
+        $nota->setTotal($dados[22]['value']);
+
+        $nota->setDesconto(null);
         $nota->setTotalBruto($nota->getTotal()+$nota->getDesconto());
 
-        $data = $request->request->get('dataNota', null);
+        $data = $dados[3]['value'];
 //        $nota->setData(\DateTime::createFromFormat('d-m-Y', $data));
 
         $nota->setAno($this->getYear($data));
@@ -218,42 +230,60 @@ class NotaController extends Controller
         $nota->setAutenticidade('');
         $nota->setNumeroNotaSubstitutiva('0');
         $nota->setIdFaturamento('0');
-        $nota->setObservacao($request->request->get('txtAreaObs', null));
-        $nota->setFormapagamento($request->request->get('formaPagamento', null));
+        $nota->setObservacao($dados[24]['value']);
+        $nota->setFormapagamento($dados[23]['value']);
 
 //        $nota->setPercPis();
-        $nota->setPis($request->request->get('pis', null));
+        $nota->setPis($dados[16]['value']);
 //        $nota->setPisOrig();
 //
-        $nota->setCsl($request->request->get('csl', null));
+        $nota->setCsl($dados[15]['value']);
 //        $nota->setCslOrig();
 //
-        $nota->setCofins($request->request->get('cofins', null));
+        $nota->setCofins($dados[18]['value']);
 //        $nota->setCofinsOrig();
 //
-        $nota->setInss($request->request->get('inss', null));
+        $nota->setInss($dados[19]['value']);
 //        $nota->setInssOrig();
 //
-//        $nota->setIss($request->request->get('iss', null));
+        $nota->setIss($totalISS);
 //        $nota->setIssOrig();
-        $nota->setIssRetido($request->request->get('iss', null));
+        $nota->setIssRetido($dados[14]['value']);
 //        $nota->setIssRetidoOrig();
-        $nota->setBaseIss($request->request->get('base_calculo', null));
+        $nota->setBaseIss($dados[20]['value']);
 //
-        $nota->setIrrf($request->request->get('irrf', null));
+        $nota->setIrrf($dados[17]['value']);
 //        $nota->setIrrfOrig();
-//
-//        $nota->setCancelada();
-//        $nota->setMotivo();
-//        $nota->setAutenticidadeCancelamento();
-//        $nota->setLinkimpressaoCancelamento();
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($nota);
         $em->flush();
 
+        foreach ($prods as $prod){
+
+            $itemNota = new NotaItens();
+
+            $itemNota->setIdNota($nota->getId());
+            $itemNota->setCodServico($prod[0]);
+            $itemNota->setDescricao($prod[1]);
+            $itemNota->setQuantidade($prod[2]);
+            $itemNota->setValor($prod[3]);
+            $itemNota->setDesconto($prod[4]);
+            $itemNota->setValorIss($prod[5]);
+            $itemNota->setPercIss($prod[6]);
+
+            $ema = $this->getDoctrine()->getManager();
+            $ema->persist($itemNota);
+            $ema->flush();
+            $ema->clear();
+        }
+
+        die('AEW');
+
         $retorno = $this->enviarNotaLondrina($nota->getId());
         $resultado     = $retorno['RetornoNota']->Resultado;
+
+//        die(var_dump($retorno));
 
         if($resultado == 1){
             $nota->setNumeroNota($retorno['RetornoNota']->Nota);
@@ -278,35 +308,23 @@ class NotaController extends Controller
             $em->flush();
 
             $itemsMsg = $retorno['Mensagens']->item;
+
             $msg = '';
-            foreach ($itemsMsg as $items){
-                $msg = $msg.' | '.$items->DescricaoErro;
+
+            $arrayMsgs = (array)$itemsMsg; //Valida se o array tem o indice 0 ou o indice 'DescricaoErro' (gambis)
+
+            if(array_key_exists('0', $arrayMsgs)){
+                foreach ($itemsMsg as $items) {
+                    $msg = $msg.' | '.$items->DescricaoErro;
+                }
             }
+            else{
+                $msg = $itemsMsg->DescricaoErro;
+            }
+
             $response['success']   = false;
             $response['mensagens'] = $msg;
             return new JsonResponse( $response );
-        }
-
-    }
-
-    public function validaNumeroNota($numeroNota){
-        $id = $this->getEmpresa();
-
-        $repo = $this->getDoctrine()
-            ->getRepository('AppBundle:Nota');
-        $query = $repo->createQueryBuilder('n')
-            ->select('n.numeroNota')
-            ->where('n.empresa = :emp')
-            ->andWhere('n.numeroNota = :nota')
-            ->setParameter('emp', $id)
-            ->setParameter('nota', $numeroNota)
-            ->getQuery();
-        $result = $query->getResult();
-
-        if (count($result) == 0){
-            return true;
-        }else{
-            return false;
         }
     }
 
@@ -373,8 +391,6 @@ class NotaController extends Controller
         $cliente = $this->getCliente($nota->getCliente());
         $empresa = $this->getEmpresaValues();
         $servico = $this->getServicoValues(1); //Arrumar aqui
-
-        //return var_dump($empresa);
 
         if($empresa[0]['producao'] == 'N') {
             $wsdl = 'http://testeiss.londrina.pr.gov.br/ws/v1_03/sigiss_ws.php?wsdl';
@@ -531,7 +547,7 @@ class NotaController extends Controller
         $result = $query->getArrayResult();
 
         foreach ($result as $value) {
-            $ret2[] = $value['id'].' - '.$value['nome'].' - '.$value['cpfcnpj'];
+            $ret2[] = '('.$value['id'].') '.$value['nome'].' : '.$this->formataCpfCnpj($value['cpfcnpj']);
         }
 
         return new JsonResponse( $ret2 );
@@ -595,11 +611,16 @@ class NotaController extends Controller
 
         $id = $request->request->get('id', null);
 
-        $nota = new Nota();
+        //$nota = new Nota();
+
         $em = $this->getDoctrine()->getManager();
         $nota = $em->getRepository('AppBundle:Nota')->find($id);
 
-        $url = $nota->getLinkimpressao();
+        if($nota->getCancelada() == 'S'){
+            $url = $nota->getLinkimpressaoCancelamento();
+        }else{
+            $url = $nota->getLinkimpressao();
+        }
 
         if($url != '') {
             $response['success'] = true;
@@ -610,5 +631,98 @@ class NotaController extends Controller
         }
 
         return new JsonResponse($response);
+    }
+
+    public function formataCpfCnpj($codigo){
+        $mask = '';
+
+        if($codigo.$length = 11){
+            $mask = '###.###.###-##';
+            return $this->Mask($mask, $codigo);
+        }
+        else if($codigo.$length = 14){
+            $mask = '##.###.###/####-##';
+            return $this->Mask($mask, $codigo);
+        }
+        else{
+            return $codigo;
+        }
+
+    }
+
+    function Mask($mask,$str){
+
+        $str = str_replace(" ","",$str);
+
+        for($i=0;$i<strlen($str);$i++){
+            $mask[strpos($mask,"#")] = $str[$i];
+        }
+
+        return $mask;
+
+    }
+
+
+    /**
+     *
+     * @Route("/CancelarNf", name="CancelarNf")
+     * @Method({"POST"})
+     */
+    public function CancelarNf(Request $request){
+
+        $id = $request->request->get('id', null);
+        $cod_cancelamento = $request->request->get('cod_cancelamento', null);
+
+        $em = $this->getDoctrine()->getManager();
+        $nota = $em->getRepository('AppBundle:Nota')->find($id);
+        $cliente = $this->getCliente($nota->getCliente());
+
+//        require_once '../../vendor/autoload.php';
+        require_once 'C:\xampp\htdocs\NFSE\nfseLondrina\Nfse\vendor\autoload.php';
+
+        $empresa = $this->getEmpresaValues();
+
+        if($empresa[0]['producao'] == 'N') {
+            $wsdl = 'http://testeiss.londrina.pr.gov.br/ws/v1_03/sigiss_ws.php?wsdl';
+        }else{
+            $wsdl = 'https://iss.londrina.pr.gov.br/ws/v1_03/sigiss_ws.php?wsdl';
+        }
+
+        $soapClient = new \BeSimple\SoapClient\SoapClient($wsdl, array('trace' => 1, "exception" => 0));
+
+        $cancela = new \stdClass();
+
+        $cancela->WSRetornoNota                   = ''; //out RetornoNota: tcRetornoNota;
+        $cancela->WSDescErros                     = ''; //out Mensagens: tcListaErrosAlertas;
+        $cancela->ccm                             = $empresa[0]['cmc']; //const ccm: Integer;
+        $cancela->cnpj                            = $empresa[0]['cpfcnpj']; //const cnpj: String;
+        $cancela->cpf                             = $empresa[0]['cpfPrefeitura']; //const cpf: String;
+        $cancela->senha                           = $empresa[0]['senhaPrefeitura']; //const senha: String;
+        $cancela->nota                            = $nota->getNumeroNota();
+        $cancela->cod_cancelamento                = $cod_cancelamento; //2 – Serviço não prestado ou 4 - Duplicidade da nota
+        $cancela->email                           = $cliente[0]['eMail'];
+
+        $result = $soapClient->CancelarNota($cancela);
+
+        $resultado     = $result['RetornoNota']->Resultado;
+
+
+        if ($resultado == 1){
+            $nota->setStatus('Cancelada');
+            $nota->setLinkimpressaoCancelamento($result['RetornoNota']->LinkImpressao);
+            $nota->setCancelada('S');
+            $nota->setMotivo($cod_cancelamento == 2 ? '2 – Serviço não prestado' : '4 – Duplicidade da nota');
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($nota);
+            $em->flush();
+
+            $response['success'] = true;
+
+        }else{
+            $response['success']   = false;
+        }
+
+        return new JsonResponse( $response );
     }
 }

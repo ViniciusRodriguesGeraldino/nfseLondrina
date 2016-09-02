@@ -2,11 +2,29 @@
 jQuery(document).ready(function () {
     jQuery('#ajax_form').submit(function () {
         var dados = jQuery(this).serializeArray();
-        //console.log(dados);
+
+        var table = document.getElementById('tabelaprodutos');
+        var rowLength = table.rows.length;
+        var prods = [];
+
+        for(var i=1; i<rowLength; i+=1){
+            var row = table.rows[i];
+
+            prods[i-1] = [  row.cells[0].children[0].value,
+                            row.cells[1].children[0].value,
+                            row.cells[2].children[0].value,
+                            row.cells[3].children[0].value,
+                            row.cells[4].children[0].value,
+                            row.cells[5].children[0].value,
+                            row.cells[6].children[0].value,
+                            row.cells[7].children[0].value
+                         ]
+        }
+
         jQuery.ajax({
             type: "POST",
             url: "SalvarNota",
-            data: dados,
+            data: {dados: dados, produtos: prods},
             success: function (data) {
                 console.log();
 
@@ -14,6 +32,9 @@ jQuery(document).ready(function () {
                     var numeroNota = document.getElementById("numeroNota");
                     numeroNota.value = data.retorno.RetornoNota.Nota;
                     alert('Nota N° ' + data.retorno.RetornoNota.Nota + ' emitida com sucesso! Protocolo de autenticidade: ' + data.retorno.RetornoNota.autenticidade);
+
+                    // $('#dialog').dialog('open');
+                    // return false;
                 }
                 else if (data.success == false) {
                     alert('Nota não enviada. Erros: ' + data.mensagens);
@@ -61,28 +82,28 @@ function inserirLinhaTabela() {
     var rowNumber = numOfRows - 1;
 
     newCell = newRow.insertCell(0);
-    newCell.innerHTML = '<input type="text" id="idServico' + rowNumber + '" name="idServico' + rowNumber + '" class="col6 ServicoItem">';
+    newCell.innerHTML = '<input type="text" id="idServico' + rowNumber + '" name="idServico' + rowNumber + '" class="ServicoItem">';
 
     newCell = newRow.insertCell(1);
-    newCell.innerHTML = '<input type="text" id="DescricaoItem' + rowNumber + '" name="DescricaoItem' + rowNumber + '" class="col6">';
+    newCell.innerHTML = '<input type="text" id="DescricaoItem' + rowNumber + '" name="DescricaoItem' + rowNumber + '" class="">';
 
     newCell = newRow.insertCell(2);
-    newCell.innerHTML = '<input type="text" id="ItemQtd' + rowNumber + '" name="ItemQtd' + rowNumber + '" class="col6 text-right Totals">';
+    newCell.innerHTML = '<input type="text" id="ItemQtd' + rowNumber + '" name="ItemQtd' + rowNumber + '" class="input-table text-right Totals">';
 
     newCell = newRow.insertCell(3);
-    newCell.innerHTML = '<input type="text" id="ItemPreco' + rowNumber + '" name="ItemPreco' + rowNumber + '" class="col5 text-right Totals">';
+    newCell.innerHTML = '<input type="text" id="ItemPreco' + rowNumber + '" name="ItemPreco' + rowNumber + '" class="input-table text-right Totals">';
 
     newCell = newRow.insertCell(4);
-    newCell.innerHTML = '<input type="text" id="ItemDesconto' + rowNumber + '" name="ItemDescontol' + rowNumber + '" class="col5 text-right Totals">';
+    newCell.innerHTML = '<input type="text" id="ItemDesconto' + rowNumber + '" name="ItemDescontol' + rowNumber + '" class="input-table text-right Totals">';
 
     newCell = newRow.insertCell(5);
-    newCell.innerHTML = '<input type="text" id="ItemISS' + rowNumber + '" name="ItemISS' + rowNumber + '" class="col5 text-right Totals">';
+    newCell.innerHTML = '<input type="text" id="ItemISS' + rowNumber + '" name="ItemISS' + rowNumber + '" class="input-table text-right Totals">';
 
     newCell = newRow.insertCell(6);
-    newCell.innerHTML = '<input type="text" id="ItemPercIss' + rowNumber + '" name="ItemPercIss' + rowNumber + '" class="col5 text-right Totals">';
+    newCell.innerHTML = '<input type="text" id="ItemPercIss' + rowNumber + '" name="ItemPercIss' + rowNumber + '" class="input-table text-right Totals">';
 
     newCell = newRow.insertCell(7);
-    newCell.innerHTML = '<input type="text" id="ItemTotal' + rowNumber + '" name="ItemTotal' + rowNumber + '" class="col5 text-right SubTotals">';
+    newCell.innerHTML = '<input type="text" id="ItemTotal' + rowNumber + '" name="ItemTotal' + rowNumber + '" class="input-table text-right SubTotals">';
 
     newCell = newRow.insertCell(8);
     newCell.innerHTML = '×';
@@ -189,10 +210,10 @@ $(document).on('input', '.ServicoItem', function () {
 
                     subTotalItem[0].value = parseFloat(subTotalItem[0].value).toFixed(2);
 
-                    $percIrrf   = parseFloat(data[0].percIrrf);
-                    $percCsl    = parseFloat(data[0].percCsl);
-                    $percPis    = parseFloat(data[0].percPis);
-                    $percCofins = parseFloat(data[0].percCofins);
+                    $percIrrf   = parseFloat(data[0].percIrrf) || 0;
+                    $percCsl    = parseFloat(data[0].percCsl) || 0;
+                    $percPis    = parseFloat(data[0].percPis) || 0;
+                    $percCofins = parseFloat(data[0].percCofins) || 0;
                     
                     // var valorins    = document.getElementsByName('inss');
                     var valorcof    = document.getElementsByName('cofins');
@@ -201,11 +222,20 @@ $(document).on('input', '.ServicoItem', function () {
                     var valorpis    = document.getElementsByName('pis');
                     var valorirr    = document.getElementsByName('irrf');
 
-                    valorcof[0].value += (parseFloat(subTotalItem[0].value) / 100) *  $percCofins;
-                    valorcsl[0].value += (parseFloat(subTotalItem[0].value) / 100) *  $percCsl;
-                    valorpis[0].value += (parseFloat(subTotalItem[0].value) / 100) *  $percPis;
-                    valorirr[0].value += (parseFloat(subTotalItem[0].value) / 100) *  $percIrrf;
+                    var cofins = parseFloat(valorcof[0].value);
+                    var csl    = parseFloat(valorcsl[0].value);
+                    var pis    = parseFloat(valorpis[0].value);
+                    var irrf   = parseFloat(valorirr[0].value);
 
+                    cofins += (parseFloat(subTotalItem[0].value) / 100) *  $percCofins;
+                    csl    += (parseFloat(subTotalItem[0].value) / 100) *  $percCsl;
+                    pis    += (parseFloat(subTotalItem[0].value) / 100) *  $percPis;
+                    irrf   += (parseFloat(subTotalItem[0].value) / 100) *  $percIrrf;
+
+                    valorcof[0].value = cofins.toFixed(2);
+                    valorcsl[0].value = csl.toFixed(2);
+                    valorpis[0].value = pis.toFixed(2);
+                    valorirr[0].value = irrf.toFixed(2);
                 }
             });
         }
@@ -247,7 +277,17 @@ function totaliza(){
 
     basecalc[0].value = sum.toFixed(2);
 
-    sum -= valorins[0].value - valorcof[0].value + valoriss[0].value - valorcsl[0].value - valorpis[0].value - valorirr[0].value - valorded[0].value;
+    var inss    = parseFloat(valorins[0].value);
+    var cofins  = parseFloat(valorcof[0].value);
+    var iss     = parseFloat(valoriss[0].value);
+    var csl     = parseFloat(valorcsl[0].value);
+    var pis     = parseFloat(valorpis[0].value);
+    var irrf    = parseFloat(valorirr[0].value);
+    var deducao = parseFloat(valorded[0].value);
+
+
+    sum -= inss - cofins - csl - pis - irrf - deducao;
+    sum += iss;
 
     result[0].value = sum.toFixed(2);
 
@@ -342,6 +382,36 @@ function ImprimirNf(obj) {
             }
             else if (data.success == false) {
                 alert('Nota não encontrada. Contate o administrador.');
+            }
+
+        }
+    });
+}
+
+//Cancela NFSE
+function CancelarNf(obj) {
+    console.log(obj);
+    var dados = obj;
+
+    var codcancelamento = prompt("Por favor informe o motivo do cancelamento : \n (2) – Serviço não prestado \n (4) – Duplicidade da nota", "");
+
+    if (codcancelamento !=  2 && codcancelamento != 4) {
+        alert('Código Inválido! Por favor informar (2 ou 4)');
+        return false;
+    }
+
+    jQuery.ajax({
+        type: "POST",
+        url: "CancelarNf",
+        data: {id: dados, cod_cancelamento: codcancelamento},
+        success: function (data) {
+
+            if (data.success == true){
+                alert('Nota Cancelada.');
+                location.reload();
+            }
+            else if (data.success == false) {
+                alert('Nota não cancelada. Contate o administrador.');
             }
 
         }
