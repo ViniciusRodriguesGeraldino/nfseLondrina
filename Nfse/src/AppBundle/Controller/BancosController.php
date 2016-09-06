@@ -26,7 +26,7 @@ class BancosController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $bancos = $em->getRepository('AppBundle:Bancos')->findAll();
+        $bancos = $em->getRepository('AppBundle:Bancos')->findBy(array('empresa' => $this->get('app.emp')->getIdEmpresa()));
 
         return $this->render('bancos/index.html.twig', array(
             'bancos' => $bancos,
@@ -50,7 +50,7 @@ class BancosController extends Controller
             $em->persist($banco);
             $em->flush();
 
-            return $this->redirectToRoute('bancos_show', array('id' => $banco->getId()));
+            return $this->redirectToRoute('bancos_show', array('id' => $banco->getIdBanco()));
         }
 
         return $this->render('bancos/new.html.twig', array(
@@ -92,7 +92,7 @@ class BancosController extends Controller
             $em->persist($banco);
             $em->flush();
 
-            return $this->redirectToRoute('bancos_edit', array('id' => $banco->getId()));
+            return $this->redirectToRoute('bancos_edit', array('id' => $banco->getIdBanco()));
         }
 
         return $this->render('bancos/edit.html.twig', array(
@@ -132,9 +132,13 @@ class BancosController extends Controller
     private function createDeleteForm(Bancos $banco)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('bancos_delete', array('id' => $banco->getId())))
+            ->setAction($this->generateUrl('bancos_delete', array('id' => $banco->getIdBanco())))
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    private function getIdEmpresa(){
+        return 1;
     }
 }

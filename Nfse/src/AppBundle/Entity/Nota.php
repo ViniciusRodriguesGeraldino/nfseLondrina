@@ -41,7 +41,7 @@ class Nota
     private $vencimento;
 
     /**
-     * @var \DateTime
+     * @var date
      *
      * @ORM\Column(name="DATA", type="date", nullable=true)
      */
@@ -364,7 +364,7 @@ class Nota
     /**
      * Set data
      *
-     * @param \DateTime $data
+     * @param date $data
      *
      * @return Nota
      */

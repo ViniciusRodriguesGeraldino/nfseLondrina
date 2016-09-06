@@ -4,49 +4,43 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-xs-10 col-xs-offset-1">
+            <div class="col-xs-5 col-xs-offset-1">
                 <h1 class="pagination-centered">Lista de Clientes</h1>
             </div>
         </div>
-
-        <div class="row padding-top padding-bottom">
-            <div class="col-xs-1 col-xs-offset-1">
-                <a class="abutton" href="{{ path('cliente_new') }}">Novo Cliente</a>
+        <div class="row">
+            <div class="row padding-top padding-bottom">
+                <div class="col-xs-1 col-xs-offset-1">
+                    <a class="abutton" href="{{ path('cliente_new') }}">Novo</a>
+                </div>
             </div>
         </div>
-
         <div class="row row-centered">
             <div class="col-xs-10 col-xs-offset-1">
                 <table class="table pagination-centered">
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        {#<th>Cód. Interno</th>#}
                         <th>Nome</th>
+                        <th>Cpf/Cnpj</th>
                         <th>Cidade</th>
-                        <th>Uf</th>
+                        <th>UF</th>
                         <th>Fone</th>
-                        <th>Cpfcnpj</th>
-                        <th>Actions</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                 {% for cliente in clientes %}
                     <tr>
-                        <td><a href="{{ path('cliente_show', { 'id': cliente.id }) }}">{{ cliente.empresa }}</a></td>
+                        {#<td><a href="{{ path('cliente_show', { 'id': cliente.id }) }}">{{ cliente.empresa }}</a></td>#}
+                        {#<td>{{ cliente.id }}</td>#}
                         <td>{{ cliente.nome }}</td>
+                        <td>{{ cliente.cpfcnpj }}</td>
                         <td>{{ cliente.cidade }}</td>
                         <td>{{ cliente.uf }}</td>
                         <td>{{ cliente.fone }}</td>
-                        <td>{{ cliente.cpfcnpj }}</td>
                         <td>
-                            <ul>
-                                <li>
-                                    <a href="{{ path('cliente_show', { 'id': cliente.id }) }}">show</a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('cliente_edit', { 'id': cliente.id }) }}">edit</a>
-                                </li>
-                            </ul>
+                            <a href="{{ path('cliente_edit', { 'id': cliente.id }) }}">Editar</a>
                         </td>
                     </tr>
                 {% endfor %}

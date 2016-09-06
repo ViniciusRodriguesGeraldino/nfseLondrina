@@ -19,13 +19,13 @@
             <table class="table pagination-centered" style="text-align: center">
                 <thead>
                 <tr class="table tabelaNota">
-                    <th>Id</th>
-                    <th>Número NFSe</th>
+                    {#<th>ID</th>#}
+                    <th class="center">Número NFSe</th>
                     <th class="text-center">Cliente</th>
                     <th>Data</th>
                     <th class="text-center">Status</th>
                     <th class="text-right">Total</th>
-                    <th></th>{#Visualizar#}
+                    {#<th></th>#}{#Visualizar#}
                     <th></th>{#Cancelar#}
                     <th></th>{#Imprimir#}
                 </tr>
@@ -34,8 +34,8 @@
 
                 {% for notum in notas %}
                     <tr>
-                        <td><a href="{{ path('nota_show', { 'id': notum.id }) }}">{{ notum.id }}</a></td>
-                        <td>{{ notum.numeroNota }}</td>
+                        {#<td><a href="{{ path('nota_show', { 'id': notum.id }) }}">{{ notum.id }}</td>#}
+                        <td class="center">{{ notum.numeroNota }}</td>
                         <td>{{ notum.nome }}</td>
                         <td>{% if notum.data %}{{ notum.data|date('Y-m-d') }}{% endif %}</td>
 
@@ -49,16 +49,16 @@
                             <td class="tdNotaSemStatus" style="color: #cfcd30">Sem Status</td>
                         {% endif %}
 
-                        <td class="text-right">{{ notum.total|number_format(2, ',', '') }}</td>
-                        <td>
-                            {% if notum.status == 'Enviada' %}
-                                <a href="{{ path('nota_show', { 'id': notum.id }) }}"><span>Visualizar</span></a>
-                            {% elseif notum.status == 'Não Enviada' %}
-                                <a id="reenviarNota" onclick="reenviarNf({{ notum.id }})" href="#"><span>Reenviar Nota</span></a>
-                            {% else %}
+                        <td class="text-right">R$ {{ notum.total|number_format(2, ',', '') }}</td>
+                        {#<td>#}
+                            {#{% if notum.status == 'Enviada' %}#}
+                                {#<a href="{{ path('nota_show', { 'id': notum.id }) }}"><span>Visualizar</span></a>#}
+                            {#{% elseif notum.status == 'Não Enviada' %}#}
+                                {#<a id="reenviarNota" onclick="reenviarNf({{ notum.id }})" href="#"><span>Reenviar Nota</span></a>#}
+                            {#{% else %}#}
 
-                            {% endif %}
-                        </td>
+                            {#{% endif %}#}
+                        {#</td>#}
 
                         <td>
                             {% if notum.status == 'Enviada' %}
@@ -89,6 +89,6 @@
 
 {% block javascripts %}
 
-    <script src="{{ asset('assets/js/sibrax.js') }}"></script>
+    <script src="{{ asset('assets/js/sibrax_nota.js') }}"></script>
 
 {% endblock %}

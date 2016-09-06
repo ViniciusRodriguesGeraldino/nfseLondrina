@@ -32,7 +32,7 @@ class NotaController extends Controller
      */
     public function indexAction()
     {
-        $idEmp = $this->getEmpresa();
+        $idEmp = $this->get('app.emp')->getIdEmpresa();
 
         $em = $this->getDoctrine()->getManager();
 
@@ -66,7 +66,7 @@ class NotaController extends Controller
         $clientes   = $em->createQueryBuilder()
             ->select('c.nome, c.cpfcnpj')
             ->from('AppBundle:Cliente', 'c')
-            ->where('c.empresa = :empresa')->setParameter('empresa', $this->getEmpresa())
+            ->where('c.empresa = :empresa')->setParameter('empresa', $this->get('app.emp')->getIdEmpresa())
             ->getQuery();
 
         $formValues = [
@@ -87,7 +87,7 @@ class NotaController extends Controller
         $highest_id = $em->createQueryBuilder()
             ->select('MAX(n.id)')
             ->from('AppBundle:Nota', 'n')
-            ->where('n.empresa = :empresa')->setParameter('empresa', $this->getEmpresa())
+            ->where('n.empresa = :empresa')->setParameter('empresa', $this->get('app.emp')->getIdEmpresa())
             ->getQuery()
             ->getSingleScalarResult();
 
@@ -99,9 +99,7 @@ class NotaController extends Controller
         return $highest_id;
     }
 
-    public function getEmpresa(){
-        return 1; //Fazer retornar o numero da empresa
-    }
+
 
     /**
      * Finds and displays a Nota entity.
@@ -204,7 +202,7 @@ class NotaController extends Controller
             $totalISS += $prod[5];
         }
 
-        $nota->setEmpresa($this->getEmpresa());
+        $nota->setEmpresa($this->get('app.emp')->getIdEmpresa());
 
         $idAux = $dados[1]['value'];
 
@@ -222,6 +220,7 @@ class NotaController extends Controller
 
         $data = $dados[3]['value'];
 //        $nota->setData(\DateTime::createFromFormat('d-m-Y', $data));
+        $nota->setData(new \DateTime(date('Y-m-d')));
 
         $nota->setAno($this->getYear($data));
         $nota->setMes($this->getMonth($data));
@@ -277,8 +276,6 @@ class NotaController extends Controller
             $ema->flush();
             $ema->clear();
         }
-
-        die('AEW');
 
         $retorno = $this->enviarNotaLondrina($nota->getId());
         $resultado     = $retorno['RetornoNota']->Resultado;
@@ -370,9 +367,18 @@ class NotaController extends Controller
 
             $itemsMsg = $retorno['Mensagens']->item;
             $msg = '';
-            foreach ($itemsMsg as $items){
-                $msg = $msg.' | '.$items->DescricaoErro;
+
+            $arrayMsgs = (array)$itemsMsg; //Valida se o array tem o indice 0 ou o indice 'DescricaoErro' (gambis)
+
+            if(array_key_exists('0', $arrayMsgs)){
+                foreach ($itemsMsg as $items) {
+                    $msg = $msg.' | '.$items->DescricaoErro;
+                }
             }
+            else{
+                $msg = $itemsMsg->DescricaoErro;
+            }
+
             $response['success']   = false;
             $response['mensagens'] = $msg;
             return new JsonResponse( $response );
@@ -401,6 +407,15 @@ class NotaController extends Controller
         $soapClient = new \BeSimple\SoapClient\SoapClient($wsdl, array('trace' => 1));
 //        $soapClient = new \Soapclient($wsdl, array('trace' => 1));
 
+        $cpfcnpj = $cliente[0]['cpfcnpj'];
+
+        if (strlen($cpfcnpj) == 11)
+            $tipoCliente = 2;
+        elseif (strlen($cpfcnpj) > 11 && $cliente[0]['codCid'] == 4113700)
+            $tipoCliente = 3;
+        else
+            $tipoCliente = 4;
+
         $gera = new \stdClass();
 
         $gera->WSRetornoNota                   = ''; //out RetornoNota: tcRetornoNota;
@@ -427,7 +442,7 @@ class NotaController extends Controller
         $gera->cod_pais_prestacao_servico      = ''; //const cod_pais_prestacao_servico: String;
         $gera->cod_municipio_incidencia        = $cliente[0]['codCid']; //const cod_municipio_incidencia: String;
         $gera->descricaoNF                     = $servico[0]['descricao']; //const descricaoNF: String;
-        $gera->tomador_tipo                    = $cliente[0]['tipoCliente']; //const tomador_tipo: Integer; 1 – PFNI; 2 – Pessoa Física; 3 – Jurídica do Município; 4 – Jurídica de Fora; 5 – Jurídica de Fora do País
+        $gera->tomador_tipo                    = $tipoCliente; //const tomador_tipo: Integer; 1 – PFNI; 2 – Pessoa Física; 3 – Jurídica do Município; 4 – Jurídica de Fora; 5 – Jurídica de Fora do País
         $gera->tomador_cnpj                    = $cliente[0]['cpfcnpj']; //const tomador_cnpj: String;
         $gera->tomador_email                   = $cliente[0]['eMail']; //const tomador_email: String;
         $gera->tomador_ie                      = $cliente[0]['ie']; //const tomador_ie: String;
@@ -459,7 +474,7 @@ class NotaController extends Controller
     }
 
     public function getEmpresaValues(){
-        $id = $this->getEmpresa();
+        $id = $this->get('app.emp')->getIdEmpresa();
 
         $repo = $this->getDoctrine()
             ->getRepository('AppBundle:Empresa');
@@ -481,7 +496,7 @@ class NotaController extends Controller
             ->select('s.descricao, s.percIss, s.codSerPref, s.descricao')
             ->where('s.idEmpresa = :emp')
             ->andWhere('s.id = :id')
-            ->setParameter('emp', $this->getEmpresa())
+            ->setParameter('emp', $this->get('app.emp')->getIdEmpresa())
             ->setParameter('id', $id)
             ->getQuery();
         $result = $query->getResult();
@@ -494,11 +509,11 @@ class NotaController extends Controller
         $repo = $this->getDoctrine()
             ->getRepository('AppBundle:Cliente');
         $query = $repo->createQueryBuilder('c')
-            ->select('c.nome, c.cpfcnpj, c.codCid, c.eMail, c.ie, c.endereco, c.complemento, c.numero, c.bairro, c.cep, c.fone, c.tipoCliente')
+            ->select('c.nome, c.cpfcnpj, c.codCid, c.eMail, c.ie, c.endereco, c.complemento, c.numero, c.bairro, c.cep, c.fone')
             ->where('c.id = :val')
             ->andWhere('c.empresa = :emp')
             ->setParameter('val', $id)
-            ->setParameter('emp', $this->getEmpresa())
+            ->setParameter('emp', $this->get('app.emp')->getIdEmpresa())
             ->getQuery();
         $result = $query->getResult();
 
@@ -542,7 +557,7 @@ class NotaController extends Controller
             ->where('a.nome LIKE :val')
             ->andWhere('a.empresa = :emp')
             ->setParameter('val', '%'.$valor.'%')
-            ->setParameter('emp', $this->getEmpresa())
+            ->setParameter('emp', $this->get('app.emp')->getIdEmpresa())
             ->getQuery();
         $result = $query->getArrayResult();
 
@@ -565,7 +580,7 @@ class NotaController extends Controller
         $query = $repo->createQueryBuilder('s')
             ->select('s.id, s.descricao, s.valor')
             ->where('s.idEmpresa = :emp')
-            ->setParameter('emp', $this->getEmpresa())
+            ->setParameter('emp', $this->get('app.emp')->getIdEmpresa())
             ->getQuery();
         $result = $query->getArrayResult();
 
@@ -592,7 +607,7 @@ class NotaController extends Controller
             ->select('s.id, s.descricao, s.codSerPref, s.valor, s.percIss, s.percIrrf, s.percCsl, s.percPis, s.percCofins')
             ->where('s.idEmpresa = :emp')
             ->andWhere('s.id = :idserv')
-            ->setParameter('emp', $this->getEmpresa())
+            ->setParameter('emp', $this->get('app.emp')->getIdEmpresa())
             ->setParameter('idserv', $idServico)
             ->getQuery();
 

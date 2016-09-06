@@ -26,7 +26,7 @@ class PlanoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $planos = $em->getRepository('AppBundle:Plano')->findAll();
+        $planos = $em->getRepository('AppBundle:Plano')->findBy(array('empresa' => $this->get('app.emp')->getIdEmpresa()));
 
         return $this->render('plano/index.html.twig', array(
             'planos' => $planos,

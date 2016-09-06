@@ -26,7 +26,9 @@ class ClienteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $clientes = $em->getRepository('AppBundle:Cliente')->findAll();
+        $clientes = $em->getRepository('AppBundle:Cliente')->findBy(
+                                                array('empresa' => $this->get('app.emp')->getIdEmpresa(),
+                                                      'status'  => 1));
 
         return $this->render('cliente/index.html.twig', array(
             'clientes' => $clientes,
@@ -42,15 +44,24 @@ class ClienteController extends Controller
     public function newAction(Request $request)
     {
         $cliente = new Cliente();
+        $cliente->setEmpresa($this->get('app.emp')->getIdEmpresa());
+        $cliente->setStatus(1);
         $form = $this->createForm('AppBundle\Form\ClienteType', $cliente);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $cpfcnpj = $cliente->getCpfcnpj();
+
+            if(strpos($cpfcnpj, '.') || strpos($cpfcnpj, '-') || strpos($cpfcnpj, '/'))
+                $cliente->setCpfcnpj(preg_replace("/\D+/", "", $cpfcnpj));
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($cliente);
             $em->flush();
 
-            return $this->redirectToRoute('cliente_show', array('id' => $cliente->getId()));
+            return $this->redirectToRoute('cliente_edit', array('id' => $cliente->getId()));
+           // return $this->redirectToRoute('cliente_index');
         }
 
         return $this->render('cliente/new.html.twig', array(
@@ -137,4 +148,5 @@ class ClienteController extends Controller
             ->getForm()
         ;
     }
+    
 }

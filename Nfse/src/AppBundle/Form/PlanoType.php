@@ -5,6 +5,9 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 
 class PlanoType extends AbstractType
 {
@@ -15,15 +18,9 @@ class PlanoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tipo')
-            ->add('descricao')
-            ->add('ordem')
-            ->add('tip')
-            ->add('contaSup')
-            ->add('nivel')
-            ->add('natureza')
-            ->add('orientacoes')
-        ;
+            ->add('plano', TextType::class, array('label'  => 'Código Plano' ))
+            ->add('descricao', TextType::class, array('label'  => 'Descrição' ))
+            ->add('tipo', ChoiceType::class, array('choices'  => array( '' => null, 'Entrada' => 'E', 'Saída' => 'S')));
     }
     
     /**

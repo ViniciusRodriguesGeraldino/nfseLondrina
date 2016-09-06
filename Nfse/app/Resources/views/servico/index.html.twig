@@ -1,63 +1,55 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Servico list</h1>
 
-    <table>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <h1 class="pagination-centered">Lista de Serviços</h1>
+        </div>
+    </div>
+
+    <div class="row padding-top padding-bottom">
+        <div class="col-xs-1 col-xs-offset-1">
+            <a class="abutton" href="{{ path('servico_new') }}">Novo Serviço</a>
+        </div>
+    </div>
+
+    <div class="row row-centered">
+        <div class="col-xs-10 col-xs-offset-1">
+
+    <table class="table pagination-centered">
         <thead>
             <tr>
-                <th>Descricao</th>
-                <th>Percirrf</th>
-                <th>Perccsl</th>
-                <th>Percpis</th>
-                <th>Perccofins</th>
-                <th>Perciss</th>
-                <th>Plano</th>
-                <th>Isssuspenso</th>
-                <th>Isssuspensomotivo</th>
-                <th>Codserpref</th>
-                <th>Valor</th>
-                <th>Ibptnac</th>
-                <th>Ibptmun</th>
                 <th>Id</th>
-                <th>Actions</th>
+                <th>Descricao</th>
+                <th>Aliquota</th>
+                <th>Plano</th>
+                <th>Código Serviço</th>
+                <th>Valor</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         {% for servico in servicos %}
             <tr>
-                <td><a href="{{ path('servico_show', { 'id': servico.id }) }}">{{ servico.descricao }}</a></td>
-                <td>{{ servico.percIrrf }}</td>
-                <td>{{ servico.percCsl }}</td>
-                <td>{{ servico.percPis }}</td>
-                <td>{{ servico.percCofins }}</td>
+                {#<td><a href="{{ path('servico_show', { 'id': servico.id }) }}">{{ servico.id }}</a></td>#}
+                <td>{{ servico.id }}</td>
+                <td>{{ servico.descricao }}</td>
                 <td>{{ servico.percIss }}</td>
                 <td>{{ servico.plano }}</td>
-                <td>{{ servico.issSuspenso }}</td>
-                <td>{{ servico.issSuspensoMotivo }}</td>
                 <td>{{ servico.codSerPref }}</td>
-                <td>{{ servico.valor }}</td>
-                <td>{{ servico.ibptNac }}</td>
-                <td>{{ servico.ibptMun }}</td>
-                <td>{{ servico.id }}</td>
+                <td>R$ {{ servico.valor|number_format(2, ',', '') }}</td>
+
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('servico_show', { 'id': servico.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('servico_edit', { 'id': servico.id }) }}">edit</a>
-                        </li>
-                    </ul>
+                    <a href="{{ path('servico_edit', { 'id': servico.id }) }}">Editar</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+        </div>
+    </div>
+</div>
 
-    <ul>
-        <li>
-            <a href="{{ path('servico_new') }}">Create a new entry</a>
-        </li>
-    </ul>
 {% endblock %}

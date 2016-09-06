@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -26,7 +27,7 @@ class ServicoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $servicos = $em->getRepository('AppBundle:Servico')->findAll();
+        $servicos = $em->getRepository('AppBundle:Servico')->findBy(array('idEmpresa' => $this->get('app.emp')->getIdEmpresa()));
 
         return $this->render('servico/index.html.twig', array(
             'servicos' => $servicos,
@@ -41,16 +42,26 @@ class ServicoController extends Controller
      */
     public function newAction(Request $request)
     {
+//        $listaServicos = $this->getListaPrefeitura();
         $servico = new Servico();
         $form = $this->createForm('AppBundle\Form\ServicoType', $servico);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $idAux = $servico->getCodSerPref();
+            $pos = strpos($idAux, ')');
+            $pos -= 1;
+            $idAux2 = substr($idAux, 1, $pos );
+            $servico->setCodSerPref($idAux2);
+
+            $servico->setidEmpresa($this->get('app.emp')->getIdEmpresa());
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($servico);
             $em->flush();
 
-            return $this->redirectToRoute('servico_show', array('id' => $servico->getId()));
+            return $this->redirectToRoute('servico_index', array('id' => $servico->getId()));
         }
 
         return $this->render('servico/new.html.twig', array(
@@ -136,5 +147,43 @@ class ServicoController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    private function getListaPrefeitura($desc) {
+
+        $repo = $this->getDoctrine()
+            ->getRepository('AppBundle:Listaservico');
+        $query = $repo->createQueryBuilder('c')
+            ->select('c.codigo, c.descricao, c.aliquota')
+            ->where('c.descricao LIKE :val')
+            ->setParameter('val', '%'.$desc.'%')
+            ->getQuery();
+        $result = $query->getResult();
+
+        $lista = array();
+
+//        foreach($result as $item){
+//            $lista[] = array("codigo" => $item['codigo'], "descricao" => $item['descricao'], "aliquota" => $item['aliquota']);
+//        }
+
+        foreach($result as $item){
+            $lista[] = "(". $item['codigo'] .")". " ". $item['descricao']." * Aliquota:". $item['aliquota'] . " %";
+        }
+
+        return $lista;
+    }
+
+    /**
+     *
+     * @Route("/loadListaServicos", name="loadListaServicos")
+     * @Method({"POST"})
+     */
+    public function loadListaServicos(Request $request){
+
+        $valor = $request->request->get('str', null);
+
+        $array = $this->getListaPrefeitura($valor);
+
+        return new JsonResponse($array);
     }
 }

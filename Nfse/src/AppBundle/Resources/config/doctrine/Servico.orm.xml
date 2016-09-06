@@ -37,7 +37,7 @@
     <field name="valor" type="float" column="VALOR" precision="10" scale="0" nullable="true"/>
     <field name="ibptNac" type="float" column="IBPT_NAC" precision="10" scale="0" nullable="true"/>
     <field name="ibptMun" type="float" column="IBPT_MUN" precision="10" scale="0" nullable="true"/>
-    <field name="idEmpresa" type="integer" column="IDEMPRESA" nullable="true">
+    <field name="idEmpresa" type="integer" column="EMPRESA" nullable="true">
       <options>
         <option name="unsigned"/>
       </options>

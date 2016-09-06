@@ -15,68 +15,46 @@ class Plano
     /**
      * @var string
      *
-     * @ORM\Column(name="TIPO", type="string", length=20, nullable=true)
+     * @ORM\Column(name="TIPO", type="string", length=1, nullable=true)
      */
     private $tipo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="DESCRICAO", type="string", length=500, nullable=true)
+     * @ORM\Column(name="DESCRICAO", type="string", length=100, nullable=true)
      */
     private $descricao;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="ORDEM", type="integer", nullable=true)
-     */
-    private $ordem;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="TIP", type="string", length=10, nullable=true)
-     */
-    private $tip;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="CONTA_SUP", type="string", length=50, nullable=true)
-     */
-    private $contaSup;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="NIVEL", type="string", length=10, nullable=true)
-     */
-    private $nivel;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="NATUREZA", type="string", length=10, nullable=true)
-     */
-    private $natureza;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ORIENTACOES", type="string", length=1024, nullable=true)
-     */
-    private $orientacoes;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="CODIGO", type="string", length=50)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $codigo;
+    private $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="EMPRESA", type="integer", nullable=true)
+     */
+    private $empresa;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="PLANO", type="string", length=10, nullable=true)
+     */
+    private $plano;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="STATUS", type="integer", nullable=true)
+     */
+    private $status;
 
 
     /**
@@ -128,156 +106,85 @@ class Plano
     }
 
     /**
-     * Set ordem
+     * Set status
      *
-     * @param integer $ordem
+     * @param integer $status
      *
      * @return Plano
      */
-    public function setOrdem($ordem)
+    public function setStatus($status)
     {
-        $this->ordem = $ordem;
+        $this->status = $status;
 
         return $this;
     }
 
     /**
-     * Get ordem
+     * Get status
      *
      * @return integer
      */
-    public function getOrdem()
+    public function getStatus()
     {
-        return $this->ordem;
+        return $this->status;
     }
 
     /**
-     * Set tip
+     * Get id
      *
-     * @param string $tip
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set empresa
+     *
+     * @param string $empresa
      *
      * @return Plano
      */
-    public function setTip($tip)
+    public function setEmpresa($empresa)
     {
-        $this->tip = $tip;
+        $this->empresa = $empresa;
 
         return $this;
     }
 
     /**
-     * Get tip
+     * Get empresa
      *
      * @return string
      */
-    public function getTip()
+    public function getEmpresa()
     {
-        return $this->tip;
+        return $this->empresa;
     }
 
     /**
-     * Set contaSup
+     * Set plano
      *
-     * @param string $contaSup
+     * @param string $plano
      *
      * @return Plano
      */
-    public function setContaSup($contaSup)
+    public function setPlano($plano)
     {
-        $this->contaSup = $contaSup;
+        $this->plano = $plano;
 
         return $this;
     }
 
     /**
-     * Get contaSup
+     * Get plano
      *
      * @return string
      */
-    public function getContaSup()
+    public function getPlano()
     {
-        return $this->contaSup;
+        return $this->plano;
     }
 
-    /**
-     * Set nivel
-     *
-     * @param string $nivel
-     *
-     * @return Plano
-     */
-    public function setNivel($nivel)
-    {
-        $this->nivel = $nivel;
-
-        return $this;
-    }
-
-    /**
-     * Get nivel
-     *
-     * @return string
-     */
-    public function getNivel()
-    {
-        return $this->nivel;
-    }
-
-    /**
-     * Set natureza
-     *
-     * @param string $natureza
-     *
-     * @return Plano
-     */
-    public function setNatureza($natureza)
-    {
-        $this->natureza = $natureza;
-
-        return $this;
-    }
-
-    /**
-     * Get natureza
-     *
-     * @return string
-     */
-    public function getNatureza()
-    {
-        return $this->natureza;
-    }
-
-    /**
-     * Set orientacoes
-     *
-     * @param string $orientacoes
-     *
-     * @return Plano
-     */
-    public function setOrientacoes($orientacoes)
-    {
-        $this->orientacoes = $orientacoes;
-
-        return $this;
-    }
-
-    /**
-     * Get orientacoes
-     *
-     * @return string
-     */
-    public function getOrientacoes()
-    {
-        return $this->orientacoes;
-    }
-
-    /**
-     * Get codigo
-     *
-     * @return string
-     */
-    public function getCodigo()
-    {
-        return $this->codigo;
-    }
 }

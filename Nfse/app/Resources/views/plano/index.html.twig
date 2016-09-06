@@ -10,7 +10,7 @@
 
     <div class="row padding-top padding-bottom">
         <div class="col-xs-1 col-xs-offset-1">
-            <a class="abutton" href="{{ path('plano_new') }}">Novo Plano</a>
+            <a class="abutton" href="{{ path('plano_new') }}">Nova Conta</a>
         </div>
     </div>
 
@@ -19,39 +19,29 @@
             <table class="table pagination-centered">
                 <thead>
             <tr>
+                <th>ID</th>
+                <th class="left">Código Plano</th>
+                <th>Descrição</th>
                 <th>Tipo</th>
-                <th>Descricao</th>
-                <th>Ordem</th>
-                <th>Tip</th>
-                <th>Contasup</th>
-                <th>Nivel</th>
-                <th>Natureza</th>
-                <th>Orientacoes</th>
-                <th>Codigo</th>
-                <th>Actions</th>
+                <th></th>
             </tr>
         </thead>
                 <tbody>
         {% for plano in planos %}
             <tr>
-                <td><a href="{{ path('plano_show', { 'id': plano.codigo }) }}">{{ plano.tipo }}</a></td>
+                {#<td><a href="{{ path('plano_show', { 'id': plano.id }) }}">{{ plano.id }}</a></td>#}
+                <td>{{ plano.id }}</td>
+                <td class="left">{{ plano.plano }}</td>
                 <td>{{ plano.descricao }}</td>
-                <td>{{ plano.ordem }}</td>
-                <td>{{ plano.tip }}</td>
-                <td>{{ plano.contaSup }}</td>
-                <td>{{ plano.nivel }}</td>
-                <td>{{ plano.natureza }}</td>
-                <td>{{ plano.orientacoes }}</td>
-                <td>{{ plano.codigo }}</td>
+
+                {% if plano.tipo == 'E' %}
+                    <td>Entrada</td>
+                {% else %}
+                    <td>Saída</td>
+                {% endif %}
+
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('plano_show', { 'id': plano.codigo }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('plano_edit', { 'id': plano.codigo }) }}">edit</a>
-                        </li>
-                    </ul>
+                    <a href="{{ path('plano_edit', { 'id': plano.id }) }}">Editar</a>
                 </td>
             </tr>
         {% endfor %}

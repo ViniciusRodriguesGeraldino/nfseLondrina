@@ -1,9 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Cliente</h1>
 
-    <table>
+    <h1>Cliente</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <h1 class="pagination-centered">Lista de Clientes</h1>
+        </div>
+    </div>
+
+    <div class="row padding-top padding-bottom">
+        <div class="col-xs-1 col-xs-offset-1">
+            <a class="abutton" href="{{ path('cliente_new') }}">Novo Cliente</a>
+        </div>
+    </div>
+
+    <div class="row row-centered">
+        <div class="col-xs-10 col-xs-offset-1">
+            <table>
         <tbody>
             <tr>
                 <th>Empresa</th>
@@ -107,7 +122,9 @@
             </tr>
         </tbody>
     </table>
-
+        </div>
+    </div>
+</div>
     <ul>
         <li>
             <a href="{{ path('cliente_index') }}">Back to the list</a>

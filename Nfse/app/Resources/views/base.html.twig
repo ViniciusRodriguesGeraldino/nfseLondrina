@@ -10,7 +10,6 @@
 
         <title>Sibrax - NFSe</title>
 
-
         <!-- jQuery Version 1.11.1 -->
         <script src="{{ asset('assets/js/jquery.js') }}"></script>
 
@@ -54,13 +53,13 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Sibrax</a>
+                    <a class="navbar-brand" href="{{ path('homepage') }}">Sibrax</a>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="#">Home</a>
+                            <a href="{{ path('homepage') }}">Home</a>
                         </li>
                         <li>
                             <a href="{{ path('nota_index') }}">Nota de Serviço</a>
@@ -72,7 +71,10 @@
                             <a href="{{ path('plano_index') }}">Plano de Contas</a>
                         </li>
                         <li>
-                            <a href="{{ path('listaservico_index') }}">Lista Serviços</a>
+                            <a href="{{ path('servico_index') }}">Serviços</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('bancos_index') }}">Bancos</a>
                         </li>
 
                     </ul>
@@ -88,4 +90,30 @@
 
         {% block javascripts %}{% endblock %}
     </body>
+
+    {#<footer id="rodape">#}
+
+        {#<div class="padding-top">#}
+            {#<div class="container">#}
+                {#<div class="container">#}
+                    {#<div class="col-md-3 logo-footer">#}
+                        {#<a href="/" title="Sibrax Softwares" class="hidden-xs">#}
+                            {#<img src="/images/v3/logo-rodape.png" alt="Logotipo Sibrax Softwares">#}
+                        {#</a>#}
+                    {#</div>#}
+
+
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+
+        {#<div class="footer-bottom">#}
+            {#<div class="container-fluid">#}
+                {#<div class="container">#}
+                    {#<p>Copyright www.sibrax.com.br. Todos os direitos reservados - V2</p>#}
+                    {#<p class="text-muted hidden-xs" style="display:none">Desenvolvido com<span class="icon-heart"></span>pela <a href="http://droopi.com.br" title="Droopi - Agência Digital" target="_blank">Droopi.com.br</a></p>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+    {#</footer>#}
 </html>

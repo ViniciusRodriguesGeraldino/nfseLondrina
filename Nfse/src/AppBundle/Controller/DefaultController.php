@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use BeSimple;
 use BeSimple\SoapClient;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 class DefaultController extends Controller
 {
@@ -15,39 +16,61 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        //require_once 'C:\xampp2\htdocs\EmissorNFSE2\Nfse\vendor\autoload.php';
-        
-        $wsdl = 'http://www.thomas-bayer.com/axis2/services/BLZService?wsdl';
-        $soapClient = new BeSimple\SoapClient\SoapClient($wsdl);
-        $bank = new stdClass();
-        $bank->blz = '20190003';
-        
-        
-        var_dump($soapClient->getBank($bank));
-        // replace this example code with whatever you need
-       // return $this->render('default/index.html.twig', [
-         //   'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
-       // ]);
-    }
-    
-    /**
-     * @Route("/classes", name="classes")
-     */
-    public function  getFunctions(){ //http://testeiss.londrina.pr.gov.br/ws/v1_03/sigiss_ws.php?wsdl
 
-        require_once 'C:\xampp\htdocs\NFSE\nfseLondrina\Nfse\vendor\autoload.php';
-//        require_once $this->get('kernel')->getRootDir().'\vendor\autoload.php';
+//        $valor = $this->get('app.token_authenticator')->start($request);
+//        $valor2 = $this->get('app.token_authenticator')->getCredentials($request);
 
-        $wsdl = 'http://testeiss.londrina.pr.gov.br/ws/v1_03/sigiss_ws.php?wsdl';
-        $soapClient = new \BeSimple\SoapClient\SoapClient($wsdl);
-
-//        $soapClient->GerarNota
-
-//        var_dump($soapClient->__getFunctions());
-//        var_dump($soapClient->__getTypes());
+        $valor  = $this->getTotalNFesEmitidas();
+        $valor2 = $this->getMovimentacaoSaidaDiaria();
 
         return $this->render('default/index.html.twig', [
-           'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
-         ]);
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
+            'valor' => $valor,
+            'valor2' => $valor2,
+        ]);
+    }
+
+    /**
+     * @Route("/login", name="login")
+     */
+    public function loginAction(Request $request)
+    {
+        $user = $this->getUser();
+
+        if ($user instanceof UserInterface) {
+            return $this->redirectToRoute('homepage');
+        }
+
+        /** @var AuthenticationException $exception */
+        $exception = $this->get('security.authentication_utils')
+            ->getLastAuthenticationError();
+
+        return $this->render('login/login.html.twig', [
+            'error' => $exception ? $exception->getMessage() : NULL,
+        ]);
+    }
+
+    public function getTotalNFesEmitidas(){
+
+        $idEmp = $this->get('app.emp')->getIdEmpresa();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $qb = $em->createQueryBuilder();
+
+        $qb ->select('count(n.id)')
+            ->from('AppBundle:Nota', 'n')
+            ->where('n.empresa = :emp')
+            ->andWhere('n.data = :dataHoje')
+            ->setParameter('emp', $idEmp)
+            ->setParameter('dataHoje', date('Y-m-d'));
+
+        $result = $qb->getQuery()->getResult();
+
+        return $result[0][1];
+    }
+
+    public function getMovimentacaoSaidaDiaria(){
+
     }
 }

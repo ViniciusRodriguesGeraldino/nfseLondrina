@@ -299,3 +299,7 @@ table th {
 .back-colorido {
     background: lightcyan;
 }
+.box {
+    display: inline-block;
+    float: left;
+ }

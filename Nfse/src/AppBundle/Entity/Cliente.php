@@ -181,13 +181,6 @@ class Cliente
     private $obs;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="TIPOCLIENTE", type="string", length=1, nullable=true)
-     */
-    private $tipoCliente;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="ID", type="integer")
@@ -203,6 +196,12 @@ class Cliente
      */
     private $ie;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="STATUS", type="integer", nullable=true)
+     */
+    private $status;
 
 
     /**
@@ -795,19 +794,6 @@ class Cliente
         return $this;
     }
 
-    /**
-     * Set tipoCliente
-     *
-     * @param string $tipoCliente
-     *
-     * @return Cliente
-     */
-    public function setTipoCliente($tipoCliente)
-    {
-        $this->tipoCliente = $tipoCliente;
-
-        return $this;
-    }
 
     /**
      * Get obs
@@ -820,16 +806,6 @@ class Cliente
     }
 
     /**
-     * Get tipoCliente
-     *
-     * @return string
-     */
-    public function getTipoCliente()
-    {
-        return $this->tipoCliente;
-    }
-
-    /**
      * Get id
      *
      * @return integer
@@ -837,5 +813,29 @@ class Cliente
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set status
+     *
+     * @param integer $status
+     *
+     * @return Cliente
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
     }
 }
