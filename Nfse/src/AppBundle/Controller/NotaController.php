@@ -99,8 +99,6 @@ class NotaController extends Controller
         return $highest_id;
     }
 
-
-
     /**
      * Finds and displays a Nota entity.
      *
@@ -130,6 +128,8 @@ class NotaController extends Controller
      */
     public function editAction(Request $request, Nota $notum)
     {
+        return false;
+
         $deleteForm = $this->createDeleteForm($notum);
         $editForm = $this->createForm('AppBundle\Form\NotaType', $notum);
         $editForm->handleRequest($request);
@@ -197,40 +197,38 @@ class NotaController extends Controller
         $prods = $request->request->get('produtos', null);
 
         $totalISS = 0;
+        $totalDescontos = 0;
 
         foreach ($prods as $prod){
             $totalISS += $prod[5];
+            $totalDescontos += $prod[4];
         }
 
         $nota->setEmpresa($this->get('app.emp')->getIdEmpresa());
 
-        $idAux = $dados[1]['value'];
-
+        $idAux = $dados[1]['value']; //Pega o id cliente aqui
         $pos = strpos($idAux, ')');
         $pos -= 1;
         $idAux2 = substr($idAux, 1, $pos );
-
         $idCliente = trim($idAux2[0]);
         $nota->setCliente($idCliente);
 
+        die(var_dump($idCliente.'-'.$nota->getCliente()));
+
         $nota->setTotal($dados[22]['value']);
-
-        $nota->setDesconto(null);
+        $nota->setDesconto($totalDescontos);
         $nota->setTotalBruto($nota->getTotal()+$nota->getDesconto());
-
         $data = $dados[3]['value'];
-//        $nota->setData(\DateTime::createFromFormat('d-m-Y', $data));
         $nota->setData(new \DateTime(date('Y-m-d')));
-
         $nota->setAno($this->getYear($data));
         $nota->setMes($this->getMonth($data));
 
         $nota->setTipoNota('NFSE');
-        $nota->setAutenticidade('');
-        $nota->setNumeroNotaSubstitutiva('0');
-        $nota->setIdFaturamento('0');
         $nota->setObservacao($dados[24]['value']);
         $nota->setFormapagamento($dados[23]['value']);
+        $nota->setAutenticidade('');
+        $nota->setNumeroNotaSubstitutiva('');
+        $nota->setIdFaturamento('');
 
 //        $nota->setPercPis();
         $nota->setPis($dados[16]['value']);
@@ -277,10 +275,9 @@ class NotaController extends Controller
             $ema->clear();
         }
 
+        //Transmite a nota
         $retorno = $this->enviarNotaLondrina($nota->getId());
         $resultado     = $retorno['RetornoNota']->Resultado;
-
-//        die(var_dump($retorno));
 
         if($resultado == 1){
             $nota->setNumeroNota($retorno['RetornoNota']->Nota);
@@ -291,6 +288,11 @@ class NotaController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($nota);
             $em->flush();
+
+            //Faz o lançamento da nota
+            $historico = 'Nota Fiscal de Serviço Eletronica No. '.$nota->getNumeroNota();
+            $this->get('app.emp')->gravaLancamento($nota->getId(), $nota->getNumeroNota(), $nota->getCliente(), $nota->getTotalBruto(),
+                                    0, $nota->getDesconto(), 'NFSE', $nota->getData(), $historico, '', '', '', '');
 
             $array = json_decode(json_encode($retorno), True);
 
@@ -387,7 +389,6 @@ class NotaController extends Controller
 
     public function enviarNotaLondrina($id){
 
-        $nota = new Nota();
         $em = $this->getDoctrine()->getManager();
         $nota = $em->getRepository('AppBundle:Nota')->find($id);
 
@@ -405,7 +406,6 @@ class NotaController extends Controller
         }
 
         $soapClient = new \BeSimple\SoapClient\SoapClient($wsdl, array('trace' => 1));
-//        $soapClient = new \Soapclient($wsdl, array('trace' => 1));
 
         $cpfcnpj = $cliente[0]['cpfcnpj'];
 
@@ -560,6 +560,8 @@ class NotaController extends Controller
             ->setParameter('emp', $this->get('app.emp')->getIdEmpresa())
             ->getQuery();
         $result = $query->getArrayResult();
+
+        $ret2 = [];
 
         foreach ($result as $value) {
             $ret2[] = '('.$value['id'].') '.$value['nome'].' : '.$this->formataCpfCnpj($value['cpfcnpj']);

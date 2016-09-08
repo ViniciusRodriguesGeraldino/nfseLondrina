@@ -6,57 +6,56 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Entity\Bancos;
-use AppBundle\Form\BancosType;
+use AppBundle\Entity\ContasPagarReceber;
 
 /**
- * Bancos controller.
+ * ContasPagarReceber controller.
  *
- * @Route("/bancos")
+ * @Route("/contaspagarreceber")
  */
-class BancosController extends Controller
+class ContasPagarReceberController extends Controller
 {
     /**
-     * Lists all Bancos entities.
+     * Lists all ContasPagarReceber entities.
      *
-     * @Route("/", name="bancos_index")
+     * @Route("/", name="contas_index")
      * @Method("GET")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $bancos = $em->getRepository('AppBundle:Bancos')->findBy(array('empresa' => $this->get('app.emp')->getIdEmpresa()));
+        $contas = $em->getRepository('AppBundle:ContasPagarReceber')->findBy(array('empresa' => $this->get('app.emp')->getIdEmpresa()));
 
-        return $this->render('bancos/index.html.twig', array(
-            'bancos' => $bancos,
+        return $this->render('contas/index.html.twig', array(
+            'contas' => $contas,
         ));
     }
 
     /**
-     * Creates a new Bancos entity.
+     * Creates a new ContasPagarReceber entity.
      *
-     * @Route("/new", name="bancos_new")
+     * @Route("/new", name="contas_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
     {
-        $banco = new Bancos();
-        $form = $this->createForm('AppBundle\Form\BancosType', $banco);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($banco);
-            $em->flush();
+        $data       = date("d/m/Y");
+        $clientes   = $em->createQueryBuilder()
+            ->select('c.nome, c.cpfcnpj')
+            ->from('AppBundle:Cliente', 'c')
+            ->where('c.empresa = :empresa')->setParameter('empresa', $this->get('app.emp')->getIdEmpresa())
+            ->getQuery();
 
-            return $this->redirectToRoute('bancos_show', array('id' => $banco->getIdBanco()));
-        }
+        $formValues = [
+            'data'       => $data,
+            'clientes'   => $clientes
 
-        return $this->render('bancos/new.html.twig', array(
-            'banco' => $banco,
-            'form' => $form->createView(),
-        ));
+        ];
+
+        return $this->render('contas/new.html.twig' , array('formValues' => $formValues,));
     }
 
     /**
@@ -135,7 +134,7 @@ class BancosController extends Controller
             ->setAction($this->generateUrl('bancos_delete', array('id' => $banco->getIdBanco())))
             ->setMethod('DELETE')
             ->getForm()
-        ;
+            ;
     }
 
 }

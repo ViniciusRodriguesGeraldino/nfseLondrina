@@ -303,3 +303,31 @@ table th {
     display: inline-block;
     float: left;
  }
+.nav-color {
+    color: #0071BE !important;
+}
+.panel-sistema {
+    text-align: right;
+    color: #fff;
+    font-size: 20px;
+}
+
+.panel-green {
+    text-align: right;
+    color: #fff;
+    background-color: #2b542c;
+    border-color: #2b542c;
+}
+.panel-yellow {
+    text-align: right;
+    color: #fff;
+    background-color: #cfcd30;
+    border-color: #cfcd30;
+}
+
+.panel-red {
+    text-align: right;
+    color: #fff;
+    background-color: #AA3333;
+    border-color: #AA3333;
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\ContasPagarReceber" table="contaspagarreceber">
+    <id name="id" type="integer" column="ID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="empresa" type="integer" column="EMPRESA" nullable="false">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="tipoConta" type="string" column="TIPO_CONTA" length="10" nullable="true"/>
+    <field name="idCliente" type="integer" column="ID_CLIENTE" nullable="false">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="nome" type="string" column="NOME" length="60" nullable="true"/>
+    <field name="numeroDocumento" type="integer" column="NUMERO_DOCUMENTO" nullable="true"/>
+    <field name="datalancamento" type="date" column="DATA_LANCAMENTO" nullable="true"/>
+    <field name="datavencimento" type="date" column="DATA_VENCIMENTO" nullable="true"/>
+    <field name="valorTotal" type="float" column="VALOR_TOTAL" precision="10" scale="0" nullable="true"/>
+    <field name="acrescimos" type="float" column="ACRESCIMOS" precision="10" scale="0" nullable="true"/>
+    <field name="descontos" type="float" column="DESCONTOS" precision="10" scale="0" nullable="true"/>
+    <field name="credito" type="integer" column="CREDITO" nullable="true"/>
+    <field name="debito" type="integer" column="DEBITO" nullable="true"/>
+    <field name="plano" type="string" column="PLANO" length="10" nullable="true"/>
+    <field name="historico" type="string" column="HISTORICO" length="100" nullable="true"/>
+  </entity>
+</doctrine-mapping>

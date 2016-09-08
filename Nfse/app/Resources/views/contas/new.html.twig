@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <h1 class="padding-bottom">Nova Conta</h1>
+            </div>
+        </div>
+
+        <div class="row row-centered">
+            <div class="col-xs-10 col-xs-offset-1">
+
+                <div class="row padding-top">
+                    <div class="col-xs-2">
+                        <label>Tipo de Conta: </label>
+                        <select class="form-control"><option value="1">A Pagar</option>
+                            <option value="2">A Receber</option>
+                        </select>
+                    </div>
+
+                    <div class=" col-xs-3">
+                        <div class="float-left no-padding-left col-xs-4">
+                            <label>Cliente</label>
+                        </div>
+                        <div class="float-right text-right col-xs-8">
+                            <a href="" class="customer-edit-link">
+                                Perfil do cliente
+                            </a>
+                        </div>
+                        {#<input type="text" style="display:none" id="idCliente" name="idCliente">#}
+
+                        <input type="text" id="NomeCliente" name="NomeCliente" class="NomeCliente form-control" required="required"
+                               placeholder="Digite o nome do cliente" onchange="">
+                    </div>
+
+                    <div class="col-xs-2 fix-padding">
+                        <label>Data Vencimento</label>
+                        <div class="input-append date" id="datetimepicker1" >
+                            <input type="text" id="dataNota" name="dataNota" class="form-control" value="{{ formValues.data }}"
+                                   data-format="dd/MM/yyyy" required="required" placeholder="DD/MM/AAAA">
+                        <span class="add-on">
+                            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                        </span>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-3 fix-padding">
+                        <label>Número Documento</label>
+                        <div class="input-append date" id="datetimepicker1" >
+                            <input type="text" id="dataNota" name="dataNota" class="form-control" value=""
+                                   data-format="dd/MM/yyyy" required="required" placeholder="Digite o número do doc.">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row padding-top">
+                    <div class="col-xs-2">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row padding-top">
+
+            <div class="col-xs-1 col-xs-offset-2">
+                <input class="abutton" type="submit" value="Salvar" />
+            </div>
+
+            <div class="col-xs-1 padding-left">
+                <a class="abuttonVoltar" href="{{ path('contas_index') }}">Voltar</a>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\Lancamentos" table="lancamentos">
+    <id name="id" type="integer" column="ID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="empresa" type="integer" column="EMPRESA" nullable="false">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="iddoc" type="integer" column="ID_DOC" nullable="false">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="numerodoc" type="integer" column="NUMERODOC" nullable="false">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="idcliente" type="integer" column="ID_CLIENTE" nullable="false">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="valor" type="float" column="VALOR" precision="10" scale="0" nullable="true"/>
+    <field name="acrescimos" type="float" column="ACRESCIMOS" precision="10" scale="0" nullable="true"/>
+    <field name="descontos" type="float" column="DESCONTOS" precision="10" scale="0" nullable="true"/>
+    <field name="tipolanc" type="string" column="TIPOLANC" length="10" nullable="true"/>
+    <field name="datalancamento" type="date" column="DATA_LANCAMENTO" nullable="true"/>
+    <field name="datavencimento" type="date" column="DATA_VENCIMENTO" nullable="true"/>
+    <field name="historico" type="string" column="HISTORICO" length="100" nullable="true"/>
+    <field name="credito" type="integer" column="CREDITO" nullable="true"/>
+    <field name="debito" type="integer" column="DEBITO" nullable="true"/>
+    <field name="banco" type="integer" column="BANCO" nullable="true"/>
+    <field name="centrocusto" type="string" column="CENTRO_CUSTO" length="50" nullable="true"/>
+  </entity>
+</doctrine-mapping>
