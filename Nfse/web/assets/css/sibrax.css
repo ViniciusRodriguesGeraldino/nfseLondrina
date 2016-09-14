@@ -1,0 +1,333 @@
+@charset"utf-8";
+
+* {
+    font-family : "proxima-nova",
+    sans-serif!important
+}
+html, body {
+    font-size : 14px;
+    padding : 0;
+    margin : 0;
+    height : 100%;
+    color: #23527c;
+}
+
+.clear-left {
+    clear : left
+}
+.float-left {
+    float : left
+}
+.float-right {
+    float : right
+}
+a :hover {
+    color :  #2b542c !important;
+}
+.wrap {
+    background-color :  #fff
+}
+.container-wrap {
+    background-color : transparent
+}
+.pos-inherit {
+    position : inherit!important
+}
+.right {
+    text-align : right!important
+}
+.left {
+    text-align : left!important
+}
+.center {
+    text-align : center!important
+}
+.hide {
+    display : none!important
+}
+.margin {
+    margin : 20px!important
+}
+.no-margin {
+    margin : 0!important
+}
+.no-margin-right {
+    margin-right : 0!important
+}
+.no-margin-left {
+    margin-left : 0!important
+}
+.no-margin-top {
+    margin-top : 0!important
+}
+.no-margin-bottom {
+    margin-bottom : 0!important
+}
+.margin-right {
+    margin-right : 20px!important
+}
+.margin-left {
+    margin-left : 20px!important
+}
+.margin-top {
+    margin-top : 20px!important
+}
+.margin-bottom {
+    margin-bottom : 20px!important
+}
+.min-margin {
+    margin : 10px!important
+}
+.min-margin-right {
+    margin-right : 10px!important
+}
+.min-margin-left {
+    margin-left : 10px!important
+}
+.min-margin-top {
+    margin-top : 10px!important
+}
+.min-margin-bottom {
+    margin-bottom : 10px!important
+}
+.border {
+    border : 1px solid #c9d3dd
+}
+.border-radius {
+    -webkit-border-radius : 3px;
+    -moz-border-radius : 3px;
+    border-radius : 3px
+}
+.padding {
+    padding : 20px!important
+}
+.padding-right {
+    padding-right : 20px!important
+}
+.padding-left {
+    padding-left : 20px!important
+}
+.padding-top {
+    padding-top : 20px!important
+}
+.padding-bottom {
+    padding-bottom : 20px!important
+}
+.no-padding {
+    padding : 0!important
+}
+.no-padding-right {
+    padding-right : 0!important
+}
+.no-padding-left {
+    padding-left : 0!important
+}
+.no-padding-top {
+    padding-top : 0!important
+}
+.no-padding-bottom {
+    padding-bottom : 0!important
+}
+.min-padding {
+    padding : 10px!important
+}
+.min-padding-left {
+    padding-left : 10px!important
+}
+.min-padding-top {
+    padding-top : 10px!important
+}
+.min-padding-bottom {
+    padding-bottom : 10px!important
+}
+.full-width {
+    width : 100% !important
+}
+.no-min-width {
+    min-width : 0!important
+}
+.div-table {
+    display : table
+}
+.div-table-row {
+    display : table-row
+}
+.div-table-col {
+    display : table-cell;
+    vertical-align : middle
+}
+textarea {
+    height : 100px
+}
+.groupFields label fieldset legend {
+    margin-bottom : 0;
+    font-size : 13px;
+    line-height : 21px;
+    display : inline;
+    border : none
+}
+textarea.required, input[type = "text"].required, input[type = "password"].required {
+    border : 1px solid #e87070
+}
+.groupFields label span.opcional {
+    width : 219px
+}
+.groupFields.grupoValores input {
+    width : 100px;
+    text-align : right
+}
+input.dateTimeInput {
+    width : 65px
+}
+.header {
+    position : relative;
+    height : 30px;
+    background :  #2d2d2d
+}
+.header.link-message {
+    color : white;
+    line-height : 50px;
+    text-decoration : underline;
+    cursor : pointer
+}
+.flat-theme .customPeriodContainer input[type="text"]{
+    width:98px
+}
+input {padding: 0; margin: 0; border: 0; width: 100%; height: 100%;
+    color: #636363;}
+td {margin: 0; padding: 0; border: 0}
+.table th, .table td {
+    border-top: none !important;
+}
+table td {
+    border-top: none !important;
+    font-size : 14px; !important;
+}
+table th {
+    border-top: none !important;
+    font-size : 11px; !important;
+    color: #23527c;
+    /*background-color: #6897BB;*/
+}
+.ui-autocomplete {
+    position: absolute;
+    z-index: 1000;
+    cursor: default;
+    padding: 0;
+    margin-top: 2px;
+    list-style: none;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.ui-autocomplete > li {
+    padding: 3px 20px;
+}
+.ui-autocomplete > li.ui-state-focus {
+    background-color: #DDD;
+}
+.ui-helper-hidden-accessible {
+    display: none;
+}
+.sale-delete-row {
+    font-size: 22px;
+    text-align: center;
+    cursor: pointer;
+}
+.abutton {
+    display: block;
+    width: 100px;
+    height: 30px;
+    background: #0ccf4d;
+    padding: 4px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+.abuttonVoltar {
+    display: block;
+    width: 100px;
+    height: 30px;
+    background: #5bc0de;
+    padding: 4px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+.abuttonDelete {
+    display: block;
+    width: 100px;
+    height: 30px;
+    background: #AA3333;
+    padding: 4px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+.abuttonImprimir {
+    display: block;
+    width: 100px;
+    height: 30px;
+    background: #ddddff;
+    padding: 4px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+.borda-right-top-left{
+    border:1px solid #000;
+    border-bottom: none;
+}
+.borda-right-left{
+    border:1px solid #000;
+    border-bottom: none;
+    border-top: none;
+}
+.borda-right-bot-left{
+    border:1px solid #000;
+    border-top: none;
+}
+.back-colorido {
+    background: lightcyan;
+}
+.box {
+    display: inline-block;
+    float: left;
+ }
+.nav-color {
+    color: #0071BE !important;
+}
+.panel-sistema {
+    text-align: right;
+    color: #fff;
+    font-size: 20px;
+}
+
+.panel-green {
+    text-align: right;
+    color: #fff;
+    background-color: #2b542c;
+    border-color: #2b542c;
+}
+.panel-yellow {
+    text-align: right;
+    color: #fff;
+    background-color: #cfcd30;
+    border-color: #cfcd30;
+}
+
+.panel-red {
+    text-align: right;
+    color: #fff;
+    background-color: #AA3333;
+    border-color: #AA3333;
+}

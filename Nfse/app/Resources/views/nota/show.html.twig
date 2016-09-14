@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <link href="{{ asset('assets/css/nfse_bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('assets/css/nfse.css') }}" rel="stylesheet" type="text/css"/>
+
+    <h1 class="col-xs-offset-1">Visualização NFSe</h1>
+
+    <div class="container">
+
+        <div class="row padding-top padding-bottom borda-right-top-left">
+            <div class="col-sm-1"><label class="text-left">Número :</label></div>
+            <div class="col-sm-1">{{ notum.numeroNota }}</div>
+
+            <div class="col-sm-1"><label>Cliente :</label></div>
+            <div class="col-sm-3">{{ cliente.nome }}</div>
+
+            <div class="col-sm-1"><label>Data :</label></div>
+            <div class="col-sm-1">{% if notum.data %}{{ notum.data|date('Y-m-d') }}{% endif %}</div>
+
+            <div class="col-sm-2"><label>Autenticidade :</label></div>
+            <div class="col-sm-1">{{ notum.autenticidade }}</div>
+
+            <div class="col-sm-5"></div>
+        </div>
+
+         <div class="row padding-bottom padding-top borda-right-left ">
+
+            <div class="col-sm-1"><label>Valor Iss :</label></div>
+            <div class="col-sm-1">{{ notum.iss }}</div>
+
+            <div class="col-sm-1 col-xs-offset-1"><label>Desconto</label></div>
+            <div class="col-sm-1">{{ notum.desconto }}</div>
+
+             <div class="col-sm-1 col-xs-offset-1"><label>Total</label></div>
+             <div class="col-sm-1">{{ notum.total }}</div>
+
+             <div class="col-sm-1 col-xs-offset-1">
+                 <a class="abuttonImprimir" id="imprimirNota" onclick="ImprimirNf({{ notum.id }})" href="#"><span>Imprimir</span></a>
+             </div>
+        </div>
+
+        <div class="row padding-bottom padding-top borda-right-left">
+            <div class="col-sm-1"><label>Cancelada</label></div>
+            <div class="col-sm-1">{{ notum.cancelada }}</div>
+
+            <div class="col-sm-2 col-xs-offset-1"><label>Motivo</label></div>
+            <div class="col-sm-2">{{ notum.motivo }}</div>
+        </div>
+
+
+        <div class="row padding-bottom padding-top borda-right-left back-colorido">
+            <div class="col-sm-1" style="text-decoration: underline">Retenções:</div>
+            <div class="col-sm-1 col-xs-offset-1"><label>Pis :</label></div>
+            <div class="col-sm-1">{{ notum.pis }}</div>
+
+            <div class="col-sm-1"><label>Csl :</label></div>
+            <div class="col-sm-1">{{ notum.csl }}</div>
+
+            <div class="col-sm-1"><label>Cofins :</label></div>
+            <div class="col-sm-1">{{ notum.cofins }}</div>
+
+            <div class="col-sm-1"><label>Inss :</label></div>
+            <div class="col-sm-1">{{ notum.inss }}</div>
+
+            <div class="col-sm-1"><label>Iss :</label></div>
+            <div class="col-sm-1">{{ notum.issRetido }}</div>
+
+        </div>
+
+        <div class="row padding-bottom padding-top borda-right-bot-left back-colorido">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-1"><label>Irrf :</label></div>
+            <div class="col-sm-1">{{ notum.irrf }}</div>
+        </div>
+
+    </div>
+
+
+
+    <div class="row col-xs-offset-1 padding-top">
+        <div class="col-xs-1"><a class="abuttonVoltar" href="{{ path('nota_index') }}">Voltar</a></div>
+        <div class="col-xs-1"><a class="abutton" href="{{ path('nota_edit', { 'id': notum.id }) }}">Edit</a></div>
+        <div class="col-xs-1">
+            {{ form_start(delete_form) }}
+            <input class="abuttonDelete" style="width: 100px" type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/js/sibrax_nota.js') }}"></script>
+{% endblock %}

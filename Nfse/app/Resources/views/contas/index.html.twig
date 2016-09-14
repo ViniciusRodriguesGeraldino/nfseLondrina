@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <h1 class="pagination-centered">Lista de Contas</h1>
+            </div>
+        </div>
+
+        <div class="row padding-top padding-bottom">
+            <div class="col-xs-1 col-xs-offset-1">
+                <a class="abutton" href="{{ path('contas_new') }}">Nova Conta</a>
+            </div>
+        </div>
+
+        <div class="row row-centered">
+            <div class="col-xs-10 col-xs-offset-1">
+                <table class="table pagination-centered">
+            <thead>
+                <tr>
+                    <th>Conta</th>
+                    <th>Tipo Conta</th>
+                    <th>Nome</th>
+                    <th>Documento</th>
+                    <th>Data Lançamento</th>
+                    <th>Data Vencimento</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for conta in contas %}
+                <tr>
+                    <td>{{ conta.id }}</td>
+                    <td>{{ conta.tipo_conta }}</td>
+                    <td>{{ conta.nome }}</td>
+                    <td>{{ conta.numeroDocumento }}</td>
+                    <td>{{ conta.dataLancamento }}</td>
+                    <td>{{ conta.dataVencimento }}</td>
+                    <td><a href="{{ path('contas_edit', { 'id': conta.id }) }}">Editar</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

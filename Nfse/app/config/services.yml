@@ -1,0 +1,17 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+    app.emp:
+        class: AppBundle\Controller\GetEmpresa
+
+    app.token_authenticator:
+        class: AppBundle\Security\TokenAuthenticator
+        arguments: ['@doctrine.orm.entity_manager']
+
+    app.lancamento:
+        class: AppBundle\Controller\LancamentosController
+        calls:
+                    - [setContainer, ["@service_container"]]

@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <h1 class="padding-bottom">Cadastro Serviço</h1>
+        </div>
+    </div>
+
+    <div class="row row-centered">
+        <div class="col-xs-10 col-xs-offset-1">
+            {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+
+        </div>
+    </div>
+
+    <div class="row padding-top">
+
+        <div class="col-xs-1 col-xs-offset-2">
+            <input class="abutton" type="submit" value="Salvar" />
+            {{ form_end(form) }}
+        </div>
+
+        <div class="col-xs-1 padding-left">
+            <a class="abuttonVoltar" href="{{ path('servico_index') }}">Voltar</a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+    <script>
+//        $("#servico_codSerPref").click(function() {
+//
+//            if ($(this).find("option").size() == 0) {
+//
+//                $.ajax({
+//                    url: 'loadListaServicos',
+//                    data: {str: ''},
+//                    type: 'post',
+//                    success: function (data) {
+//                        $.each(data, function(key,value){
+//                            $("#servico_codSerPref").append("<option value="+value.codigo+">"+value.codigo+ ' '+ value.descricao+"</option>");
+//                        });
+//                    }
+//                });
+//            }
+//        });
+
+        $(document).on('input', '#servico_codSerPref', function () {
+            var str = $(this).val(); // this.value
+            $.ajax({
+                url: 'loadListaServicos',
+                data: {str: str},
+                type: 'post',
+                success: function (data) {
+                    $("#servico_codSerPref").autocomplete({
+                        source: data,
+                        delay: 200
+                    });
+                }
+            });
+        })
+    </script>
+
+{% endblock %}

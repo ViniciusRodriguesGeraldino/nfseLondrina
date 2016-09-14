@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Bancos</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Empresa</th>
+                <td>{{ banco.empresa }}</td>
+            </tr>
+            <tr>
+                <th>Banco</th>
+                <td>{{ banco.banco }}</td>
+            </tr>
+            <tr>
+                <th>Numero</th>
+                <td>{{ banco.numero }}</td>
+            </tr>
+            <tr>
+                <th>Nome</th>
+                <td>{{ banco.nome }}</td>
+            </tr>
+            <tr>
+                <th>Agencia</th>
+                <td>{{ banco.agencia }}</td>
+            </tr>
+            <tr>
+                <th>Dvagencia</th>
+                <td>{{ banco.dvAgencia }}</td>
+            </tr>
+            <tr>
+                <th>Cc</th>
+                <td>{{ banco.cc }}</td>
+            </tr>
+            <tr>
+                <th>Dvcc</th>
+                <td>{{ banco.dvCc }}</td>
+            </tr>
+            <tr>
+                <th>Carteira</th>
+                <td>{{ banco.carteira }}</td>
+            </tr>
+            <tr>
+                <th>Caixabanco</th>
+                <td>{{ banco.caixaBanco }}</td>
+            </tr>
+            <tr>
+                <th>Idbanco</th>
+                <td>{{ banco.idBanco }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('bancos_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('bancos_edit', { 'id': banco.idBanco }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

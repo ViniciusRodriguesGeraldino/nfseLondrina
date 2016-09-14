@@ -1,0 +1,278 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Nota
+ *
+ * @ORM\Table(name="nota")
+ * @ORM\Entity
+ */
+class Nota
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="EMPRESA", type="integer", nullable=true)
+     */
+    private $empresa;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="NUMERO_NOTA", type="integer", nullable=true)
+     */
+    private $numeroNota;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="CLIENTE", type="integer", nullable=true)
+     */
+    private $cliente;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="TAXA_EXTRA", type="string", length=1, nullable=true)
+     */
+    private $taxaExtra;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="VENCIMENTO", type="date", nullable=true)
+     */
+    private $vencimento;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="DATA", type="date", nullable=true)
+     */
+    private $data;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="MES", type="integer", nullable=true)
+     */
+    private $mes;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="ANO", type="integer", nullable=true)
+     */
+    private $ano;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CANCELADA", type="string", length=1, nullable=true)
+     */
+    private $cancelada;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="MOTIVO", type="string", length=30, nullable=true)
+     */
+    private $motivo;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="PERC_PIS", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $percPis;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="PIS", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $pis;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="CSL", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $csl;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="COFINS", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $cofins;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="INSS", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $inss;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="ISS", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $iss;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="ISS_RETIDO", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $issRetido;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="BASE_ISS", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $baseIss;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="DESCONTO", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $desconto;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="TOTAL", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $total;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="IRRF", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $irrf;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="ID_FATURAMENTO", type="integer", nullable=true)
+     */
+    private $idFaturamento;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="TOTAL_BRUTO", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $totalBruto;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="TIPO_NOTA", type="string", length=1, nullable=true)
+     */
+    private $tipoNota;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="IRRF_ORIG", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $irrfOrig;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="PIS_ORIG", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $pisOrig;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="CSL_ORIG", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $cslOrig;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="COFINS_ORIG", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $cofinsOrig;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="INSS_ORIG", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $inssOrig;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="ISS_ORIG", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $issOrig;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="ISS_RETIDO_ORIG", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $issRetidoOrig;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="NUMERO_NOTA_SUBSTITUTIVA", type="integer", nullable=true)
+     */
+    private $numeroNotaSubstitutiva;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="AUTENTICIDADE", type="string", length=100, nullable=true)
+     */
+    private $autenticidade;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="LINKIMPRESSAO", type="string", length=250, nullable=true)
+     */
+    private $linkimpressao;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="AUTENTICIDADE_CANCELAMENTO", type="string", length=100, nullable=true)
+     */
+    private $autenticidadeCancelamento;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="LINKIMPRESSAO_CANCELAMENTO", type="string", length=250, nullable=true)
+     */
+    private $linkimpressaoCancelamento;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="NUMERONF", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $numeronf;
+
+
+}
+
