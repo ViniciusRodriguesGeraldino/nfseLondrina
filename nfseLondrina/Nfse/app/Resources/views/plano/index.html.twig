@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <h1 class="pagination-centered">Plano de Contas</h1>
+        </div>
+    </div>
+
+    <div class="row padding-top padding-bottom">
+        <div class="col-xs-1 col-xs-offset-1">
+            <a class="abutton" href="{{ path('plano_new') }}">Nova Conta</a>
+        </div>
+    </div>
+
+    <div class="row row-centered">
+        <div class="col-xs-10 col-xs-offset-1">
+            <table class="table pagination-centered">
+                <thead>
+            <tr>
+                <th>ID</th>
+                <th class="left">Código Plano</th>
+                <th>Descrição</th>
+                <th>Tipo</th>
+                <th></th>
+            </tr>
+        </thead>
+                <tbody>
+        {% for plano in planos %}
+            <tr>
+                {#<td><a href="{{ path('plano_show', { 'id': plano.id }) }}">{{ plano.id }}</a></td>#}
+                <td>{{ plano.id }}</td>
+                <td class="left">{{ plano.plano }}</td>
+                <td>{{ plano.descricao }}</td>
+
+                {% if plano.tipo == 'E' %}
+                    <td>Entrada</td>
+                {% else %}
+                    <td>Saída</td>
+                {% endif %}
+
+                <td>
+                    <a href="{{ path('plano_edit', { 'id': plano.id }) }}">Editar</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

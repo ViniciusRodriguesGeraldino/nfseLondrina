@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\Nota" table="nota">
+    <id name="id" type="integer" column="ID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="empresa" type="integer" column="EMPRESA" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="numeroNota" type="integer" column="NUMERO_NOTA" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="cliente" type="integer" column="CLIENTE" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="data" type="date" column="DATA" nullable="true"/>
+    <field name="mes" type="integer" column="MES" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="ano" type="integer" column="ANO" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="cancelada" type="string" column="CANCELADA" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="motivo" type="string" column="MOTIVO" length="30" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="percPis" type="float" column="PERC_PIS" precision="10" scale="0" nullable="true"/>
+    <field name="pis" type="float" column="PIS" precision="10" scale="0" nullable="true"/>
+    <field name="csl" type="float" column="CSL" precision="10" scale="0" nullable="true"/>
+    <field name="cofins" type="float" column="COFINS" precision="10" scale="0" nullable="true"/>
+    <field name="inss" type="float" column="INSS" precision="10" scale="0" nullable="true"/>
+    <field name="iss" type="float" column="ISS" precision="10" scale="0" nullable="true"/>
+    <field name="issRetido" type="float" column="ISS_RETIDO" precision="10" scale="0" nullable="true"/>
+    <field name="baseIss" type="float" column="BASE_ISS" precision="10" scale="0" nullable="true"/>
+    <field name="desconto" type="float" column="DESCONTO" precision="10" scale="0" nullable="true"/>
+    <field name="total" type="float" column="TOTAL" precision="10" scale="0" nullable="true"/>
+    <field name="irrf" type="float" column="IRRF" precision="10" scale="0" nullable="true"/>
+    <field name="idFaturamento" type="integer" column="ID_FATURAMENTO" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="totalBruto" type="float" column="TOTAL_BRUTO" precision="10" scale="0" nullable="true"/>
+    <field name="tipoNota" type="string" column="TIPO_NOTA" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="irrfOrig" type="float" column="IRRF_ORIG" precision="10" scale="0" nullable="true"/>
+    <field name="pisOrig" type="float" column="PIS_ORIG" precision="10" scale="0" nullable="true"/>
+    <field name="cslOrig" type="float" column="CSL_ORIG" precision="10" scale="0" nullable="true"/>
+    <field name="cofinsOrig" type="float" column="COFINS_ORIG" precision="10" scale="0" nullable="true"/>
+    <field name="inssOrig" type="float" column="INSS_ORIG" precision="10" scale="0" nullable="true"/>
+    <field name="issOrig" type="float" column="ISS_ORIG" precision="10" scale="0" nullable="true"/>
+    <field name="issRetidoOrig" type="float" column="ISS_RETIDO_ORIG" precision="10" scale="0" nullable="true"/>
+    <field name="numeroNotaSubstitutiva" type="integer" column="NUMERO_NOTA_SUBSTITUTIVA" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="autenticidade" type="string" column="AUTENTICIDADE" length="100" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="linkimpressao" type="string" column="LINKIMPRESSAO" length="250" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="autenticidadeCancelamento" type="string" column="AUTENTICIDADE_CANCELAMENTO" length="100" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="linkimpressaoCancelamento" type="string" column="LINKIMPRESSAO_CANCELAMENTO" length="250" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="observacao" type="string" column="OBSERVACAO" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="formapagamento" type="string" column="FORMAPAGAMENTO" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="status" type="string" column="STATUS" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

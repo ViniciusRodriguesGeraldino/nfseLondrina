@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Cliente</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <h1 class="pagination-centered">Lista de Clientes</h1>
+        </div>
+    </div>
+
+    <div class="row padding-top padding-bottom">
+        <div class="col-xs-1 col-xs-offset-1">
+            <a class="abutton" href="{{ path('cliente_new') }}">Novo Cliente</a>
+        </div>
+    </div>
+
+    <div class="row row-centered">
+        <div class="col-xs-10 col-xs-offset-1">
+            <table>
+        <tbody>
+            <tr>
+                <th>Empresa</th>
+                <td>{{ cliente.empresa }}</td>
+            </tr>
+            <tr>
+                <th>Nome</th>
+                <td>{{ cliente.nome }}</td>
+            </tr>
+            <tr>
+                <th>Endereco</th>
+                <td>{{ cliente.endereco }}</td>
+            </tr>
+            <tr>
+                <th>Numero</th>
+                <td>{{ cliente.numero }}</td>
+            </tr>
+            <tr>
+                <th>Bairro</th>
+                <td>{{ cliente.bairro }}</td>
+            </tr>
+            <tr>
+                <th>Complemento</th>
+                <td>{{ cliente.complemento }}</td>
+            </tr>
+            <tr>
+                <th>Cidade</th>
+                <td>{{ cliente.cidade }}</td>
+            </tr>
+            <tr>
+                <th>Codcid</th>
+                <td>{{ cliente.codCid }}</td>
+            </tr>
+            <tr>
+                <th>Uf</th>
+                <td>{{ cliente.uf }}</td>
+            </tr>
+            <tr>
+                <th>Cep</th>
+                <td>{{ cliente.cep }}</td>
+            </tr>
+            <tr>
+                <th>Fone</th>
+                <td>{{ cliente.fone }}</td>
+            </tr>
+            <tr>
+                <th>Cpfcnpj</th>
+                <td>{{ cliente.cpfcnpj }}</td>
+            </tr>
+            <tr>
+                <th>Rg</th>
+                <td>{{ cliente.rg }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ cliente.eMail }}</td>
+            </tr>
+            <tr>
+                <th>Celular</th>
+                <td>{{ cliente.celular }}</td>
+            </tr>
+            <tr>
+                <th>Datanasc</th>
+                <td>{% if cliente.dataNasc %}{{ cliente.dataNasc|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Estadocivil</th>
+                <td>{{ cliente.estadoCivil }}</td>
+            </tr>
+            <tr>
+                <th>Nomeconjuge</th>
+                <td>{{ cliente.nomeConjuge }}</td>
+            </tr>
+            <tr>
+                <th>Profissao</th>
+                <td>{{ cliente.profissao }}</td>
+            </tr>
+            <tr>
+                <th>Data</th>
+                <td>{% if cliente.data %}{{ cliente.data|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Sexo</th>
+                <td>{{ cliente.sexo }}</td>
+            </tr>
+            <tr>
+                <th>Raca</th>
+                <td>{{ cliente.raca }}</td>
+            </tr>
+            <tr>
+                <th>Naturalidade</th>
+                <td>{{ cliente.naturalidade }}</td>
+            </tr>
+            <tr>
+                <th>Obs</th>
+                <td>{{ cliente.obs }}</td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ cliente.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+        </div>
+    </div>
+</div>
+    <ul>
+        <li>
+            <a href="{{ path('cliente_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('cliente_edit', { 'id': cliente.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

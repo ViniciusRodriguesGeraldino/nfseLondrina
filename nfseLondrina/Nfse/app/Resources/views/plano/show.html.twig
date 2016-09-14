@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Plano</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Tipo</th>
+                <td>{{ plano.tipo }}</td>
+            </tr>
+            <tr>
+                <th>Descricao</th>
+                <td>{{ plano.descricao }}</td>
+            </tr>
+            <tr>
+                <th>Ordem</th>
+                <td>{{ plano.ordem }}</td>
+            </tr>
+            <tr>
+                <th>Tip</th>
+                <td>{{ plano.tip }}</td>
+            </tr>
+            <tr>
+                <th>Contasup</th>
+                <td>{{ plano.contaSup }}</td>
+            </tr>
+            <tr>
+                <th>Nivel</th>
+                <td>{{ plano.nivel }}</td>
+            </tr>
+            <tr>
+                <th>Natureza</th>
+                <td>{{ plano.natureza }}</td>
+            </tr>
+            <tr>
+                <th>Orientacoes</th>
+                <td>{{ plano.orientacoes }}</td>
+            </tr>
+            <tr>
+                <th>Codigo</th>
+                <td>{{ plano.codigo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('plano_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('plano_edit', { 'id': plano.codigo }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

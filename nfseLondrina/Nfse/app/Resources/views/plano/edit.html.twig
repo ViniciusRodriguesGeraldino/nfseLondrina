@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <h1 class="padding-bottom">Editar Cliente</h1>
+            </div>
+        </div>
+
+        <div class="row row-centered">
+            <div class="col-xs-10 col-xs-offset-1">
+                {% form_theme edit_form 'bootstrap_3_horizontal_layout.html.twig' %}
+                {{ form_start(edit_form) }}
+                    {{ form_widget(edit_form) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-1 col-xs-offset-2">
+                <input class="abutton" type="submit" value="Salvar" />
+                {{ form_end(edit_form) }}
+            </div>
+
+            <div class="col-xs-1 padding-left padding-right">
+                {{ form_start(delete_form) }}
+                <input class="abuttonDelete" type="submit" value="Delete">
+                {{ form_end(delete_form) }}
+            </div>
+
+            <div class="col-xs-1" style="padding-left: 25px">
+                <a class="abuttonVoltar" href="{{ path('plano_index') }}">Voltar</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

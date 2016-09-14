@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\NotaItens" table="nota_itens">
+    <id name="id" type="integer" column="ID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="idNota" type="integer" column="ID_NOTA"/>
+    <field name="codServico" type="integer" column="COD_SERVICO"/>
+    <field name="descricao" type="string" column="DESCRICAO" length="40" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="quantidade" type="decimal" column="QUANTIDADE" precision="15" scale="2" nullable="true"/>
+    <field name="valor" type="decimal" column="VALOR" precision="15" scale="2" nullable="true"/>
+
+    <field name="desconto" type="decimal" column="DESCONTO" precision="15" scale="2" nullable="true"/>
+    <field name="valorIss" type="decimal" column="VALORISS" precision="15" scale="2" nullable="true"/>
+    <field name="percIss" type="decimal" column="PERCISS" precision="15" scale="2" nullable="true"/>
+  </entity>
+</doctrine-mapping>

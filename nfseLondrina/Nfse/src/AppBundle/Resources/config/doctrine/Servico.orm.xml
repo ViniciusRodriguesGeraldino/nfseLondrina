@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\Servico" table="servico">
+    <id name="id" type="integer" column="ID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="descricao" type="string" column="DESCRICAO" length="250" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="percIrrf" type="float" column="PERC_IRRF" precision="10" scale="0" nullable="true"/>
+    <field name="percCsl" type="float" column="PERC_CSL" precision="10" scale="0" nullable="true"/>
+    <field name="percPis" type="float" column="PERC_PIS" precision="10" scale="0" nullable="true"/>
+    <field name="percCofins" type="float" column="PERC_COFINS" precision="10" scale="0" nullable="true"/>
+    <field name="percIss" type="float" column="PERC_ISS" precision="10" scale="0" nullable="true"/>
+    <field name="plano" type="string" column="PLANO" length="5" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="issSuspenso" type="string" column="ISS_SUSPENSO" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="issSuspensoMotivo" type="string" column="ISS_SUSPENSO_MOTIVO" length="100" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="codSerPref" type="string" column="COD_SER_PREF" length="10" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="valor" type="float" column="VALOR" precision="10" scale="0" nullable="true"/>
+    <field name="ibptNac" type="float" column="IBPT_NAC" precision="10" scale="0" nullable="true"/>
+    <field name="ibptMun" type="float" column="IBPT_MUN" precision="10" scale="0" nullable="true"/>
+    <field name="idEmpresa" type="integer" column="EMPRESA" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

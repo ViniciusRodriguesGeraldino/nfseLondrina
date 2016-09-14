@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <h1 class="pagination-centered">Notas Fiscais de Serviço</h1>
+            </div>
+        </div>
+
+        <div class="row padding-top padding-bottom">
+            <div class="col-xs-1 col-xs-offset-1">
+                <a class="abutton" href="{{ path('nota_new') }}">Emitir nota</a>
+            </div>
+        </div>
+        <div class="row row-centered">
+            <div class="col-xs-10 col-xs-offset-1">
+            <table class="table pagination-centered" style="text-align: center">
+                <thead>
+                <tr class="table tabelaNota">
+                    {#<th>ID</th>#}
+                    <th class="center">Número NFSe</th>
+                    <th class="text-center">Cliente</th>
+                    <th class="center">Data</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-right">Total</th>
+                    {#<th></th>#}{#Visualizar#}
+                    <th></th>{#Cancelar#}
+                    <th></th>{#Imprimir#}
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for notum in notas %}
+                    <tr>
+                        {#<td><a href="{{ path('nota_show', { 'id': notum.id }) }}">{{ notum.id }}</td>#}
+                        <td class="center">{{ notum.numeroNota }}</td>
+                        <td>{{ notum.nome }}</td>
+                        <td class="center">{% if notum.data %}{{ notum.data|date('d/m/Y') }}{% endif %}</td>
+
+                        {% if notum.status == 'Enviada' %}
+                            <td class="tdNotaEnviada" style="color: #0ccf4d">{{ notum.status }}</td>
+                        {% elseif notum.status == 'Não Enviada' %}
+                            <td class="tdNotaNEnviada" style="color: #2d2d2d">{{ notum.status }}</td>
+                        {% elseif notum.status == 'Cancelada' %}
+                            <td class="tdNotaCancelada" style="color: #d43f3a">{{ notum.status }}</td>
+                        {% else %}
+                            <td class="tdNotaSemStatus" style="color: #cfcd30">Sem Status</td>
+                        {% endif %}
+
+                        <td class="text-right">R$ {{ notum.total|number_format(2, ',', '') }}</td>
+                        {#<td>#}
+                            {#{% if notum.status == 'Enviada' %}#}
+                                {#<a href="{{ path('nota_show', { 'id': notum.id }) }}"><span>Visualizar</span></a>#}
+                            {#{% elseif notum.status == 'Não Enviada' %}#}
+                                {#<a id="reenviarNota" onclick="reenviarNf({{ notum.id }})" href="#"><span>Reenviar Nota</span></a>#}
+                            {#{% else %}#}
+
+                            {#{% endif %}#}
+                        {#</td>#}
+
+                        <td>
+                            {% if notum.status == 'Enviada' %}
+                                <a id="cancelarNota" onclick="CancelarNf({{ notum.id }})" href="#"><span>Cancelar NF</span></a>
+                            {% elseif notum.status == 'Cancelada' %}
+                                <span>Nota já cancelada</span>
+                            {% else %}
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if (notum.status == 'Enviada') or (notum.status == 'Cancelada') %}
+                                <a id="imprimirNota" onclick="ImprimirNf({{ notum.id }})" href="#"><span>Imprimir</span></a>
+                            {% endif %}
+                        </td>
+
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('assets/js/sibrax_nota.js') }}"></script>
+
+{% endblock %}

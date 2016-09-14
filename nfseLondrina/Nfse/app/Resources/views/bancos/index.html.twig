@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <h1 class="pagination-centered">Lista de Bancos</h1>
+            </div>
+        </div>
+
+        <div class="row padding-top padding-bottom">
+            <div class="col-xs-1 col-xs-offset-1">
+                <a class="abutton" href="{{ path('bancos_new') }}">Novo Banco</a>
+            </div>
+        </div>
+
+        <div class="row row-centered">
+            <div class="col-xs-10 col-xs-offset-1">
+                <table class="table pagination-centered">
+            <thead>
+                <tr>
+                    <th>Banco</th>
+                    <th>Nome</th>
+                    <th>Numero</th>
+                    <th>Agencia</th>
+                    <th>Conta</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for banco in bancos %}
+                <tr>
+                    {#<td><a href="{{ path('bancos_show', { 'id': banco.idBanco }) }}">{{ banco.idBanco }}</a></td>#}
+                    <td>{{ banco.idBanco }}</td>
+                    <td>{{ banco.nome }}</td>
+                    <td>{{ banco.numero }}</td>
+                    <td>{{ banco.agencia }} {{ banco.dvAgencia }}</td>
+                    <td>{{ banco.cc }} {{ banco.dvCc }}</td>
+                    <td><a href="{{ path('bancos_edit', { 'id': banco.idBanco }) }}">Editar</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

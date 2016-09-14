@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="flat-theme">
+
+        <div class="row">
+            <h1 class="col-xs-5 col-xs-offset-1">Empresa</h1>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-5 col-xs-offset-1">
+                <table>
+                    <tbody>
+                    <tr>
+                        <th>Nome</th>
+                        <td>{{ empresa.nome }}</td>
+                    </tr>
+                    <tr>
+                        <th>Uf</th>
+                        <td>{{ empresa.uf }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fone</th>
+                        <td>{{ empresa.fone }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ empresa.eMail }}</td>
+                    </tr>
+                    <tr>
+                        <th>Endereco</th>
+                        <td>{{ empresa.endereco }}</td>
+                    </tr>
+                    <tr>
+                        <th>Numero</th>
+                        <td>{{ empresa.numero }}</td>
+                    </tr>
+                    <tr>
+                        <th>Complemento</th>
+                        <td>{{ empresa.complemento }}</td>
+                    </tr>
+                    <tr>
+                        <th>Bairro</th>
+                        <td>{{ empresa.bairro }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cidade</th>
+                        <td>{{ empresa.cidade }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cep</th>
+                        <td>{{ empresa.cep }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cpfcnpj</th>
+                        <td>{{ empresa.cpfcnpj }}</td>
+                    </tr>
+                    <tr>
+                        <th>Caminhologo</th>
+                        <td>{{ empresa.caminhoLogo }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cmc</th>
+                        <td>{{ empresa.cmc }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cnaeprefeitura</th>
+                        <td>{{ empresa.cnaePrefeitura }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cpfprefeitura</th>
+                        <td>{{ empresa.cpfPrefeitura }}</td>
+                    </tr>
+                    <tr>
+                        <th>Senhaprefeitura</th>
+                        <td>{{ empresa.senhaPrefeitura }}</td>
+                    </tr>
+                    <tr>
+                        <th>Producao</th>
+                        <td>{{ empresa.producao }}</td>
+                    </tr>
+                    <tr>
+                        <th>Simples</th>
+                        <td>{{ empresa.simples }}</td>
+                    </tr>
+                    <tr>
+                        <th>Inicioatividade</th>
+                        <td>{% if empresa.inicioAtividade %}{{ empresa.inicioAtividade|date('Y-m-d') }}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ empresa.id }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <ul>
+                    <li>
+                        <a href="{{ path('empresa_index') }}">Back to the list</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('empresa_edit', { 'id': empresa.id }) }}">Edit</a>
+                    </li>
+                    <li>
+                        {{ form_start(delete_form) }}
+                        <input type="submit" value="Delete">
+                        {{ form_end(delete_form) }}
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <h1 class="padding-bottom">Cadastro Banco</h1>
+            </div>
+        </div>
+
+        <div class="row row-centered">
+            <div class="col-xs-10 col-xs-offset-1">
+                {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+
+            </div>
+        </div>
+
+        <div class="row padding-top">
+
+            <div class="col-xs-1 col-xs-offset-2">
+                <input class="abutton" type="submit" value="Salvar" />
+                {{ form_end(form) }}
+            </div>
+
+            <div class="col-xs-1 padding-left">
+                <a class="abuttonVoltar" href="{{ path('bancos_index') }}">Voltar</a>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

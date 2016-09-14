@@ -1,0 +1,194 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Cliente
+ *
+ * @ORM\Table(name="cliente")
+ * @ORM\Entity
+ */
+class Cliente
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="EMPRESA", type="integer", nullable=true)
+     */
+    private $empresa;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="NOME", type="string", length=60, nullable=true)
+     */
+    private $nome;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ENDERECO", type="string", length=40, nullable=true)
+     */
+    private $endereco;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="NUMERO", type="string", length=6, nullable=true)
+     */
+    private $numero;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="BAIRRO", type="string", length=40, nullable=true)
+     */
+    private $bairro;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="COMPLEMENTO", type="string", length=50, nullable=true)
+     */
+    private $complemento;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CIDADE", type="string", length=30, nullable=true)
+     */
+    private $cidade;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="COD_CID", type="string", length=7, nullable=true)
+     */
+    private $codCid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="UF", type="string", length=2, nullable=true)
+     */
+    private $uf;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CEP", type="string", length=9, nullable=true)
+     */
+    private $cep;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="FONE", type="string", length=15, nullable=true)
+     */
+    private $fone;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CPFCNPJ", type="string", length=18, nullable=true)
+     */
+    private $cpfcnpj;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="RG", type="string", length=18, nullable=true)
+     */
+    private $rg;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="E_MAIL", type="string", length=60, nullable=true)
+     */
+    private $eMail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CELULAR", type="string", length=15, nullable=true)
+     */
+    private $celular;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="DATA_NASC", type="date", nullable=true)
+     */
+    private $dataNasc;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ESTADO_CIVIL", type="string", length=15, nullable=true)
+     */
+    private $estadoCivil;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="NOME_CONJUGE", type="string", length=60, nullable=true)
+     */
+    private $nomeConjuge;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="PROFISSAO", type="string", length=30, nullable=true)
+     */
+    private $profissao;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="DATA", type="date", nullable=true)
+     */
+    private $data;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="SEXO", type="string", length=1, nullable=true)
+     */
+    private $sexo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="RACA", type="string", length=1, nullable=true)
+     */
+    private $raca;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="NATURALIDADE", type="string", length=50, nullable=true)
+     */
+    private $naturalidade;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="OBS", type="string", length=250, nullable=true)
+     */
+    private $obs;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="ID", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+
+}
+

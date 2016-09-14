@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <link href="{{ asset('assets/css/nfse_bootstrap.min.css') }}" rel="stylesheet" type="text/css" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"/>
+    <link href="{{ asset('assets/css/nfse.css') }}" rel="stylesheet" type="text/css"/>
+
+    <h1>Empresa list</h1>
+<div class="flat-theme">
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Uf</th>
+                        <th>Fone</th>
+                        <th>Email</th>
+                        <th>Endereco</th>
+                        <th>Numero</th>
+                        <th>Complemento</th>
+                        <th>Bairro</th>
+                        <th>Cidade</th>
+                        <th>Cep</th>
+                        <th>Cpfcnpj</th>
+                        <th>Caminhologo</th>
+                        <th>Cmc</th>
+                        <th>Cnaeprefeitura</th>
+                        <th>Cpfprefeitura</th>
+                        <th>Senhaprefeitura</th>
+                        <th>Producao</th>
+                        <th>Simples</th>
+                        <th>Inicioatividade</th>
+                        <th>Id</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for empresa in empresas %}
+                    <tr>
+                        <td><a href="{{ path('empresa_show', { 'id': empresa.id }) }}">{{ empresa.nome }}</a></td>
+                        <td>{{ empresa.uf }}</td>
+                        <td>{{ empresa.fone }}</td>
+                        <td>{{ empresa.eMail }}</td>
+                        <td>{{ empresa.endereco }}</td>
+                        <td>{{ empresa.numero }}</td>
+                        <td>{{ empresa.complemento }}</td>
+                        <td>{{ empresa.bairro }}</td>
+                        <td>{{ empresa.cidade }}</td>
+                        <td>{{ empresa.cep }}</td>
+                        <td>{{ empresa.cpfcnpj }}</td>
+                        <td>{{ empresa.caminhoLogo }}</td>
+                        <td>{{ empresa.cmc }}</td>
+                        <td>{{ empresa.cnaePrefeitura }}</td>
+                        <td>{{ empresa.cpfPrefeitura }}</td>
+                        <td>{{ empresa.senhaPrefeitura }}</td>
+                        <td>{{ empresa.producao }}</td>
+                        <td>{{ empresa.simples }}</td>
+                        <td>{% if empresa.inicioAtividade %}{{ empresa.inicioAtividade|date('Y-m-d') }}{% endif %}</td>
+                        <td>{{ empresa.id }}</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('empresa_show', { 'id': empresa.id }) }}">show</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('empresa_edit', { 'id': empresa.id }) }}">edit</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        <input type="button" value="Cadastrar Empresa" href="{{ path('empresa_new') }}">
+
+    </div>
+    </div>
+</div>
+
+{% endblock %}

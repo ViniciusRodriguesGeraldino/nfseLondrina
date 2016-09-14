@@ -1,0 +1,49 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * NotaItens
+ *
+ * @ORM\Table(name="nota_itens")
+ * @ORM\Entity
+ */
+class NotaItens
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="DESCRICAO", type="string", length=40, nullable=true)
+     */
+    private $descricao;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="VALOR", type="decimal", precision=15, scale=2, nullable=true)
+     */
+    private $valor;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="ITEM", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $item;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="NUMERONF", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $numeronf;
+
+
+}
+

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <h1 class="pagination-centered">Novo Cliente</h1>
+            </div>
+        </div>
+
+        <div class="row row-centered">
+            <div class="col-xs-10 col-xs-offset-1">
+                {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+                {{ form_start(form) }}
+                    {{ form_widget(form) }}
+            </div>
+        </div>
+
+        <div class="row padding-top">
+
+            <div class="col-xs-1 col-xs-offset-2">
+                <input class="abutton" type="submit" value="Salvar" />
+                {{ form_end(form) }}
+            </div>
+
+            <div class="col-xs-1 padding-left">
+                <a class="abuttonVoltar" href="{{ path('cliente_index') }}">Voltar</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+    <script src="{{ asset('assets/js/jquery.mask.js') }}"></script>
+    <script src="{{ asset('assets/js/sibrax_cliente.js') }}"></script>
+
+{% endblock %}

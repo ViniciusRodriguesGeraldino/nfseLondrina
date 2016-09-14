@@ -1,0 +1,159 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Empresa
+ *
+ * @ORM\Table(name="empresa")
+ * @ORM\Entity
+ */
+class Empresa
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="NOME", type="string", length=70, nullable=true)
+     */
+    private $nome;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="UF", type="string", length=2, nullable=true)
+     */
+    private $uf;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="FONE", type="string", length=15, nullable=true)
+     */
+    private $fone;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="E_MAIL", type="string", length=60, nullable=true)
+     */
+    private $eMail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ENDERECO", type="string", length=40, nullable=true)
+     */
+    private $endereco;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="NUMERO", type="string", length=6, nullable=true)
+     */
+    private $numero;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="COMPLEMENTO", type="string", length=35, nullable=true)
+     */
+    private $complemento;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="BAIRRO", type="string", length=30, nullable=true)
+     */
+    private $bairro;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CIDADE", type="string", length=30, nullable=true)
+     */
+    private $cidade;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CEP", type="string", length=9, nullable=true)
+     */
+    private $cep;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CPFCNPJ", type="string", length=18, nullable=true)
+     */
+    private $cpfcnpj;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CAMINHO_LOGO", type="string", length=230, nullable=true)
+     */
+    private $caminhoLogo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CMC", type="string", length=15, nullable=true)
+     */
+    private $cmc;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CNAE_PREFEITURA", type="string", length=20, nullable=true)
+     */
+    private $cnaePrefeitura;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CPF_PREFEITURA", type="string", length=11, nullable=true)
+     */
+    private $cpfPrefeitura;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="SENHA_PREFEITURA", type="string", length=30, nullable=true)
+     */
+    private $senhaPrefeitura;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="PRODUCAO", type="string", length=1, nullable=true)
+     */
+    private $producao;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="SIMPLES", type="string", length=1, nullable=true)
+     */
+    private $simples;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="INICIO_ATIVIDADE", type="date", nullable=true)
+     */
+    private $inicioAtividade;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="ID", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+
+}
+

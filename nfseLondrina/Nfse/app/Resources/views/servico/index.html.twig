@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <h1 class="pagination-centered">Lista de Serviços</h1>
+        </div>
+    </div>
+
+    <div class="row padding-top padding-bottom">
+        <div class="col-xs-1 col-xs-offset-1">
+            <a class="abutton" href="{{ path('servico_new') }}">Novo Serviço</a>
+        </div>
+    </div>
+
+    <div class="row row-centered">
+        <div class="col-xs-10 col-xs-offset-1">
+
+    <table class="table pagination-centered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Descricao</th>
+                <th>Aliquota</th>
+                <th>Plano</th>
+                <th>Código Serviço</th>
+                <th>Valor</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for servico in servicos %}
+            <tr>
+                {#<td><a href="{{ path('servico_show', { 'id': servico.id }) }}">{{ servico.id }}</a></td>#}
+                <td>{{ servico.id }}</td>
+                <td>{{ servico.descricao }}</td>
+                <td>{{ servico.percIss }}</td>
+                <td>{{ servico.plano }}</td>
+                <td>{{ servico.codSerPref }}</td>
+                <td>R$ {{ servico.valor|number_format(2, ',', '') }}</td>
+
+                <td>
+                    <a href="{{ path('servico_edit', { 'id': servico.id }) }}">Editar</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
